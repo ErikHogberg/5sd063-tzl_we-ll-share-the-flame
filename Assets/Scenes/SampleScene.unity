@@ -590,9 +590,9 @@ MonoBehaviour:
   LeftWheel: {fileID: 0}
   RightWheel: {fileID: 0}
   Speed: 1
-  Acceleration: 1
+  Acceleration: 2
   Damping: 0.3
-  TopSpeed: 1
+  TopSpeed: 5
 --- !u!1 &402364783
 GameObject:
   m_ObjectHideFlags: 0

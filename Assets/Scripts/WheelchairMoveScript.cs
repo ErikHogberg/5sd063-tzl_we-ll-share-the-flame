@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-public class WheelchairMoveScript : MonoBehaviour
-{
+public class WheelchairMoveScript : MonoBehaviour {
 
 	public GameObject LeftWheel;
 	public GameObject RightWheel;
@@ -17,67 +16,39 @@ public class WheelchairMoveScript : MonoBehaviour
 	private float leftWheelSpeed = 0.0f;
 	private float rightWheelSpeed = 0.0f;
 
-	void Start()
-	{
+	void Start() {
 
 	}
 
-	void Update()
-	{
+	void Update() {
 		var keyboard = Keyboard.current;
 
 		float leftWheelDir = 0.0f;
 		if (keyboard.wKey.isPressed)
-		{
 			leftWheelDir = Acceleration;
-		}
 		else if (keyboard.sKey.isPressed)
-		{
 			leftWheelDir = -Acceleration;
-		}
 
 		float rightWheelDir = 0.0f;
 		if (keyboard.eKey.isPressed)
-		{
 			rightWheelDir = Acceleration;
-		}
 		else if (keyboard.dKey.isPressed)
-		{
 			rightWheelDir = -Acceleration;
-		}
 
-		leftWheelSpeed += leftWheelDir * Speed * Time.deltaTime;
-		rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
 
-		/*
-		if (leftWheelSpeed >= 0.0f)
-		{
-			leftWheelSpeed -= Damping;
-			// TODO: snap to 0
-		}
-		else
-		{
-			leftWheelSpeed += Damping;
-		}
-
-		if (rightWheelSpeed >= 0.0f)
-		{
-			rightWheelSpeed -= Damping;
-		}
-		else
-		{
-			rightWheelSpeed += Damping;
-		}
-		 */
-
+		// damping
 		leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
 		rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
 
-		// TODO: limit top speed
+		// add to speed if pressed
+		//leftWheelSpeed += leftWheelDir * Speed * Time.deltaTime;
+		//rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
+		leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed, leftWheelDir * Speed * Time.deltaTime);
+		rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
 
-		// TODO: rotate
+		// turn
 		transform.Rotate(transform.up, leftWheelSpeed - rightWheelSpeed);
-
+		// move forward
 		transform.position += transform.forward * Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
 
 	}
