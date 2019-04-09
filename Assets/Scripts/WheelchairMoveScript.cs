@@ -120,9 +120,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (Mathf.Abs(angle) < DriftThreshold) {
 			transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation= Quaternion.identity;
-
 		} else {
-			WheelChair.transform.Rotate(transform.up, angle);
+			//WheelChair.transform.Rotate(transform.up, angle);
+			// TODO: add DriftThreshold if angle is negative
+			WheelChair.transform.localRotation = Quaternion.AngleAxis((angle - DriftThreshold) * Mathf.Rad2Deg, Vector3.up);
+			// TODO: don't stop drifting until matching direction
 		}
 
 		// TODO: drifting
