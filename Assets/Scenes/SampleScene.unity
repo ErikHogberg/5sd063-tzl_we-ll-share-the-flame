@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 124039713}
   - component: {fileID: 124039712}
   m_Layer: 0
-  m_Name: Nozzle (1)
+  m_Name: Nozzle model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,6 +1254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1336600448}
+  - component: {fileID: 1336600449}
   m_Layer: 0
   m_Name: Nozzle
   m_TagString: Untagged
@@ -1276,6 +1277,20 @@ Transform:
   m_Father: {fileID: 1971502561}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
+--- !u!114 &1336600449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336600447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8662902c653e384cbfa42c71225c9ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeedX: 4
+  turnSpeedY: 2
 --- !u!1 &1336620640
 GameObject:
   m_ObjectHideFlags: 0
