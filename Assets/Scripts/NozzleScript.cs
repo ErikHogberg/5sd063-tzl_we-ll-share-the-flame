@@ -12,11 +12,12 @@ public class NozzleScript : MonoBehaviour {
 
 	void Update() {
 		if (Mouse.current.leftButton.isPressed) {
-
+			// TODO: limit angle
 			transform.Rotate(
-				Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
 				Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
-				0
+				Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
+				0,
+				Space.World
 			);
 
 		}

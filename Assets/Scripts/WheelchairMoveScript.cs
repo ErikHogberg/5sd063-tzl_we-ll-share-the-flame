@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.UI;
 
 public class WheelchairMoveScript : MonoBehaviour {
 
+	public GameObject WheelChair;
 	public GameObject LeftWheel;
 	public GameObject RightWheel;
 
@@ -17,15 +20,28 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float ForwardCorrectionSpeed = 0.2f;
 	public float TopSpeed = 1.0f;
 
+	private bool drifting = false;
+	public float DriftThreshold = 1.0f;
+	public float DriftDuration = 1.0f;
+	//private Timer DriftTimer;
+	private float driftAngle = 0.0f;
+	private float driftSpeed = 0.0f;
+
 	private float leftWheelSpeed = 0.0f;
 	private float rightWheelSpeed = 0.0f;
 
-	void Start() {
+	public Text InfoPane;
 
+
+	void Start() {
+		//DriftTimer = new Timer(DriftDuration);
+		//DriftTimer.Stop();
 	}
 
 	void Update() {
 		var keyboard = Keyboard.current;
+
+		string infoText = "";
 
 		if (UseMouse) {
 			if (keyboard.leftShiftKey.isPressed) {
@@ -43,6 +59,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			// TODO: stabilize forward movement
+			// TODO: make sure stabilization doesn't interfere with turning
 
 		} else {
 
@@ -88,8 +105,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
 
 			// stabilize forward movement
-			// NOTE: correction will be applied depending on speed in the future, instead of using buttons
-			// TODO: make sure stabilization doesn't interfere with turning
 			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
 				if (leftWheelDir > rightWheelDir) {
 					rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, leftWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
@@ -100,15 +115,28 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		// turn
-		transform.Rotate(transform.up, leftWheelSpeed - rightWheelSpeed);
-		
+		float angle = leftWheelSpeed - rightWheelSpeed;
+		infoText += angle + "\n";
+		if (Mathf.Abs(angle) < DriftThreshold) {
+			transform.Rotate(transform.up, angle);
+			WheelChair.transform.localRotation= Quaternion.identity;
+
+		} else {
+			WheelChair.transform.Rotate(transform.up, angle);
+		}
+
 		// TODO: drifting
 		// IDEA: compare turn delta to velocity, trigger drift event if turning too fast.
 		// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
+		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
 		// IDEA: moving while drifting will alter trajectory in turning direction.
-		
+
 		// move forward
-		transform.position += transform.forward * Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
+		float speed = Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
+		infoText += speed + "\n";
+		transform.position += transform.forward * speed;
+
+		InfoPane.text = infoText;
 
 	}
 }
