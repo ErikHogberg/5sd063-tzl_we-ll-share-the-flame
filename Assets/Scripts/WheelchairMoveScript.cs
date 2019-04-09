@@ -11,6 +11,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float Speed = 1.0f;
 	public float Acceleration = 1.0f;
 	public float Damping = 0.3f;
+	public float ForwardCorrectionSpeed = 0.2f;
 	public float TopSpeed = 1.0f;
 
 	private float leftWheelSpeed = 0.0f;
@@ -45,6 +46,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
 		leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed, leftWheelDir * Speed * Time.deltaTime);
 		rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
+
+		// stabilize forward movement
+		// NOTE: correction will be applied depending on speed in the future, instead of using buttons
+		// TODO: make sure stabilization doesn't interfere with turning
+		if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
+			if (leftWheelDir > rightWheelDir) {
+				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, leftWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
+			} else if (rightWheelDir > leftWheelDir) {
+				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, rightWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
+			}
+		}
 
 		// turn
 		transform.Rotate(transform.up, leftWheelSpeed - rightWheelSpeed);
