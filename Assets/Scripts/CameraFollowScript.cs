@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Experimental.Input;
 
 public class CameraFollowScript : MonoBehaviour
