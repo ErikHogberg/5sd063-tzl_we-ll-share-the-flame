@@ -1,4 +1,5 @@
-﻿Shader "Cg  shader for billboards" {
+﻿// https://en.wikibooks.org/wiki/Cg_Programming/Unity/Billboards
+Shader "Custom/Old Billboard" {
 	Properties{
 	   _MainTex("Texture Image", 2D) = "white" {}
 	   _ScaleX("Scale X", Float) = 1.0

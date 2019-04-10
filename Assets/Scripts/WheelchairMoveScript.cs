@@ -118,19 +118,27 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 		}
 
-		// turn
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		//angle %= Mathf.PI * 2.0f;
+		float speed = Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
+
+		// turn
 		infoText += angle + "\n";
-		if (Mathf.Abs(angle) < DriftThreshold) {
+		if (Mathf.Abs(angle) < DriftThreshold || Mathf.Abs(speed) < 0.1f) {
+
 			transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.identity;
 			TrajectoryArrow.SetActive(false);
 			DirectionArrow.SetActive(false);
+
 		} else {
+
 			//WheelChair.transform.Rotate(transform.up, angle);
-			// TODO: add DriftThreshold if angle is negative
-			WheelChair.transform.localRotation = Quaternion.AngleAxis((Mathf.Abs(angle) - DriftThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg, Vector3.up);
+			WheelChair.transform.localRotation = Quaternion.AngleAxis(
+				(Mathf.Abs(angle) - DriftThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
+				Vector3.up
+			);
+
 			// TODO: don't stop drifting until matching direction
 			TrajectoryArrow.SetActive(true);
 			DirectionArrow.SetActive(true);
@@ -144,7 +152,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// IDEA: render arrows under player for drift trajectory and player direction.
 
 		// move forward
-		float speed = Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
 		infoText += speed + "\n";
 		transform.position += transform.forward * speed;
 

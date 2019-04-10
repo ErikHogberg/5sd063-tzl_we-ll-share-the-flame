@@ -1,1 +1,5 @@
+images:
 arrow texture: https://pixabay.com/vectors/arrow-old-bow-feathers-weapon-151103/
+
+scripts:
+replace with prefab unity tool: https://gist.github.com/unity3dcollege/c1efea3f87d3775bee3e010e9c6d7648#file-replacewithprefab-cs 
