@@ -133,11 +133,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		} else {
 
+
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
 				(Mathf.Abs(angle) - DriftThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
 				Vector3.up
 			);
+			
+			// TODO: move trajectory angle towards player angle
 
 			// TODO: don't stop drifting until matching direction
 			TrajectoryArrow.SetActive(true);
