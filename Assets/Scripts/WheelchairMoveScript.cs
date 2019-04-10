@@ -11,6 +11,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject LeftWheel;
 	public GameObject RightWheel;
 
+	public GameObject TrajectoryArrow;
+	public GameObject DirectionArrow;
+
+
 	public bool FlipKeys = false;
 	public bool UseMouse = false;
 
@@ -116,15 +120,20 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// turn
 		float angle = leftWheelSpeed - rightWheelSpeed;
+		//angle %= Mathf.PI * 2.0f;
 		infoText += angle + "\n";
 		if (Mathf.Abs(angle) < DriftThreshold) {
 			transform.Rotate(transform.up, angle);
-			WheelChair.transform.localRotation= Quaternion.identity;
+			WheelChair.transform.localRotation = Quaternion.identity;
+			TrajectoryArrow.SetActive(false);
+			DirectionArrow.SetActive(false);
 		} else {
 			//WheelChair.transform.Rotate(transform.up, angle);
 			// TODO: add DriftThreshold if angle is negative
-			WheelChair.transform.localRotation = Quaternion.AngleAxis((angle - DriftThreshold) * Mathf.Rad2Deg, Vector3.up);
+			WheelChair.transform.localRotation = Quaternion.AngleAxis((Mathf.Abs(angle) - DriftThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg, Vector3.up);
 			// TODO: don't stop drifting until matching direction
+			TrajectoryArrow.SetActive(true);
+			DirectionArrow.SetActive(true);
 		}
 
 		// TODO: drifting
@@ -132,6 +141,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
 		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
 		// IDEA: moving while drifting will alter trajectory in turning direction.
+		// IDEA: render arrows under player for drift trajectory and player direction.
 
 		// move forward
 		float speed = Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
