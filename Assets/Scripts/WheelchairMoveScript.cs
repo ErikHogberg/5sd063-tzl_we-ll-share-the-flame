@@ -10,6 +10,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject WheelChair;
 	public GameObject LeftWheel;
 	public GameObject RightWheel;
+	private ParticleSystem leftWheelSparks;
+	private TrailRenderer leftWheelTrail;
+	private ParticleSystem rightWheelSparks;
+	private TrailRenderer rightWheelTrail;
 
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
@@ -43,6 +47,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Start() {
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
+
+		leftWheelSparks = LeftWheel.GetComponentInChildren<ParticleSystem>();
+		leftWheelTrail= LeftWheel.GetComponentInChildren<TrailRenderer>();
+		rightWheelSparks = RightWheel.GetComponentInChildren<ParticleSystem>();
+		rightWheelTrail= RightWheel.GetComponentInChildren<TrailRenderer>();
+
 	}
 
 	void Update() {
@@ -51,7 +61,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		string infoText = "";
 
 		if (UseMouse) {
-			if (keyboard.leftShiftKey.isPressed) {
+			if (!keyboard.leftShiftKey.isPressed) {
 
 				float x = Mouse.current.delta.x.ReadValue() * Speed * Time.deltaTime;
 				float y = Mouse.current.delta.y.ReadValue() * Speed * Time.deltaTime;
@@ -136,6 +146,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
 				transform.Rotate(transform.up, wheelchairAngle * axis.y);
 
+				leftWheelSparks.Stop();
+				rightWheelSparks.Stop();
+				leftWheelTrail.emitting = false;
+				rightWheelTrail.emitting = false;
 			}
 
 			transform.Rotate(transform.up, angle);
@@ -149,6 +163,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 				drifting = true;
 
 				driftSpeed = speed;
+
+				leftWheelSparks.Play();
+				rightWheelSparks.Play();
+				leftWheelTrail.emitting = true;
+				rightWheelTrail.emitting = true;
+
 			}
 
 			//WheelChair.transform.Rotate(transform.up, angle);
