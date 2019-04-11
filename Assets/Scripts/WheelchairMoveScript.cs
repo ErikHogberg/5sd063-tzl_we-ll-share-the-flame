@@ -25,7 +25,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float TopSpeed = 1.0f;
 
 	private bool drifting = false;
-	public float DriftThreshold = 1.0f;
+	public float DriftAngleThreshold = 1.0f;
+	public float DriftSpeedThreshold = 5.0f;
 	public float DriftDuration = 1.0f;
 	//private Timer DriftTimer;
 	private float driftAngle = 0.0f;
@@ -120,11 +121,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		//angle %= Mathf.PI * 2.0f;
-		float speed = Time.deltaTime * (leftWheelSpeed + rightWheelSpeed);
+		float speed = (leftWheelSpeed + rightWheelSpeed);
 
 		// turn
 		infoText += angle + "\n";
-		if (Mathf.Abs(angle) < DriftThreshold || Mathf.Abs(speed) < 0.1f) {
+		if (Mathf.Abs(angle) < DriftAngleThreshold || Mathf.Abs(speed) < DriftSpeedThreshold) {
 
 			transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.identity;
@@ -136,11 +137,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
-				(Mathf.Abs(angle) - DriftThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
+				(Mathf.Abs(angle) - DriftAngleThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
 				Vector3.up
 			);
-			
+
 			// TODO: move trajectory angle towards player angle
+			transform.Rotate(transform.up, angle/10.0f);
+			// TODO: don't gain speed while drifting
+			// IDEA: use wheel speed to increase trajectory influence during drift
 
 			// TODO: don't stop drifting until matching direction
 			TrajectoryArrow.SetActive(true);
@@ -156,7 +160,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// move forward
 		infoText += speed + "\n";
-		transform.position += transform.forward * speed;
+		transform.position += transform.forward * speed * Time.deltaTime;
 
 		InfoPane.text = infoText;
 
