@@ -1031,7 +1031,7 @@ MonoBehaviour:
   Damping: 0.3
   ForwardCorrectionSpeed: 0.2
   TopSpeed: 10
-  DriftAngleThreshold: 1
+  DriftAngleThreshold: 2
   DriftSpeedThreshold: 5
   DriftDuration: 1
   DriftDampingAdd: 10
