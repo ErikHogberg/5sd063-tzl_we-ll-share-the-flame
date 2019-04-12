@@ -121,6 +121,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed, leftWheelDir * Speed * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
 
+			//*
 			// stabilize forward movement
 			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
 				if (leftWheelDir > rightWheelDir) {
@@ -129,6 +130,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 					leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, rightWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
 				}
 			}
+			// */
 		}
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
@@ -178,7 +180,20 @@ public class WheelchairMoveScript : MonoBehaviour {
 			);
 
 			// TODO: move trajectory angle towards player angle
-			transform.Rotate(transform.up, (angle * speed * DriftDampingMul + DriftDampingAdd) * Time.deltaTime);
+			float trajectoryAngleChange = angle;
+			if (Mathf.Abs( angle) > Mathf.PI + DriftAngleThreshold) {
+				trajectoryAngleChange *= -1.0f;
+			}
+
+			float trajectorySpeedChange = speed;
+			/*
+			if (Mathf.Abs(angle) > Mathf.PI/2.0f + DriftAngleThreshold) {
+				//trajectorySpeedChange *= -1.0f;
+				
+			}
+			// */
+
+			transform.Rotate(transform.up, (trajectoryAngleChange * trajectorySpeedChange * DriftDampingMul + DriftDampingAdd) * Time.deltaTime);
 			// TODO: don't gain speed while drifting
 			// IDEA: use wheel speed to increase trajectory influence during drift
 

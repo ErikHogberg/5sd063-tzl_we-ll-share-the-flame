@@ -718,15 +718,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1218190632}
     m_Modifications:
-    - target: {fileID: 3558288313393223980, guid: e373c667905e116449591540f5dbf2c9,
-        type: 3}
-      propertyPath: m_Autodestruct
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9078392303512833953, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
       propertyPath: m_Name
       value: Drift Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558288313393223980, guid: e373c667905e116449591540f5dbf2c9,
+        type: 3}
+      propertyPath: m_Autodestruct
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9078392303512833952, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
@@ -1030,7 +1030,7 @@ MonoBehaviour:
   Acceleration: 2
   Damping: 0.3
   ForwardCorrectionSpeed: 0.2
-  TopSpeed: 5
+  TopSpeed: 10
   DriftAngleThreshold: 1
   DriftSpeedThreshold: 5
   DriftDuration: 1
