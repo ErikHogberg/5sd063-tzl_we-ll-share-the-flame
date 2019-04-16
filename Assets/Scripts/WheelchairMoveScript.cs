@@ -10,6 +10,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject WheelChair;
 	public GameObject LeftWheel;
 	public GameObject RightWheel;
+	private ParticleSystem leftWheelSparks;
+	private TrailRenderer leftWheelTrail;
+	private ParticleSystem rightWheelSparks;
+	private TrailRenderer rightWheelTrail;
 
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
@@ -28,6 +32,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float DriftAngleThreshold = 1.0f;
 	public float DriftSpeedThreshold = 5.0f;
 	public float DriftDuration = 1.0f;
+	public float DriftDampingAdd = 1.0f;
+	public float DriftDampingMul = 0.2f;
 	//private Timer DriftTimer;
 	private float driftAngle = 0.0f;
 	private float driftSpeed = 0.0f;
@@ -41,6 +47,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Start() {
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
+
+		leftWheelSparks = LeftWheel.GetComponentInChildren<ParticleSystem>();
+		leftWheelTrail= LeftWheel.GetComponentInChildren<TrailRenderer>();
+		rightWheelSparks = RightWheel.GetComponentInChildren<ParticleSystem>();
+		rightWheelTrail= RightWheel.GetComponentInChildren<TrailRenderer>();
+
 	}
 
 	void Update() {
@@ -49,7 +61,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		string infoText = "";
 
 		if (UseMouse) {
-			if (keyboard.leftShiftKey.isPressed) {
+			if (!keyboard.leftShiftKey.isPressed) {
 
 				float x = Mouse.current.delta.x.ReadValue() * Speed * Time.deltaTime;
 				float y = Mouse.current.delta.y.ReadValue() * Speed * Time.deltaTime;
@@ -109,6 +121,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed, leftWheelDir * Speed * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
 
+			//*
 			// stabilize forward movement
 			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
 				if (leftWheelDir > rightWheelDir) {
@@ -117,6 +130,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 					leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, rightWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
 				}
 			}
+			// */
 		}
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
@@ -127,6 +141,19 @@ public class WheelchairMoveScript : MonoBehaviour {
 		infoText += angle + "\n";
 		if (Mathf.Abs(angle) < DriftAngleThreshold || Mathf.Abs(speed) < DriftSpeedThreshold) {
 
+			if (drifting) {
+				drifting = false;
+
+				//float wheelchairAngle = 0.0f;
+				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
+				transform.Rotate(transform.up, wheelchairAngle * axis.y);
+
+				leftWheelSparks.Stop();
+				rightWheelSparks.Stop();
+				leftWheelTrail.emitting = false;
+				rightWheelTrail.emitting = false;
+			}
+
 			transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.identity;
 			TrajectoryArrow.SetActive(false);
@@ -134,6 +161,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		} else {
 
+			if (!drifting) {
+				drifting = true;
+
+				driftSpeed = speed;
+
+				leftWheelSparks.Play();
+				rightWheelSparks.Play();
+				leftWheelTrail.emitting = true;
+				rightWheelTrail.emitting = true;
+
+			}
 
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
@@ -142,7 +180,20 @@ public class WheelchairMoveScript : MonoBehaviour {
 			);
 
 			// TODO: move trajectory angle towards player angle
-			transform.Rotate(transform.up, angle/10.0f);
+			float trajectoryAngleChange = angle;
+			if (Mathf.Abs( angle) > Mathf.PI + DriftAngleThreshold) {
+				trajectoryAngleChange *= -1.0f;
+			}
+
+			float trajectorySpeedChange = speed;
+			/*
+			if (Mathf.Abs(angle) > Mathf.PI/2.0f + DriftAngleThreshold) {
+				//trajectorySpeedChange *= -1.0f;
+				
+			}
+			// */
+
+			transform.Rotate(transform.up, (trajectoryAngleChange * trajectorySpeedChange * DriftDampingMul + DriftDampingAdd) * Time.deltaTime);
 			// TODO: don't gain speed while drifting
 			// IDEA: use wheel speed to increase trajectory influence during drift
 
@@ -160,7 +211,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// move forward
 		infoText += speed + "\n";
-		transform.position += transform.forward * speed * Time.deltaTime;
+		if (drifting) {
+			driftSpeed = Mathf.MoveTowards(driftSpeed, 0, Damping * Time.deltaTime);
+			transform.position += transform.forward * driftSpeed * Time.deltaTime;
+		} else {
+			transform.position += transform.forward * speed * Time.deltaTime;
+		}
 
 		InfoPane.text = infoText;
 
