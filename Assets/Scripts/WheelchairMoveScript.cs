@@ -175,14 +175,21 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
+				// TODO: turn relativly while drifting
 				(Mathf.Abs(angle) - DriftAngleThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
 				Vector3.up
 			);
 
 			// TODO: move trajectory angle towards player angle
 			float trajectoryAngleChange = angle;
+			//angle %= Mathf.PI;
 			if (Mathf.Abs( angle) > Mathf.PI + DriftAngleThreshold) {
 				trajectoryAngleChange *= -1.0f;
+
+				// TODO: equalize wheel speed
+				float totalSpeed = leftWheelSpeed + rightWheelSpeed;
+				
+
 			}
 
 			float trajectorySpeedChange = speed;
