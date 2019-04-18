@@ -193,12 +193,12 @@ PrefabInstance:
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 79.03373
+      value: -32.1
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 162.79523
+      value: -7.395
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
@@ -223,7 +223,7 @@ PrefabInstance:
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
@@ -257,17 +257,17 @@ PrefabInstance:
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -103.4867
+      value: -98.748
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 77.82947
+      value: -32.1
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 161.04405
+      value: 160.61
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
@@ -292,7 +292,7 @@ PrefabInstance:
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5316764597065734839, guid: d408c209d6fb940508f4364446276c41,
         type: 3}
