@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8662902c653e384cbfa42c71225c9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
   Foam: {fileID: 7617396280637285277}
   turnSpeedX: 10
   turnSpeedY: 10
@@ -5770,11 +5771,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Drift Sparks
       objectReference: {fileID: 0}
-    - target: {fileID: 3558288313393223980, guid: e373c667905e116449591540f5dbf2c9,
-        type: 3}
-      propertyPath: m_Autodestruct
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9078392303512833952, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5828,6 +5824,11 @@ PrefabInstance:
     - target: {fileID: 9078392303512833952, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558288313393223980, guid: e373c667905e116449591540f5dbf2c9,
+        type: 3}
+      propertyPath: m_Autodestruct
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

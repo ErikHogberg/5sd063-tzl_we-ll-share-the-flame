@@ -3,6 +3,9 @@ using UnityEngine.Experimental.Input;
 
 public class NozzleScript : MonoBehaviour {
 
+	[SerializeField]
+	private InputActionAsset controls;
+
 	public ParticleSystem Foam;
 
 	public float turnSpeedX = 4.0f;
@@ -14,8 +17,10 @@ public class NozzleScript : MonoBehaviour {
 	void Start() {
 		Foam.Pause();
 
-		// Create action that binds to the primary action control on all devices.
-		var action = new InputAction(binding: "*/{primaryAction}");
+        // Create action that binds to the primary action control on all devices.
+        // var action = new InputAction(binding: "*/{primaryAction}");
+        //  var action = new InputAction(binding: "shooter/{shoot}");
+		InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
 		// Have it run your code when action is triggered.
 		action.performed += _ => { firing = true; Foam.Play(); };
 		action.cancelled += _ => { firing = false; Foam.Stop(); };
