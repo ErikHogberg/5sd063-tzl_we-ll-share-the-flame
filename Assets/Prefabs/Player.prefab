@@ -537,6 +537,7 @@ MonoBehaviour:
   RightWheel: {fileID: 7617396278859042787}
   LeftWheelSparks: {fileID: 7617396279797504247}
   RightWheelSparks: {fileID: 1462122031010046861}
+  WheelAnimationSpeed: 2
   TrajectoryArrow: {fileID: 7617396280119078887}
   DirectionArrow: {fileID: 7617396280038561364}
   FlipKeys: 1
