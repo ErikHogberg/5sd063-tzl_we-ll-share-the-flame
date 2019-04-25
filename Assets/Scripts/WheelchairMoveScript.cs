@@ -117,11 +117,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
 
+			
+
 			// add to speed if pressed
 			//leftWheelSpeed += leftWheelDir * Speed * Time.deltaTime;
 			//rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed, leftWheelDir * Speed * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
 
 			//*
 			// stabilize forward movement
