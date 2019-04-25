@@ -5,7 +5,8 @@ using UnityEngine;
 public class AnchorScript : MonoBehaviour
 {
 
-	public GameObject AnchorObject;
+	public GameObject PositionAnchorObject;
+	public GameObject AngleAnchorObject;
 	public bool KeepLocalPosition = false;
 
     // Start is called before the first frame update
@@ -14,15 +15,24 @@ public class AnchorScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
-		if (KeepLocalPosition)
-		{
-            transform.position = AnchorObject.transform.position + transform.localPosition;
+    void LateUpdate() {
+      // TODO: set execution order for chained anchors/camera follow
 
-        } else
-		{
-        	transform.position = AnchorObject.transform.position;
-			
-		}
+      if (PositionAnchorObject != null)
+      {     
+        if (KeepLocalPosition)
+        {
+          // FIXME
+          transform.position = PositionAnchorObject.transform.position + transform.localPosition;
+        } else {
+          transform.position = PositionAnchorObject.transform.position;
+        }
+      }
+
+      if (PositionAnchorObject != null)
+      {
+        transform.localRotation = AngleAnchorObject.transform.localRotation;
+      }      
+
     }
 }

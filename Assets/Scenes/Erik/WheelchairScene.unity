@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1451,6 +1451,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1628288436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4883142326970026359, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4883142327949061640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1649481810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1883,11 +1889,26 @@ PrefabInstance:
       propertyPath: InfoPane
       value: 
       objectReference: {fileID: 1516080148}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraScript
+      value: 
+      objectReference: {fileID: 534669906}
     - target: {fileID: 4883142328482009025, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: TriggerModule.collisionShape0
       value: 
       objectReference: {fileID: 1466136476}
+    - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: PositionAnchorObject
+      value: 
+      objectReference: {fileID: 1628288436}
+    - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: AngleAnchorObject
+      value: 
+      objectReference: {fileID: 534669902}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85a03d8647d7c642afff3adbc6ddbd0, type: 3}
 --- !u!4 &4883142327949061641 stripped

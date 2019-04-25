@@ -76,7 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66fc82627adbdb640a57b0f0ac73d6f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnchorObject: {fileID: 4883142327712776024}
+  PositionAnchorObject: {fileID: 4883142327712776024}
+  AngleAnchorObject: {fileID: 0}
   KeepLocalPosition: 0
 --- !u!1001 &3058513271478385868
 PrefabInstance:
@@ -160,10 +161,10 @@ PrefabInstance:
       propertyPath: DriftScale
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 7617396280637285277, guid: 2231e434d04717e468a80cfc963edb60,
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
-      propertyPath: TriggerModule.collisionShape0
-      value: 
+      propertyPath: CameraTurnDeadZone
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1462122031010046862, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -174,6 +175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Left Drift Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396280637285277, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: TriggerModule.collisionShape0
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
