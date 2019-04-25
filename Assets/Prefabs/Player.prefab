@@ -525,12 +525,12 @@ MonoBehaviour:
   FlipKeys: 1
   UseMouse: 0
   Speed: 1
-  Acceleration: 2
-  Damping: 0.3
+  Acceleration: 18
+  Damping: 2
   ForwardCorrectionSpeed: 0.2
   TopSpeed: 10
   DriftAngleThreshold: 2
-  DriftSpeedThreshold: 5
+  DriftSpeedThreshold: 8
   DriftDuration: 1
   DriftDampingAdd: 10
   DriftDampingMul: 2
