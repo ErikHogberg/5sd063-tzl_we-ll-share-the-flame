@@ -36,8 +36,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float DriftDuration = 1.0f;
 	public float DriftDampingAdd = 1.0f;
 	public float DriftDampingMul = 0.2f;
-	//private Timer DriftTimer;
-	private float driftAngle = 0.0f;
+    //private Timer DriftTimer;
+    public float DriftScale = 0.1f;
+
+    private float driftAngle = 0.0f;
 	private float driftSpeed = 0.0f;
 
 	private float leftWheelSpeed = 0.0f;
@@ -115,11 +117,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
 
+			
+
 			// add to speed if pressed
 			//leftWheelSpeed += leftWheelDir * Speed * Time.deltaTime;
 			//rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed, leftWheelDir * Speed * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed, rightWheelDir * Speed * Time.deltaTime);
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
 
 			//*
 			// stabilize forward movement
@@ -173,17 +177,25 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			}
 
+			float driftAngle = 
+			(Mathf.Abs(angle) - DriftAngleThreshold) * DriftScale 
+			 * (angle / Mathf.Abs(angle))
+			 ;
+
+
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
 				// TODO: turn relativly while drifting
-				(Mathf.Abs(angle) - DriftAngleThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
+				// (Mathf.Abs(angle) - DriftAngleThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
+				driftAngle * Mathf.Rad2Deg,
 				Vector3.up
 			);
 
 			// TODO: move trajectory angle towards player angle
 			float trajectoryAngleChange = angle;
 			//angle %= Mathf.PI;
-			if (Mathf.Abs( angle) > Mathf.PI + DriftAngleThreshold) {
+			// if (Mathf.Abs( angle)*DriftScale > Mathf.PI + DriftAngleThreshold) {
+            if (driftAngle  > Mathf.PI) {
 				trajectoryAngleChange *= -1.0f;
 
 				// TODO: equalize wheel speed
@@ -200,7 +212,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 			// */
 
-			transform.Rotate(transform.up, (trajectoryAngleChange * trajectorySpeedChange * DriftDampingMul + DriftDampingAdd) * Time.deltaTime);
+			transform.Rotate(
+				transform.up, 
+				(
+					trajectoryAngleChange 
+					* trajectorySpeedChange 
+					* DriftDampingMul 
+					+ DriftDampingAdd
+				) 
+				* Time.deltaTime
+			);
 			// TODO: don't gain speed while drifting
 			// IDEA: use wheel speed to increase trajectory influence during drift
 
@@ -214,7 +235,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
 		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
 		// IDEA: moving while drifting will alter trajectory in turning direction.
-		// IDEA: render arrows under player for drift trajectory and player direction.
 
 		// move forward
 		infoText += speed + "\n";
