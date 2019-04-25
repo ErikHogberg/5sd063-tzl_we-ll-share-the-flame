@@ -133,7 +133,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7617396278912120132}
-  - component: {fileID: 7617396278912120133}
   m_Layer: 0
   m_Name: Nozzle Anchor
   m_TagString: Untagged
@@ -155,22 +154,6 @@ Transform:
   m_Father: {fileID: 7617396279346736933}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
---- !u!114 &7617396278912120133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7617396278912120251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8662902c653e384cbfa42c71225c9ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
-  Foam: {fileID: 0}
-  turnSpeedX: 10
-  turnSpeedY: 10
 --- !u!1 &7617396278960831339
 GameObject:
   m_ObjectHideFlags: 0
