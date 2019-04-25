@@ -6,6 +6,7 @@ public class AnchorScript : MonoBehaviour
 {
 
 	public GameObject AnchorObject;
+	public bool KeepLocalPosition = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -14,6 +15,14 @@ public class AnchorScript : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        transform.position = AnchorObject.transform.position;
+		if (KeepLocalPosition)
+		{
+            transform.position = AnchorObject.transform.position + transform.localPosition;
+
+        } else
+		{
+        	transform.position = AnchorObject.transform.position;
+			
+		}
     }
 }
