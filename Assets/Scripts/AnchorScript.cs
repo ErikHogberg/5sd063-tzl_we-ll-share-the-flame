@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class AnchorScript : MonoBehaviour
 {
+
+	public GameObject AnchorObject;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        transform.position = AnchorObject.transform.position;
     }
 }

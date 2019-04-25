@@ -593,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66fc82627adbdb640a57b0f0ac73d6f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AnchorObject: {fileID: 1523747621}
 --- !u!1 &402364783
 GameObject:
   m_ObjectHideFlags: 0
@@ -6237,6 +6238,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516080146}
   m_CullTransparentMesh: 0
+--- !u!1 &1523747621 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7617396278912120251, guid: 2231e434d04717e468a80cfc963edb60,
+    type: 3}
+  m_PrefabInstance: {fileID: 7617396280059925188}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1573199721
 GameObject:
   m_ObjectHideFlags: 0
