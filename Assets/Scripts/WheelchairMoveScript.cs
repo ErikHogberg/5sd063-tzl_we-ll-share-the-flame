@@ -10,10 +10,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject WheelChair;
 	public GameObject LeftWheel;
 	public GameObject RightWheel;
-	private ParticleSystem leftWheelSparks;
+    public ParticleSystem LeftWheelSparks;
+    public ParticleSystem RightWheelSparks;
 	private TrailRenderer leftWheelTrail;
-	private ParticleSystem rightWheelSparks;
 	private TrailRenderer rightWheelTrail;
+
+	public float WheelAnimationSpeed = 1.0f;
 
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
@@ -48,10 +50,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
 
-		leftWheelSparks = LeftWheel.GetComponentInChildren<ParticleSystem>();
-		leftWheelTrail= LeftWheel.GetComponentInChildren<TrailRenderer>();
-		rightWheelSparks = RightWheel.GetComponentInChildren<ParticleSystem>();
-		rightWheelTrail= RightWheel.GetComponentInChildren<TrailRenderer>();
+		leftWheelTrail= LeftWheelSparks.GetComponentInChildren<TrailRenderer>();
+		rightWheelTrail= RightWheelSparks.GetComponentInChildren<TrailRenderer>();
 
 	}
 
@@ -148,8 +148,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
 				transform.Rotate(transform.up, wheelchairAngle * axis.y);
 
-				leftWheelSparks.Stop();
-				rightWheelSparks.Stop();
+				LeftWheelSparks.Stop();
+				RightWheelSparks.Stop();
 				leftWheelTrail.emitting = false;
 				rightWheelTrail.emitting = false;
 			}
@@ -166,8 +166,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				driftSpeed = speed;
 
-				leftWheelSparks.Play();
-				rightWheelSparks.Play();
+				LeftWheelSparks.Play();
+				RightWheelSparks.Play();
 				leftWheelTrail.emitting = true;
 				rightWheelTrail.emitting = true;
 
@@ -226,6 +226,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		InfoPane.text = infoText;
+
+		// moving wheels
+		LeftWheel.transform.Rotate(Vector3.down, leftWheelSpeed * WheelAnimationSpeed);
+        RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed);
 
 	}
 }
