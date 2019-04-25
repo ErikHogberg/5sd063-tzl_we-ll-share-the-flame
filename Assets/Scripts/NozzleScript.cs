@@ -36,6 +36,23 @@ public class NozzleScript : MonoBehaviour {
 
 		}
 
+		if(Input.GetKey(KeyCode.L)) {
+			if(Foam.startSpeed > 1) {
+				Foam.startSpeed -= 0.1f;
+			}
+
+			if(Foam.startSize < 3) {
+				Foam.startSize += 0.1f;
+			}
+		} else if (Input.GetKey(KeyCode.K)) {
+			if (Foam.startSpeed < 7) {
+				Foam.startSpeed += 0.1f;
+			}
+
+			if (Foam.startSize > 0.2) {
+				Foam.startSize -= 0.1f;
+			}
+		}
 	}
 
 }
