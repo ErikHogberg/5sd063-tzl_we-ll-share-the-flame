@@ -214,7 +214,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
 		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
 		// IDEA: moving while drifting will alter trajectory in turning direction.
-		// IDEA: render arrows under player for drift trajectory and player direction.
 
 		// move forward
 		infoText += speed + "\n";
@@ -228,8 +227,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		InfoPane.text = infoText;
 
 		// moving wheels
-		LeftWheel.transform.Rotate(Vector3.left, leftWheelSpeed * WheelAnimationSpeed);
-        RightWheel.transform.Rotate(Vector3.right, rightWheelSpeed * WheelAnimationSpeed);
+		LeftWheel.transform.Rotate(Vector3.down, leftWheelSpeed * WheelAnimationSpeed);
+        RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed);
 
 	}
 }
