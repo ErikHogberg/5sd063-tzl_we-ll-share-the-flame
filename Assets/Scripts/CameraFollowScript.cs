@@ -56,4 +56,13 @@ public class CameraFollowScript : MonoBehaviour
         transform.position = player.position + offset;
         transform.LookAt(player.position);
     }
+
+    public void Turn(float AngleDelta) {
+            
+            offset = Quaternion.AngleAxis(AngleDelta, Vector3.up) * offset;
+            
+            transform.position = player.position + offset;
+            transform.LookAt(player.position);
+    }
+
 }

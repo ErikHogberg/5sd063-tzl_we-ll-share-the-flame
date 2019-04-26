@@ -536,6 +536,11 @@ MonoBehaviour:
   DriftDampingMul: 2
   DriftScale: 0.1
   InfoPane: {fileID: 0}
+  CameraAutoTurning: 0
+  CameraScript: {fileID: 0}
+  CameraTurnSpeed: 7
+  CameraTurnSpeedScale: 2
+  CameraTurnDeadZone: 1
 --- !u!1 &7617396280038561364
 GameObject:
   m_ObjectHideFlags: 0
