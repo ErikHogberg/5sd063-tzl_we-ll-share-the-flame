@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
-using Input = UnityEngine.Experimental.Input;
+// using Input = UnityEngine.Experimental.Input;
 
 public class DebugTextScript : MonoBehaviour {
 
@@ -24,7 +24,12 @@ public class DebugTextScript : MonoBehaviour {
 		foreach (InputDevice mouse in InputDevice.all) {
 			
 			output += mouse + "\n";
-		}
+            // Vector2 scroll = Mouse.current.scroll.ReadValue();
+            Vector2 scroll = Input.mouseScrollDelta;
+            output += "wheel: " + scroll.x + ", " + scroll.y + "\n";
+
+
+        }
 
 		output += "gamepads\n";
 		foreach (Gamepad gamepad in Gamepad.all) {
