@@ -265,7 +265,7 @@ public class WheelchairMoveScript : MonoBehaviour {
         RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 
 		// Turning camera
-		{
+		if (CameraAutoTurning){
 
 			Vector2 cameraFacing = new Vector2(CameraScript.transform.forward.x, CameraScript.transform.forward.z);
 			Vector2 playerFacing = new Vector2(transform.forward.x, transform.forward.z);
@@ -273,7 +273,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// Camera.transform.rotation.ToAngleAxis(out float cameraAngle, out Vector3 cameraAxis);
 			// transform.rotation.ToAngleAxis(out float playerAngle, out Vector3 playerAxis);
 			
-			if (Vector2.SignedAngle(cameraFacing, playerFacing) < CameraTurnDeadZone)
+			if (Vector2.SignedAngle(cameraFacing, playerFacing) < -CameraTurnDeadZone)
 			{
 				CameraScript.Turn((CameraTurnSpeed + CameraTurnSpeedScale * speed) * Time.deltaTime);
 			}
