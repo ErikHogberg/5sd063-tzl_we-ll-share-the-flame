@@ -289,9 +289,20 @@ public class WheelchairMoveScript : MonoBehaviour {
 		
 		}
 		
-
-		InfoPane.text = infoText;
+		if (InfoPane != null) {
+			InfoPane.text = infoText;	
+		}
 
 	}
+
+	/*
+	private void OnCollisionEnter(Collision other) {
+		
+		// Turn 90 degrees when hitting a wall
+		// TODO: find which way to turn
+        transform.Rotate(Vector3.up, 90);
+		
+	}
+	//*/
 
 }
