@@ -53,6 +53,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float CameraTurnSpeedScale = 1.0f;
 	public float CameraTurnDeadZone = 1.0f;
 
+	public bool EnableCollision = false;
+
 	void Start() {
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
@@ -289,9 +291,23 @@ public class WheelchairMoveScript : MonoBehaviour {
 		
 		}
 		
+		if (InfoPane != null) {
+			InfoPane.text = infoText;	
+		}
 
-		InfoPane.text = infoText;
+	}
 
+	private void OnTriggerEnter(Collider other) {
+
+		if (!EnableCollision)
+		{
+			return;
+		}
+
+		Debug.Log("hit wall!");
+		// Turn 180 degrees when hitting a wall
+		// TODO: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
+        transform.Rotate(Vector3.up, 180);
 	}
 
 }
