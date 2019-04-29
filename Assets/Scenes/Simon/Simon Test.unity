@@ -1999,6 +1999,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4883142326818491642, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142326818491642, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142326818491642, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: CameraScript
@@ -2047,22 +2062,37 @@ PrefabInstance:
     - target: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684145949526365910, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684145949526365910, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684145949526365910, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85a03d8647d7c642afff3adbc6ddbd0, type: 3}
