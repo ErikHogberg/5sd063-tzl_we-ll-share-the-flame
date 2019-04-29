@@ -1925,6 +1925,11 @@ PrefabInstance:
       propertyPath: FlipKeys
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: EnableCollision
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: PositionAnchorObject
