@@ -47,6 +47,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public Text InfoPane;
 
+	public bool CameraAutoTurning = false;
+	public CameraFollowScript CameraScript;
+	public float CameraTurnSpeed = 1.0f;
+	public float CameraTurnSpeedScale = 1.0f;
+	public float CameraTurnDeadZone = 1.0f;
+
+	public bool EnableCollision = false;
 
 	void Start() {
 		//DriftTimer = new Timer(DriftDuration);
@@ -85,6 +92,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			float leftWheelDir = 0.0f;
 			float rightWheelDir = 0.0f;
 
+			// TODO: migrate to event based system
 			if (keyboard.wKey.isPressed) {
 				if (FlipKeys) {
 					rightWheelDir = Acceleration;
@@ -125,6 +133,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
 
+			if (keyboard.spaceKey.isPressed)
+			{
+				leftWheelSpeed = 0.0f;
+				rightWheelSpeed = 0.0f;
+
+				// TODO: drift when stopping too fast
+			}
+
 			//*
 			// stabilize forward movement
 			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
@@ -139,7 +155,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		//angle %= Mathf.PI * 2.0f;
-		float speed = (leftWheelSpeed + rightWheelSpeed);
+		float speed = leftWheelSpeed + rightWheelSpeed;
 
 		// turn
 		infoText += angle + "\n";
@@ -150,7 +166,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				//float wheelchairAngle = 0.0f;
 				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
-				transform.Rotate(transform.up, wheelchairAngle * axis.y);
+				transform.Rotate(transform.up, wheelchairAngle * axis.y * Time.deltaTime * 60);
 
 				LeftWheelSparks.Stop();
 				RightWheelSparks.Stop();
@@ -158,7 +174,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				rightWheelTrail.emitting = false;
 			}
 
-			transform.Rotate(transform.up, angle);
+			transform.Rotate(transform.up, angle * Time.deltaTime * 60);
 			WheelChair.transform.localRotation = Quaternion.identity;
 			TrajectoryArrow.SetActive(false);
 			DirectionArrow.SetActive(false);
@@ -199,7 +215,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				trajectoryAngleChange *= -1.0f;
 
 				// TODO: equalize wheel speed
-				float totalSpeed = leftWheelSpeed + rightWheelSpeed;
+				// float totalSpeed = leftWheelSpeed + rightWheelSpeed;
 				
 
 			}
@@ -245,11 +261,53 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.position += transform.forward * speed * Time.deltaTime;
 		}
 
-		InfoPane.text = infoText;
 
 		// moving wheels
-		LeftWheel.transform.Rotate(Vector3.down, leftWheelSpeed * WheelAnimationSpeed);
-        RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed);
+		LeftWheel.transform.Rotate(Vector3.down, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+        RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+
+		// Turning camera
+		if (CameraAutoTurning){
+
+			Vector2 cameraFacing = new Vector2(CameraScript.transform.forward.x, CameraScript.transform.forward.z);
+			Vector2 playerFacing = new Vector2(transform.forward.x, transform.forward.z);
+
+			// Camera.transform.rotation.ToAngleAxis(out float cameraAngle, out Vector3 cameraAxis);
+			// transform.rotation.ToAngleAxis(out float playerAngle, out Vector3 playerAxis);
+			
+			if (Vector2.SignedAngle(cameraFacing, playerFacing) < -CameraTurnDeadZone)
+			{
+				CameraScript.Turn((CameraTurnSpeed + CameraTurnSpeedScale * speed) * Time.deltaTime);
+			}
+			else if (Vector2.SignedAngle(cameraFacing, playerFacing) > CameraTurnDeadZone)
+			{
+				CameraScript.Turn(-(CameraTurnSpeed + CameraTurnSpeedScale * speed) * Time.deltaTime);
+			}
+		
+
+			infoText += "camera forward: " + cameraFacing + "\n";
+			infoText += "player forward: " + playerFacing + "\n";
+			infoText += "angle delta: " + Vector2.SignedAngle(cameraFacing, playerFacing) + "\n";
+		
+		}
+		
+		if (InfoPane != null) {
+			InfoPane.text = infoText;	
+		}
 
 	}
+
+	private void OnTriggerEnter(Collider other) {
+
+		if (!EnableCollision)
+		{
+			return;
+		}
+
+		Debug.Log("hit wall!");
+		// Turn 180 degrees when hitting a wall
+		// TODO: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
+        transform.Rotate(Vector3.up, 180);
+	}
+
 }

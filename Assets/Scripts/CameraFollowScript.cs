@@ -13,10 +13,12 @@ public class CameraFollowScript : MonoBehaviour
     public Transform player;
 
     private Vector3 offset;
+	// public Vector2 Distance = new Vector2(8.0f, 7.0f);
 
     void Start()
     {
-        offset = new Vector3(player.position.x, player.position.y + 8.0f, player.position.z + 7.0f);
+        Vector3 distance = transform.position - player.transform.position;
+        offset = distance;
 		
         // InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
 
@@ -49,11 +51,25 @@ public class CameraFollowScript : MonoBehaviour
             //offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up);
         }
 
-
+		if (Keyboard.current.iKey.isPressed && Vector3.Magnitude(offset) > 0.1f ) {
+			offset *= 1.0f - scrollSpeed * Time.deltaTime;
+		}
+		if (Keyboard.current.oKey.isPressed ) {
+			offset *= 1.0f + scrollSpeed * Time.deltaTime;
+		}
 		// Vector2 scroll = Mouse.current.scroll.ReadValue();
-        // offset *= 1.0f + scroll.y;
+		// offset *= 1.0f + scroll.y;
 
-        transform.position = player.position + offset;
+		transform.position = player.position + offset;
         transform.LookAt(player.position);
     }
+
+    public void Turn(float AngleDelta) {
+            
+            offset = Quaternion.AngleAxis(AngleDelta, Vector3.up) * offset;
+            
+            transform.position = player.position + offset;
+            transform.LookAt(player.position);
+    }
+
 }

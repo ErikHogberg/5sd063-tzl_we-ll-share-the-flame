@@ -29,9 +29,88 @@ Transform:
   m_Children:
   - {fileID: 4883142328164948886}
   - {fileID: 4883142328180509133}
+  - {fileID: 3942549770595687186}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6844312073823231828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4023832413977479155}
+  m_Layer: 0
+  m_Name: Camera Focus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4023832413977479155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844312073823231828}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3942549770595687186}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7382922135120076521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3942549770595687186}
+  - component: {fileID: 4839148970294122381}
+  m_Layer: 0
+  m_Name: Camera Focus Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3942549770595687186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382922135120076521}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4023832413977479155}
+  m_Father: {fileID: 4883142326818491642}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4839148970294122381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382922135120076521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66fc82627adbdb640a57b0f0ac73d6f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PositionAnchorObject: {fileID: 4883142327712776024}
+  AngleAnchorObject: {fileID: 0}
+  KeepLocalPosition: 0
+  AnchorParentRotation: 0
 --- !u!1001 &3058513271478385868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +178,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7617396279243899797, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: InfoPane
@@ -109,10 +193,10 @@ PrefabInstance:
       propertyPath: DriftScale
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 7617396280637285277, guid: 2231e434d04717e468a80cfc963edb60,
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
-      propertyPath: TriggerModule.collisionShape0
-      value: 
+      propertyPath: CameraTurnDeadZone
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1462122031010046862, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -124,12 +208,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Drift Sparks
       objectReference: {fileID: 0}
+    - target: {fileID: 7617396280637285277, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: TriggerModule.collisionShape0
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_Name
+      value: Camera Focus Focus (yes, that's right)
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7617396278912120133, guid: 2231e434d04717e468a80cfc963edb60, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2231e434d04717e468a80cfc963edb60, type: 3}
 --- !u!4 &4883142328164948886 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7617396279864944474, guid: 2231e434d04717e468a80cfc963edb60,
+    type: 3}
+  m_PrefabInstance: {fileID: 3058513271478385868}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4883142327712776024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
     type: 3}
   m_PrefabInstance: {fileID: 3058513271478385868}
   m_PrefabAsset: {fileID: 0}
@@ -146,16 +246,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4883142326818491642}
     m_Modifications:
-    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
-        type: 3}
-      propertyPath: m_Name
-      value: Extinguisher Nozzle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4042585768858872742, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -210,6 +300,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: m_Name
+      value: Extinguisher Nozzle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4042585768858872740, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
