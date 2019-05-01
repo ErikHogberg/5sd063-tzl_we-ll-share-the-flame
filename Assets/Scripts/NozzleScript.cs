@@ -46,17 +46,30 @@ public class NozzleScript : MonoBehaviour {
 				Foam.startSpeed -= 0.1f;
 			}
 
-			if(Foam.startSize < 3) {
-				Foam.startSize += 0.1f;
-			}
-		} else if (Input.GetKey(KeyCode.K)) {
+			// if(Foam.startSize < 3) {
+			// 	Foam.startSize += 0.1f;
+			// }
+
+			ParticleSystem.ShapeModule shape = Foam.shape;
+
+            if (shape.angle < 10) {
+                shape.angle += 0.1f;
+            }
+
+        } else if (Input.GetKey(KeyCode.K)) {
 			if (Foam.startSpeed < 7) {
 				Foam.startSpeed += 0.1f;
 			}
 
-			if (Foam.startSize > 0.2) {
-				Foam.startSize -= 0.1f;
+            // if (Foam.startSize > 0.2) {
+            // 	Foam.startSize -= 0.1f;
+            // }
+            ParticleSystem.ShapeModule shape = Foam.shape;
+
+            if (shape.angle > 0.2) {
+				shape.angle -= 0.1f;
 			}
+
 		}
 	}
 
