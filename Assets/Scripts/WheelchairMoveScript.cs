@@ -25,6 +25,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public bool UseMouse = false;
 
 	public float Speed = 1.0f;
+    public float TurningSpeed = 1.0f;
 	public float Acceleration = 1.0f;
 	public float Damping = 0.3f;
 	public float ForwardCorrectionSpeed = 0.2f;
@@ -154,6 +155,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
+		angle *= TurningSpeed;
 		//angle %= Mathf.PI * 2.0f;
 		float speed = leftWheelSpeed + rightWheelSpeed;
 
