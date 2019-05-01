@@ -17,7 +17,16 @@ public class NozzleScript : MonoBehaviour {
 
 	private Vector3 offset;
 
-	// wiimote
+	public float MaxFoamSpread = 10.0f;
+    public float MinFoamSpread = 0.1f;
+
+    public float MaxFoamSpeed = 10;
+    public float MinFoamSpeed = 1;
+
+    public float FoamSwitchSpeed = 0.1f;
+
+
+    // wiimote
     private Wiimote wiimote;
 
 
@@ -37,27 +46,31 @@ public class NozzleScript : MonoBehaviour {
 
 	void Update() {
 
-        if (!WiimoteManager.HasWiimote()) { WiimoteManager.FindWiimotes(); return; }
+		bool wiimoteFiring = false;
 
-        wiimote = WiimoteManager.Wiimotes[0];
-		
-		int ret;
-        do {
-            ret = wiimote.ReadWiimoteData();
+        if (!WiimoteManager.HasWiimote()) { WiimoteManager.FindWiimotes(); } else {
+			wiimote = WiimoteManager.Wiimotes[0];
+			
+			int ret;
+			do {
+				ret = wiimote.ReadWiimoteData();
 
-            if (ret > 0 && wiimote.current_ext == ExtensionController.MOTIONPLUS)
-            {
-                Vector3 offset = new Vector3(-wiimote.MotionPlus.PitchSpeed,
-                                                wiimote.MotionPlus.YawSpeed,
-                                                wiimote.MotionPlus.RollSpeed) / 95f; // Divide by 95Hz (average updates per second from wiimote)
-                // wmpOffset += offset;
+				if (ret > 0 && wiimote.current_ext == ExtensionController.MOTIONPLUS)
+				{
+					Vector3 offset = new Vector3(-wiimote.MotionPlus.PitchSpeed,
+													wiimote.MotionPlus.YawSpeed,
+													wiimote.MotionPlus.RollSpeed) / 95f; // Divide by 95Hz (average updates per second from wiimote)
+					// wmpOffset += offset;
 
-                // model.rot.Rotate(offset, Space.Self);
-            }
-        } while (ret > 0);
+					// model.rot.Rotate(offset, Space.Self);
+				}
+			} while (ret > 0);
 
-		//if (Mouse.current.leftButton.isPressed) {
-		if (firing || wiimote.Button.b) {
+			wiimoteFiring = wiimote.Button.b;
+        }
+
+        //if (Mouse.current.leftButton.isPressed) {
+        if (firing || wiimoteFiring) {
 			if (!wasFiring) {
             	Foam.Play();
 				wasFiring = true;
@@ -78,11 +91,10 @@ public class NozzleScript : MonoBehaviour {
             }
 		}
 
-		// TODO: min and max fields for speed and spread
 		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
 		if(Input.GetKey(KeyCode.L)) {
-			if(Foam.startSpeed > 1) {
-				Foam.startSpeed -= 0.1f;
+			if(Foam.startSpeed > MinFoamSpeed) {
+				Foam.startSpeed -= FoamSwitchSpeed;
 			}
 
 			// if(Foam.startSize < 3) {
@@ -91,13 +103,13 @@ public class NozzleScript : MonoBehaviour {
 
 			ParticleSystem.ShapeModule shape = Foam.shape;
 
-            if (shape.angle < 10) {
-                shape.angle += 0.1f;
+            if (shape.angle < MaxFoamSpread) {
+                shape.angle += FoamSwitchSpeed;
             }
 
         } else if (Input.GetKey(KeyCode.K)) {
-			if (Foam.startSpeed < 7) {
-				Foam.startSpeed += 0.1f;
+			if (Foam.startSpeed < MaxFoamSpeed) {
+				Foam.startSpeed += FoamSwitchSpeed;
 			}
 
             // if (Foam.startSize > 0.2) {
@@ -105,8 +117,8 @@ public class NozzleScript : MonoBehaviour {
             // }
             ParticleSystem.ShapeModule shape = Foam.shape;
 
-            if (shape.angle > 0.2) {
-				shape.angle -= 0.1f;
+            if (shape.angle > MinFoamSpread) {
+				shape.angle -= FoamSwitchSpeed;
 			}
 
 		}
