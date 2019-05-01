@@ -94,9 +94,11 @@ public class WiimoteHandlerScript : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUI.Box(new Rect(10, 10, 350, 600), "");
+
+		GUI.Box(new Rect(0, 0, 350, 600), "");
 
 		GUILayout.BeginVertical(GUILayout.Width(300));
+		
 		GUILayout.Label("Wiimote Found: " + WiimoteManager.HasWiimote());
 		if (GUILayout.Button("Find Wiimote"))
 			WiimoteManager.FindWiimotes();
