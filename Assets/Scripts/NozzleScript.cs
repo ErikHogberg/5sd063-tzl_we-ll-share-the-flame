@@ -70,12 +70,14 @@ public class NozzleScript : MonoBehaviour {
                     wiimote.RequestIdentifyWiiMotionPlus();
                     wiimote.ActivateWiiMotionPlus();
 				} else {
-                    if (keyboard.jKey.isPressed) {
-	                    wiimote.RequestIdentifyWiiMotionPlus();
-                        wiimote.MotionPlus.SetZeroValues();
-                        // wiimote.DeactivateWiiMotionPlus();
-                        // wiimote.ActivateWiiMotionPlus();
+                    if (keyboard.gKey.isPressed) {
                         wmpOffset = Vector3.zero;
+                    }
+					if (keyboard.hKey.isPressed) {
+                        wiimote.RequestIdentifyWiiMotionPlus();
+                    }
+					if (keyboard.jKey.isPressed) {
+                        wiimote.MotionPlus.SetZeroValues();
                     }
 
 					Vector3 offset = new Vector3(	-wiimote.MotionPlus.PitchSpeed,
@@ -86,13 +88,14 @@ public class NozzleScript : MonoBehaviour {
 					switch (RotationMethod)
 					{
 						case RotationMethod.World:
-                            transform.Rotate(offset + offset, Space.World);
+                            transform.Rotate(offset, Space.World);
                             break;
 						case RotationMethod.Self:
-                            transform.Rotate(offset + offset, Space.Self);
+                            transform.Rotate(offset, Space.Self);
                             break;
                         case RotationMethod.LocalRotation:
-                            transform.localRotation = Quaternion.Euler(offset);					
+                            // transform.localRotation = Quaternion.Euler(offset);					
+                            transform.localRotation *= Quaternion.Euler(offset);					
                             break;
                     }
 					

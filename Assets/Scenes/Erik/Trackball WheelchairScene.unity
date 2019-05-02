@@ -1772,7 +1772,7 @@ PrefabInstance:
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: Damping
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1782,7 +1782,22 @@ PrefabInstance:
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: Speed
-      value: 5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: Acceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: ForwardCorrectionSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: TurningSpeed
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328482009025, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
