@@ -1,0 +1,8 @@
+Tested with motion plus wiimote on windows 10
+
+Download and run WiinUPro (http://www.wiinupro.com/downloads, http://www.wiinupro.com/downloads/WiinUPro%200.9.zip?attredirects=0&d=1)
+Press sync in the top-left corner in WiinUPro
+Start sync on wiimote by pressing the sync button under the battery cover, or pressing 1 + 2
+Select the Wiimote in the sync list, named nintendo RVL something etc.
+If the player 1 light is lit instead of all lights blinking, then you're done.
+To reconnect later, select the wiimote in the list of controllers instead (press a button on the wiimote to make it blink first)
