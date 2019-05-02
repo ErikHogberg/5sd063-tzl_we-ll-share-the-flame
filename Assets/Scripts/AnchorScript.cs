@@ -7,8 +7,9 @@ public class AnchorScript : MonoBehaviour
 
 	public GameObject PositionAnchorObject;
 	public GameObject AngleAnchorObject;
-	public bool KeepLocalPosition = false;
-	public bool AnchorParentRotation = false;
+	// public Vector3 AngleAxis = Vector3.up;
+	// public bool KeepLocalPosition = false;
+	// public bool AnchorParentRotation = false;
   private Vector3 worldPositionOffset;
 
   // Start is called before the first frame update
@@ -22,18 +23,20 @@ public class AnchorScript : MonoBehaviour
 
     if (PositionAnchorObject != null)
     {     
-      if (KeepLocalPosition)
-      {
-        // FIXME
-        transform.position = PositionAnchorObject.transform.position + worldPositionOffset;
-      } else {
+    //   if (KeepLocalPosition)
+    //   {
+    //     // FIXME
+    //     transform.position = PositionAnchorObject.transform.position + worldPositionOffset;
+    //   } else {
         transform.position = PositionAnchorObject.transform.position;
-      }
+    //   }
     }
 
     if (AngleAnchorObject != null)
     {
-      transform.localRotation = AngleAnchorObject.transform.localRotation;
+    //   transform.localRotation = AngleAnchorObject.transform.localRotation;
+
+	  transform.localRotation = Quaternion.AngleAxis(AngleAnchorObject.transform.localRotation.eulerAngles.y, Vector3.up);
     }      
 
   }
