@@ -1814,6 +1814,11 @@ PrefabInstance:
       propertyPath: MaxFoamSpread
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: RotationMethod
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4684145949526365910, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar

@@ -2,6 +2,11 @@
 using UnityEngine.Experimental.Input;
 using WiimoteApi;
 
+public enum RotationMethod {
+	World,
+	Self,
+	LocalRotation
+}
 public class NozzleScript : MonoBehaviour {
 
 	[SerializeField]
@@ -28,6 +33,8 @@ public class NozzleScript : MonoBehaviour {
 
     // wiimote
     private Wiimote wiimote;
+    private Vector3 wmpOffset = Vector3.zero;
+	public RotationMethod RotationMethod = RotationMethod.LocalRotation; 
 
 
     void Start() {
@@ -46,23 +53,53 @@ public class NozzleScript : MonoBehaviour {
 
 	void Update() {
 
+		Keyboard keyboard = Keyboard.current; 
+
 		bool wiimoteFiring = false;
 
-        if (!WiimoteManager.HasWiimote()) { WiimoteManager.FindWiimotes(); } else {
+        if (!WiimoteManager.HasWiimote()) { 
+			WiimoteManager.FindWiimotes(); 
+		} else {
 			wiimote = WiimoteManager.Wiimotes[0];
 			
 			int ret;
 			do {
 				ret = wiimote.ReadWiimoteData();
 
-				if (ret > 0 && wiimote.current_ext == ExtensionController.MOTIONPLUS)
-				{
-					Vector3 offset = new Vector3(-wiimote.MotionPlus.PitchSpeed,
+				if (ret > 0 && wiimote.current_ext != ExtensionController.MOTIONPLUS) {
+                    wiimote.RequestIdentifyWiiMotionPlus();
+                    wiimote.ActivateWiiMotionPlus();
+				} else {
+                    if (keyboard.jKey.isPressed) {
+	                    wiimote.RequestIdentifyWiiMotionPlus();
+                        wiimote.MotionPlus.SetZeroValues();
+                        // wiimote.DeactivateWiiMotionPlus();
+                        // wiimote.ActivateWiiMotionPlus();
+                        wmpOffset = Vector3.zero;
+                    }
+
+					Vector3 offset = new Vector3(	-wiimote.MotionPlus.PitchSpeed,
 													wiimote.MotionPlus.YawSpeed,
 													wiimote.MotionPlus.RollSpeed) / 95f; // Divide by 95Hz (average updates per second from wiimote)
-					// wmpOffset += offset;
+					wmpOffset += offset;
 
+					switch (RotationMethod)
+					{
+						case RotationMethod.World:
+                            transform.Rotate(offset + offset, Space.World);
+                            break;
+						case RotationMethod.Self:
+                            transform.Rotate(offset + offset, Space.Self);
+                            break;
+                        case RotationMethod.LocalRotation:
+                            transform.localRotation = Quaternion.Euler(offset);					
+                            break;
+                    }
+					
 					// model.rot.Rotate(offset, Space.Self);
+					// transform.Rotate(offset, Space.Self);
+					// transform.localRotation = Quaternion.Euler(offset);					
+
 				}
 			} while (ret > 0);
 
@@ -92,7 +129,7 @@ public class NozzleScript : MonoBehaviour {
 		}
 
 		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
-		if(Input.GetKey(KeyCode.L)) {
+		if(keyboard.lKey.isPressed) {
 			if(Foam.startSpeed > MinFoamSpeed) {
 				Foam.startSpeed -= FoamSwitchSpeed;
 			}
@@ -107,7 +144,7 @@ public class NozzleScript : MonoBehaviour {
                 shape.angle += FoamSwitchSpeed;
             }
 
-        } else if (Input.GetKey(KeyCode.K)) {
+        } else if (keyboard.kKey.isPressed) {
 			if (Foam.startSpeed < MaxFoamSpeed) {
 				Foam.startSpeed += FoamSwitchSpeed;
 			}
