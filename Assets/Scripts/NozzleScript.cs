@@ -73,9 +73,10 @@ public class NozzleScript : MonoBehaviour {
 			int ret;
 			do {
 				ret = wiimote.ReadWiimoteData();
-				if (ret < 1) {
-					continue;
-				}
+				// if (ret < 1) {
+				// 	Debug.Log("ret less than 1");
+				// 	continue;
+				// }
 
 				if (wiimote.current_ext != ExtensionController.MOTIONPLUS) {
 					wiimote.RequestIdentifyWiiMotionPlus();
@@ -104,9 +105,11 @@ public class NozzleScript : MonoBehaviour {
 					wmpOffset += offset;
 
 					if (wiimote.Button.a) {
-                        // transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+                        // transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);						
                         orientationBuffer = Quaternion.AngleAxis(90, transform.parent.right);
-					}
+						// IDEA:
+                        wiimote.MotionPlus.SetZeroValues();
+                    }
                     if (wiimote.Button.d_down) {
 						wmpOffset = Vector3.zero;
                     }
@@ -128,11 +131,7 @@ public class NozzleScript : MonoBehaviour {
 							;
 
                             break;
-					}
-
-					// model.rot.Rotate(offset, Space.Self);
-					// transform.Rotate(offset, Space.Self);
-					// transform.localRotation = Quaternion.Euler(offset);					
+					}					
 
 				}
 			} while (ret > 0);
