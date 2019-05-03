@@ -36,6 +36,7 @@ public class NozzleScript : MonoBehaviour {
 	private Vector3 wmpOffset = Vector3.zero;
 	public RotationMethod RotationMethod = RotationMethod.LocalRotation;
 
+	private Quaternion orientationBuffer = Quaternion.identity;
 
 	void Start() {
 		Foam.Pause();
@@ -86,15 +87,20 @@ public class NozzleScript : MonoBehaviour {
 					Vector3 offset = new Vector3(
 						wiimote.MotionPlus.PitchSpeed,
 						0,
-						//wiimote.MotionPlus.RollSpeed
+						// FIXME: ignoring roll messes with other axises
+						// wiimote.MotionPlus.RollSpeed, 
 						wiimote.MotionPlus.YawSpeed
 						) / 95f; // Divide by 95Hz (average updates per second from wiimote)
 
 					wmpOffset += offset;
 
 					if (wiimote.Button.a) {
-						transform.localRotation = Quaternion.identity;
+                        // transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+                        orientationBuffer = Quaternion.AngleAxis(90, transform.parent.right);
 					}
+                    if (wiimote.Button.d_down) {
+						wmpOffset = Vector3.zero;
+                    }
 
 					switch (RotationMethod) {
 						case RotationMethod.World:
@@ -104,9 +110,15 @@ public class NozzleScript : MonoBehaviour {
 							transform.Rotate(offset, Space.Self);
 							break;
 						case RotationMethod.LocalRotation:
-							// transform.localRotation = Quaternion.Euler(offset);					
-							transform.localRotation *= Quaternion.Euler(offset);
-							break;
+                            // transform.localRotation = Quaternion.Euler(offset);					
+                            // transform.localRotation *= Quaternion.Euler(offset);
+                            orientationBuffer *= Quaternion.Euler(offset);
+                            transform.localRotation = Quaternion.identity
+							* orientationBuffer 
+							// * Quaternion.Euler(-wmpOffset)
+							;
+
+                            break;
 					}
 
 					// model.rot.Rotate(offset, Space.Self);

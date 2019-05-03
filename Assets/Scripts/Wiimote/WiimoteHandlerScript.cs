@@ -4,6 +4,7 @@ using System.Collections;
 using System.Text;
 using System;
 using WiimoteApi;
+using UnityEngine.Experimental.Input;
 
 public class WiimoteHandlerScript : MonoBehaviour {
 
@@ -20,11 +21,21 @@ public class WiimoteHandlerScript : MonoBehaviour {
 
 	private Vector3 wmpOffset = Vector3.zero;
 
+	private bool HideGUI = false;
+
 	void Start() {
 		// initial_rotation = model.rot.localRotation;
 	}
 
 	void Update() {
+
+		var keyboard = Keyboard.current;
+
+		if (keyboard.yKey.wasPressedThisFrame)
+		{
+			HideGUI = !HideGUI;
+		}
+
 		if (!WiimoteManager.HasWiimote()) { WiimoteManager.FindWiimotes(); return; }
 
 		wiimote = WiimoteManager.Wiimotes[0];
@@ -94,6 +105,11 @@ public class WiimoteHandlerScript : MonoBehaviour {
 	}
 
 	void OnGUI() {
+
+		if (HideGUI)
+		{
+			return;
+		}
 
 		GUI.Box(new Rect(0, 0, 350, 700), "");
 
