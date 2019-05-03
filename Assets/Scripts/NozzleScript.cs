@@ -31,6 +31,7 @@ public class NozzleScript : MonoBehaviour {
 
 	public float FoamSwitchSpeed = 0.1f;
 
+	public bool AllowAimWithMouse = false;
 
 	// wiimote
 	private Wiimote wiimote;
@@ -150,14 +151,14 @@ public class NozzleScript : MonoBehaviour {
 
 			// TODO: limit angle
 			// IDEA: add "buffer" rotation that is assigned current rotation, but is capped to certain angles
-			/*
-			transform.Rotate(
-				Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
-				Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
-				0,
-				Space.World
-			);
-			 */
+			if (AllowAimWithMouse) {
+				transform.Rotate(
+					Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
+					Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
+					0,
+					Space.World
+				);
+			}
 
 		} else {
 			if (wasFiring) {
