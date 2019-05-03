@@ -12,7 +12,8 @@ public class NozzleScript : MonoBehaviour {
 	[SerializeField]
 	private InputActionAsset controls;
 
-	public ParticleSystem Foam;
+	public GameObject Foam;
+	private ParticleSystem[] foamParticles;
 
 	public float turnSpeedX = 4.0f;
 	public float turnSpeedY = 2.0f;
@@ -39,7 +40,12 @@ public class NozzleScript : MonoBehaviour {
 	private Quaternion orientationBuffer = Quaternion.identity;
 
 	void Start() {
-		Foam.Pause();
+
+		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
+
+		foreach (ParticleSystem particles in foamParticles) {
+			particles.Pause();
+		}
 
 		// Create action that binds to the primary action control on all devices.
 		// var action = new InputAction(binding: "*/{primaryAction}");
@@ -83,6 +89,8 @@ public class NozzleScript : MonoBehaviour {
 					if (keyboard.jKey.wasPressedThisFrame) {
 						wiimote.MotionPlus.SetZeroValues();
 					}
+
+					
 
 					Vector3 offset = new Vector3(
 						wiimote.MotionPlus.PitchSpeed,
@@ -134,7 +142,9 @@ public class NozzleScript : MonoBehaviour {
 		//if (Mouse.current.leftButton.isPressed) {
 		if (firing || wiimoteFiring) {
 			if (!wasFiring) {
-				Foam.Play();
+				foreach (ParticleSystem particles in foamParticles) {
+					particles.Play();
+				}
 				wasFiring = true;
 			}
 
@@ -151,12 +161,15 @@ public class NozzleScript : MonoBehaviour {
 
 		} else {
 			if (wasFiring) {
-				Foam.Stop();
+				foreach (ParticleSystem particles in foamParticles) {
+					particles.Stop();
+				}
 				wasFiring = false;
 			}
 		}
 
 		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
+		/*
 		if (keyboard.lKey.isPressed) {
 			if (Foam.startSpeed > MinFoamSpeed) {
 				Foam.startSpeed -= FoamSwitchSpeed;
@@ -187,6 +200,8 @@ public class NozzleScript : MonoBehaviour {
 			}
 
 		}
+		*/
+	
 	}
 
 }
