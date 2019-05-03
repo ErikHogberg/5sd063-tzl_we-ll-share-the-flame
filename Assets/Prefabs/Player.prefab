@@ -527,6 +527,7 @@ MonoBehaviour:
   FlipKeys: 1
   UseMouse: 0
   Speed: 1
+  TurningSpeed: 1
   Acceleration: 18
   Damping: 2
   ForwardCorrectionSpeed: 0.2
