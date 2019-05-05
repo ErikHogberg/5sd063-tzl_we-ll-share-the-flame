@@ -20,22 +20,26 @@ public class DebugTextScript : MonoBehaviour {
 	void Update() {
 		string output = "";
 
-		output += "mice\n";
-		foreach (InputDevice mouse in InputDevice.all) {
+		output += "devices\n";
+		foreach (InputDevice device in InputDevice.all) {
 			
-			output += mouse + "\n";
+			output += device + "\n";
             // Vector2 scroll = Mouse.current.scroll.ReadValue();
             Vector2 scroll = Input.mouseScrollDelta;
-            output += "wheel: " + scroll.x + ", " + scroll.y + "\n";
-
-
+            output += "scroll wheel: " + scroll.x + ", " + scroll.y + "\n";
+            // output += "variants: " + device.variants + "\n";
+            // output += "path: " + device.path + "\n";
+            // output += "variants: " + device. + "\n";
+			
         }
 
+		/* 
 		output += "gamepads\n";
 		foreach (Gamepad gamepad in Gamepad.all) {
 
 			output += gamepad + "\n";
 		}
+		*/
 
 		text.text = output;
 	}
