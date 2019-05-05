@@ -158,6 +158,7 @@ public class NozzleScript : MonoBehaviour {
 				yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
 				pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
 
+				// TODO: clamp pitch for motion controls
 				if (pitch < 90.0f - MaxUpPitch) {
 					pitch = 90.0f - MaxUpPitch;
 				} else
@@ -221,7 +222,7 @@ public class NozzleScript : MonoBehaviour {
 		// */
 
 
-
+		// TODO: Apply spread change to all relevant particle effects
 		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
 		/*
 		if (keyboard.lKey.isPressed) {
