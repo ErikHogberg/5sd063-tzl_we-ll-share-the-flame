@@ -271,25 +271,44 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// Turning camera
 		if (CameraAutoTurning){
 
+			// TODO: quickly move the camera behind the player when they face the camera
+
 			Vector2 cameraFacing = new Vector2(CameraScript.transform.forward.x, CameraScript.transform.forward.z);
 			Vector2 playerFacing = new Vector2(transform.forward.x, transform.forward.z);
 
 			// Camera.transform.rotation.ToAngleAxis(out float cameraAngle, out Vector3 cameraAxis);
 			// transform.rotation.ToAngleAxis(out float playerAngle, out Vector3 playerAxis);
 			
-			if (Vector2.SignedAngle(cameraFacing, playerFacing) < -CameraTurnDeadZone)
+			float angleDelta = Vector2.SignedAngle(cameraFacing, playerFacing);
+			float turnSpeed = CameraTurnSpeed + CameraTurnSpeedScale * speed;
+			if (angleDelta < -CameraTurnDeadZone)
 			{
-				CameraScript.Turn((CameraTurnSpeed + CameraTurnSpeedScale * speed) * Time.deltaTime);
+				// if (turnSpeed > angleDelta) {
+                //     CameraScript.Turn(angleDelta);
+                // } else 
+				{
+					CameraScript.Turn(turnSpeed * Time.deltaTime);
+				}
 			}
-			else if (Vector2.SignedAngle(cameraFacing, playerFacing) > CameraTurnDeadZone)
+			else if (angleDelta > CameraTurnDeadZone)
 			{
-				CameraScript.Turn(-(CameraTurnSpeed + CameraTurnSpeedScale * speed) * Time.deltaTime);
-			}
+				// CameraScript.Turn(-turnSpeed * Time.deltaTime);
+                
+				// if (turnSpeed < angleDelta)
+                // {
+                //     CameraScript.Turn(angleDelta);
+                // }
+                // else
+                {
+                    CameraScript.Turn(-turnSpeed * Time.deltaTime);
+                }
+
+            }
 		
 
 			infoText += "camera forward: " + cameraFacing + "\n";
 			infoText += "player forward: " + playerFacing + "\n";
-			infoText += "angle delta: " + Vector2.SignedAngle(cameraFacing, playerFacing) + "\n";
+			infoText += "angle delta: " + angleDelta + "\n";
 		
 		}
 		

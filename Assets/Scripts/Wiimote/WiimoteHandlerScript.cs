@@ -4,6 +4,7 @@ using System.Collections;
 using System.Text;
 using System;
 using WiimoteApi;
+using UnityEngine.Experimental.Input;
 
 public class WiimoteHandlerScript : MonoBehaviour {
 
@@ -20,11 +21,21 @@ public class WiimoteHandlerScript : MonoBehaviour {
 
 	private Vector3 wmpOffset = Vector3.zero;
 
+	private bool HideGUI = false;
+
 	void Start() {
 		// initial_rotation = model.rot.localRotation;
 	}
 
 	void Update() {
+
+		var keyboard = Keyboard.current;
+
+		if (keyboard.yKey.wasPressedThisFrame)
+		{
+			HideGUI = !HideGUI;
+		}
+
 		if (!WiimoteManager.HasWiimote()) { WiimoteManager.FindWiimotes(); return; }
 
 		wiimote = WiimoteManager.Wiimotes[0];
@@ -89,14 +100,21 @@ public class WiimoteHandlerScript : MonoBehaviour {
 		float[] pointer = wiimote.Ir.GetPointingPosition();
 		ir_pointer.anchorMin = new Vector2(pointer[0], pointer[1]);
 		ir_pointer.anchorMax = new Vector2(pointer[0], pointer[1]);
-		*/
+		//*/
 
 	}
 
 	void OnGUI() {
-		GUI.Box(new Rect(10, 10, 350, 600), "");
+
+		if (HideGUI)
+		{
+			return;
+		}
+
+		GUI.Box(new Rect(0, 0, 350, 700), "");
 
 		GUILayout.BeginVertical(GUILayout.Width(300));
+		
 		GUILayout.Label("Wiimote Found: " + WiimoteManager.HasWiimote());
 		if (GUILayout.Button("Find Wiimote"))
 			WiimoteManager.FindWiimotes();
@@ -148,10 +166,13 @@ public class WiimoteHandlerScript : MonoBehaviour {
 			wiimote.RequestIdentifyWiiMotionPlus();
 		if ((wiimote.wmp_attached || wiimote.Type == WiimoteType.PROCONTROLLER) && GUILayout.Button("Activate WMP"))
 			wiimote.ActivateWiiMotionPlus();
-		if ((wiimote.current_ext == ExtensionController.MOTIONPLUS ||
+		if (
+			(wiimote.current_ext == ExtensionController.MOTIONPLUS ||
 			wiimote.current_ext == ExtensionController.MOTIONPLUS_CLASSIC ||
-			wiimote.current_ext == ExtensionController.MOTIONPLUS_NUNCHUCK) && GUILayout.Button("Deactivate WMP"))
+			wiimote.current_ext == ExtensionController.MOTIONPLUS_NUNCHUCK) && GUILayout.Button("Deactivate WMP")
+		) {
 			wiimote.DeactivateWiiMotionPlus();
+		}
 
 		GUILayout.Label("Calibrate Accelerometer");
 		GUILayout.BeginHorizontal();
