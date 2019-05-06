@@ -100,7 +100,7 @@ public class WiimoteHandlerScript : MonoBehaviour {
 		float[] pointer = wiimote.Ir.GetPointingPosition();
 		ir_pointer.anchorMin = new Vector2(pointer[0], pointer[1]);
 		ir_pointer.anchorMax = new Vector2(pointer[0], pointer[1]);
-		*/
+		//*/
 
 	}
 

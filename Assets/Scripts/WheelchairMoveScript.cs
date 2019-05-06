@@ -271,6 +271,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// Turning camera
 		if (CameraAutoTurning){
 
+			// TODO: quickly move the camera behind the player when they face the camera
+
 			Vector2 cameraFacing = new Vector2(CameraScript.transform.forward.x, CameraScript.transform.forward.z);
 			Vector2 playerFacing = new Vector2(transform.forward.x, transform.forward.z);
 
