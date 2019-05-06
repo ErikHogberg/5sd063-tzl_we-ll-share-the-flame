@@ -48,12 +48,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public Text InfoPane;
 
-	public bool CameraAutoTurning = false;
-	public CameraFollowScript CameraScript;
-	public float CameraTurnSpeed = 1.0f;
-	public float CameraTurnSpeedScale = 1.0f;
-	public float CameraTurnDeadZone = 1.0f;
-
 	public bool EnableCollision = false;
 
 	void Start() {
@@ -267,50 +261,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// moving wheels
 		LeftWheel.transform.Rotate(Vector3.down, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
         RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-
-		// Turning camera
-		if (CameraAutoTurning){
-
-			// TODO: quickly move the camera behind the player when they face the camera
-
-			Vector2 cameraFacing = new Vector2(CameraScript.transform.forward.x, CameraScript.transform.forward.z);
-			Vector2 playerFacing = new Vector2(transform.forward.x, transform.forward.z);
-
-			// Camera.transform.rotation.ToAngleAxis(out float cameraAngle, out Vector3 cameraAxis);
-			// transform.rotation.ToAngleAxis(out float playerAngle, out Vector3 playerAxis);
-			
-			float angleDelta = Vector2.SignedAngle(cameraFacing, playerFacing);
-			float turnSpeed = CameraTurnSpeed + CameraTurnSpeedScale * speed;
-			if (angleDelta < -CameraTurnDeadZone)
-			{
-				// if (turnSpeed > angleDelta) {
-                //     CameraScript.Turn(angleDelta);
-                // } else 
-				{
-					CameraScript.Turn(turnSpeed * Time.deltaTime);
-				}
-			}
-			else if (angleDelta > CameraTurnDeadZone)
-			{
-				// CameraScript.Turn(-turnSpeed * Time.deltaTime);
-                
-				// if (turnSpeed < angleDelta)
-                // {
-                //     CameraScript.Turn(angleDelta);
-                // }
-                // else
-                {
-                    CameraScript.Turn(-turnSpeed * Time.deltaTime);
-                }
-
-            }
-		
-
-			infoText += "camera forward: " + cameraFacing + "\n";
-			infoText += "player forward: " + playerFacing + "\n";
-			infoText += "angle delta: " + angleDelta + "\n";
-		
-		}
 		
 		if (InfoPane != null) {
 			InfoPane.text = infoText;	

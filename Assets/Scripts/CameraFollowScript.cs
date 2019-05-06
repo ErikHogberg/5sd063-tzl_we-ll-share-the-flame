@@ -10,14 +10,20 @@ public class CameraFollowScript : MonoBehaviour
     public float turnSpeedX = 4.0f;
     public float turnSpeedY = 2.0f;
     public float scrollSpeed = 1.1f;
-    public Transform player;
+    public Transform PositionAnchor;
+    public Transform AngleAnchor;
 
     private Vector3 offset;
 	// public Vector2 Distance = new Vector2(8.0f, 7.0f);
 
+	public bool AutoTurning = true;
+    public float CameraTurnSpeed = 1.0f;
+    public float CameraTurnSpeedScale = 1.0f;
+    public float CameraTurnDeadZone = 1.0f;
+
     void Start()
     {
-        Vector3 distance = transform.position - player.transform.position;
+        Vector3 distance = transform.position - PositionAnchor.transform.position;
         offset = distance;
 		
         // InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
@@ -57,19 +63,60 @@ public class CameraFollowScript : MonoBehaviour
 		if (Keyboard.current.oKey.isPressed ) {
 			offset *= 1.0f + scrollSpeed * Time.deltaTime;
 		}
-		// Vector2 scroll = Mouse.current.scroll.ReadValue();
-		// offset *= 1.0f + scroll.y;
+        // Vector2 scroll = Mouse.current.scroll.ReadValue();
+        // offset *= 1.0f + scroll.y;
 
-		transform.position = player.position + offset;
-        transform.LookAt(player.position);
+        // Turning camera
+        if (AutoTurning) {
+
+            // TODO: quickly move the camera behind the player when they face the camera
+
+            Vector2 cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
+            Vector2 playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
+
+            // Camera.transform.rotation.ToAngleAxis(out float cameraAngle, out Vector3 cameraAxis);
+            // transform.rotation.ToAngleAxis(out float playerAngle, out Vector3 playerAxis);
+
+            float angleDelta = Vector2.SignedAngle(cameraFacing, playerFacing);
+            float turnSpeed = CameraTurnSpeed + CameraTurnSpeedScale;// * speed;
+            if (angleDelta < -CameraTurnDeadZone)
+            {
+                // if (turnSpeed > angleDelta) {
+                //     CameraScript.Turn(angleDelta);
+                // } else 
+                {
+                    Turn(turnSpeed * Time.deltaTime);
+                }
+            }
+            else if (angleDelta > CameraTurnDeadZone)
+            {
+                // CameraScript.Turn(-turnSpeed * Time.deltaTime);
+
+                // if (turnSpeed < angleDelta)
+                // {
+                //     CameraScript.Turn(angleDelta);
+                // }
+                // else
+                {
+                    Turn(-turnSpeed * Time.deltaTime);
+                }
+
+            }
+
+        }
+
+		// TODO: restrict pitch
+
+		transform.position = PositionAnchor.position + offset;
+        transform.LookAt(PositionAnchor.position);
     }
 
     public void Turn(float AngleDelta) {
             
             offset = Quaternion.AngleAxis(AngleDelta, Vector3.up) * offset;
             
-            transform.position = player.position + offset;
-            transform.LookAt(player.position);
+            transform.position = PositionAnchor.position + offset;
+            transform.LookAt(PositionAnchor.position);
     }
 
 }
