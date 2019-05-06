@@ -2,11 +2,7 @@
 using UnityEngine.Experimental.Input;
 using WiimoteApi;
 
-public enum RotationMethod {
-	World,
-	Self,
-	LocalRotation
-}
+
 public class NozzleScript : MonoBehaviour {
 
 	[SerializeField]
@@ -36,9 +32,13 @@ public class NozzleScript : MonoBehaviour {
 	// wiimote
 	private Wiimote wiimote;
 	private Vector3 wmpOffset = Vector3.zero;
-	public RotationMethod RotationMethod = RotationMethod.LocalRotation;
 
-	private Quaternion orientationBuffer = Quaternion.identity;
+	//private Quaternion orientationBuffer = Quaternion.AngleAxis(60, Vector3.right);
+	private float yaw = 0.0f;
+	private float pitch = 90.0f;
+	public Vector3 angleOut = Vector3.zero;
+	public float MaxUpPitch = 85.0f;
+	public float MaxDownPitch = 45.0f;
 
 	void Start() {
 
@@ -92,7 +92,7 @@ public class NozzleScript : MonoBehaviour {
 						wiimote.MotionPlus.SetZeroValues();
 					}
 
-					
+
 
 					Vector3 offset = new Vector3(
 						wiimote.MotionPlus.PitchSpeed,
@@ -104,34 +104,24 @@ public class NozzleScript : MonoBehaviour {
 
 					wmpOffset += offset;
 
+					// TODO: re-aling using sensor bar
+
 					if (wiimote.Button.a) {
-                        // transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);						
-                        orientationBuffer = Quaternion.AngleAxis(90, transform.parent.right);
+						transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+						//orientationBuffer = Quaternion.AngleAxis(90, transform.parent.right);
 						// IDEA:
-                        wiimote.MotionPlus.SetZeroValues();
-                    }
-                    if (wiimote.Button.d_down) {
+						//wiimote.MotionPlus.SetZeroValues();
+					}
+					if (wiimote.Button.d_down) {
 						wmpOffset = Vector3.zero;
-                    }
+					}
+					if (wiimote.Button.d_up) {
+						wiimote.MotionPlus.SetZeroValues();
+					}
 
-					switch (RotationMethod) {
-						case RotationMethod.World:
-							transform.Rotate(offset, Space.World);
-							break;
-						case RotationMethod.Self:
-							transform.Rotate(offset, Space.Self);
-							break;
-						case RotationMethod.LocalRotation:
-                            // transform.localRotation = Quaternion.Euler(offset);					
-                            // transform.localRotation *= Quaternion.Euler(offset);
-                            orientationBuffer *= Quaternion.Euler(offset);
-                            transform.localRotation = Quaternion.identity
-							* orientationBuffer 
-							// * Quaternion.Euler(-wmpOffset)
-							;
 
-                            break;
-					}					
+					//orientationBuffer *= Quaternion.Euler(offset);
+					transform.localRotation *= Quaternion.Euler(offset);
 
 				}
 			} while (ret > 0);
@@ -151,12 +141,40 @@ public class NozzleScript : MonoBehaviour {
 			// TODO: limit angle
 			// IDEA: add "buffer" rotation that is assigned current rotation, but is capped to certain angles
 			if (AllowAimWithMouse) {
-				transform.Rotate(
-					Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
-					Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
-					0,
-					Space.World
-				);
+				//transform.Rotate(
+				//	Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
+				//	0,
+				//	Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
+				//	Space.World
+				//);
+
+				//orientationBuffer *= Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, new Vector3(transform.forward.x + 45.0f, 0, 0));
+				//orientationBuffer *= Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, Vector3.up);
+
+
+				//transform.localRotation *= Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, transform.InverseTransformVector(Vector3.up));
+				//transform.localRotation *= Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, transform.InverseTransformVector(transform.right));
+
+				yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
+				pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
+
+				// TODO: clamp pitch for motion controls
+				if (pitch < 90.0f - MaxUpPitch) {
+					pitch = 90.0f - MaxUpPitch;
+				} else
+				if (pitch > 90.0f + MaxDownPitch) {
+					pitch = 90.0f + MaxDownPitch;
+				}
+
+				//*
+				transform.localRotation = Quaternion.identity
+					* Quaternion.AngleAxis(yaw, Vector3.up)
+					* Quaternion.AngleAxis(pitch, Vector3.right)
+					;
+				// */
+
+				//transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
+
 			}
 
 		} else {
@@ -168,6 +186,43 @@ public class NozzleScript : MonoBehaviour {
 			}
 		}
 
+		//float yaw = Mathf.Asin(2 * orientationBuffer.x * orientationBuffer.y + 2 * orientationBuffer.z * orientationBuffer.w);
+		//float pitch = Mathf.Atan2(2 * orientationBuffer.x * orientationBuffer.w - 2 * orientationBuffer.y * orientationBuffer.z, 1 - 2 * orientationBuffer.x * orientationBuffer.x - 2 * orientationBuffer.z * orientationBuffer.z);
+		//float roll = Mathf.Atan2(2 * orientationBuffer.y * orientationBuffer.w - 2 * orientationBuffer.x * orientationBuffer.z, 1 - 2 * orientationBuffer.y * orientationBuffer.y - 2 * orientationBuffer.z * orientationBuffer.z);
+		//Vector3 eulerAngles = new Vector3(yaw, pitch, roll) * Mathf.Rad2Deg;
+		//angleOut = eulerAngles;
+
+		//angleOut = transform.forward;
+		angleOut = new Vector3(yaw, pitch, 0);
+
+		/*
+		Vector3 eulerAngles = transform.eulerAngles;
+		if (eulerAngles.z < 180.0f) {
+			if (eulerAngles.x < 90.0f - MaxUpPitch ) {
+				eulerAngles.x = 90.0f - MaxUpPitch;
+			}
+		} else {
+			if (eulerAngles.x < 90.0f - MaxDownPitch) {
+				eulerAngles.x = 90.0f - MaxDownPitch;
+			}
+		}
+		//eulerAngles.x = Mathf.Clamp(eulerAngles.x, 15, 90);
+		transform.eulerAngles = eulerAngles;
+		// */
+
+		/*
+		if (forward.x < 0.01f) {
+			.x = 5.0f;
+		} else if (forward.x > 135.0f) {
+			eulerAngles.x = 135.0f;
+		}
+
+		orientationBuffer.eulerAngles = eulerAngles;
+
+		// */
+
+
+		// TODO: Apply spread change to all relevant particle effects
 		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
 		/*
 		if (keyboard.lKey.isPressed) {
@@ -201,7 +256,7 @@ public class NozzleScript : MonoBehaviour {
 
 		}
 		*/
-	
+
 	}
 
 }
