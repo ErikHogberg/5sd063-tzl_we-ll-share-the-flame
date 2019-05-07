@@ -21,8 +21,7 @@ public class CameraFollowScript : MonoBehaviour
     public float CameraTurnSpeedScale = 1.0f;
     public float CameraTurnDeadZone = 1.0f;
 
-    void Start()
-    {
+    void Start() {
         Vector3 distance = transform.position - PositionAnchor.transform.position;
         offset = distance;
 		
@@ -57,12 +56,20 @@ public class CameraFollowScript : MonoBehaviour
             //offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up);
         }
 
-		if (Keyboard.current.iKey.isPressed && Vector3.Magnitude(offset) > 0.1f ) {
+		if ((Keyboard.current.iKey.isPressed ) && Vector3.Magnitude(offset) > 0.1f ) {
 			offset *= 1.0f - scrollSpeed * Time.deltaTime;
 		}
 		if (Keyboard.current.oKey.isPressed ) {
 			offset *= 1.0f + scrollSpeed * Time.deltaTime;
 		}
+
+		// float scroll = Mouse.current. .mouseScrollDelta.x;
+
+        // if ( (scroll > 0f && Vector3.Magnitude(offset) > 0.1f) ||scroll < 0f) {
+		// 	Debug.Log("scroll");
+        //     offset *= 1.0f + (scrollSpeed * scroll * Time.deltaTime);
+        // } 
+
         // Vector2 scroll = Mouse.current.scroll.ReadValue();
         // offset *= 1.0f + scroll.y;
 
@@ -79,17 +86,14 @@ public class CameraFollowScript : MonoBehaviour
 
             float angleDelta = Vector2.SignedAngle(cameraFacing, playerFacing);
             float turnSpeed = CameraTurnSpeed + CameraTurnSpeedScale;// * speed;
-            if (angleDelta < -CameraTurnDeadZone)
-            {
+            if (angleDelta < -CameraTurnDeadZone) {
                 // if (turnSpeed > angleDelta) {
                 //     CameraScript.Turn(angleDelta);
                 // } else 
                 {
                     Turn(turnSpeed * Time.deltaTime);
                 }
-            }
-            else if (angleDelta > CameraTurnDeadZone)
-            {
+            } else if (angleDelta > CameraTurnDeadZone) {
                 // CameraScript.Turn(-turnSpeed * Time.deltaTime);
 
                 // if (turnSpeed < angleDelta)
