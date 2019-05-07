@@ -41,11 +41,11 @@ public class NozzleScript : MonoBehaviour {
 	public float WiimoteSensetivityY = 1.0f;
 
 	private float wiimoteYaw = 0.0f;
-    private float wiimotePitch = 90.0f;
+	private float wiimotePitch = 90.0f;
 
-    public RectTransform ir_pointer;
+	public RectTransform ir_pointer;
 
-    private Timer ledTimer;
+	private Timer ledTimer;
 	private int ledState = 0;
 
 	void Start() {
@@ -79,20 +79,20 @@ public class NozzleScript : MonoBehaviour {
 
 			if (ledTimer.Update()) {
 				ledState++;
-				if(ledState > 3)
+				if (ledState > 3)
 					ledState = 0;
 
-                if (ledState == 0)
-                    wiimote.SendPlayerLED(true, true, false, false);
-                if (ledState == 1)
-                    wiimote.SendPlayerLED(false, true, true, false);
+				if (ledState == 0)
+					wiimote.SendPlayerLED(true, true, false, false);
+				if (ledState == 1)
+					wiimote.SendPlayerLED(false, true, true, false);
 				if (ledState == 2)
-                    wiimote.SendPlayerLED(false, false, true, true);
+					wiimote.SendPlayerLED(false, false, true, true);
 				if (ledState == 3)
-                    wiimote.SendPlayerLED(true, false, false, true);
+					wiimote.SendPlayerLED(true, false, false, true);
 
-                ledTimer.RestartWithDelta();
-            }
+				ledTimer.RestartWithDelta();
+			}
 
 			int ret;
 			do {
@@ -119,9 +119,9 @@ public class NozzleScript : MonoBehaviour {
 
 					wmpOffset += offset;
 
-					
-					wiimoteYaw += -offset.z * WiimoteSensetivityX;	
-                    wiimotePitch += offset.x * WiimoteSensetivityY;
+
+					wiimoteYaw += -offset.z * WiimoteSensetivityX;
+					wiimotePitch += offset.x * WiimoteSensetivityY;
 
 					yaw = wiimoteYaw;
 					pitch = wiimotePitch;
@@ -131,42 +131,35 @@ public class NozzleScript : MonoBehaviour {
 				}
 			} while (ret > 0);
 
-            if (keyboard.gKey.wasPressedThisFrame)
-            {
-                wmpOffset = Vector3.zero;
-            }
-            if (keyboard.hKey.wasPressedThisFrame)
-            {
-                wiimote.RequestIdentifyWiiMotionPlus();
-            }
-            if (keyboard.jKey.wasPressedThisFrame)
-            {
-                wiimote.MotionPlus.SetZeroValues();
-            }
-            // TODO: re-aling using sensor bar
+			if (keyboard.gKey.wasPressedThisFrame) {
+				wmpOffset = Vector3.zero;
+			}
+			if (keyboard.hKey.wasPressedThisFrame) {
+				wiimote.RequestIdentifyWiiMotionPlus();
+			}
+			if (keyboard.jKey.wasPressedThisFrame) {
+				wiimote.MotionPlus.SetZeroValues();
+			}
+			// TODO: re-aling using sensor bar
 
-            if (wiimote.Button.a)
-            {
-                // transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
-                wiimoteYaw = 0.0f;
-                wiimotePitch = 90.0f;
-                //wiimote.MotionPlus.SetZeroValues();
-            }
-            if (wiimote.Button.d_down)
-            {
-                wmpOffset = Vector3.zero;
-            }
-            if (wiimote.Button.d_up)
-            {
-                wiimote.MotionPlus.SetZeroValues();
-            }
-            if (wiimote.Button.d_right)
-            {
-                wiimote.SetupIRCamera(IRDataType.FULL);
-            }
+			if (wiimote.Button.a) {
+				// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+				wiimoteYaw = 0.0f;
+				wiimotePitch = 90.0f;
+				//wiimote.MotionPlus.SetZeroValues();
+			}
+			if (wiimote.Button.d_down) {
+				wmpOffset = Vector3.zero;
+			}
+			if (wiimote.Button.d_up) {
+				wiimote.MotionPlus.SetZeroValues();
+			}
+			if (wiimote.Button.d_right) {
+				wiimote.SetupIRCamera(IRDataType.FULL);
+			}
 
 
-            wiimoteFiring = wiimote.Button.b;
+			wiimoteFiring = wiimote.Button.b;
 		}
 
 		//if (Mouse.current.leftButton.isPressed) {
@@ -205,7 +198,7 @@ public class NozzleScript : MonoBehaviour {
 			}
 		}
 
-		
+
 		if (pitch < 90.0f - MaxUpPitch) {
 			pitch = 90.0f - MaxUpPitch;
 		} else
