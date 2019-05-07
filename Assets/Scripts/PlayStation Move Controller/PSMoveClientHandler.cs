@@ -9,7 +9,8 @@ public class PSMoveClientHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		PSM_Initialize("", "", 0);
+		int result = PSM_Initialize("localhost", "9512", 100);
+		//int result2 = PSM_Initialize("localhost", "9512", 100);
     }
 
     // Update is called once per frame
