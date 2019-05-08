@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -615,6 +615,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugKey: 1
   DownColor: {r: 1, g: 0, b: 0, a: 0.78431374}
+--- !u!4 &433066678 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4883142327949061640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &491188951
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,10 +752,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
+  Yaw: 0
+  Pitch: 0
+  Zoom: 10
   turnSpeedX: 4
   turnSpeedY: 2
   scrollSpeed: 0.9
-  player: {fileID: 4883142327949061641}
+  PositionAnchor: {fileID: 4883142327949061641}
+  AngleAnchor: {fileID: 433066678}
+  WheelchairScript: {fileID: 666897952}
+  AutoTurning: 1
+  CameraTurnSpeed: 1
+  CameraTurnSpeedScale: 1
+  CameraTurnDeadZone: 0
 --- !u!114 &534669907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,6 +780,18 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &666897952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4883142327949061640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a055575212a1d4293efc0030330672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &763975395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1824,7 @@ PrefabInstance:
     - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: AllowAimWithMouse
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4684145949526365910, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1809,6 +1836,21 @@ PrefabInstance:
       propertyPath: TriggerModule.collisionShape0
       value: 
       objectReference: {fileID: 1466136476}
+    - target: {fileID: 3304802695604273931, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304802695604273926, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304802695604273926, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85a03d8647d7c642afff3adbc6ddbd0, type: 3}
 --- !u!4 &4883142327949061641 stripped
