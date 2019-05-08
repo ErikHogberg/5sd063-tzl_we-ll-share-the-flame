@@ -1,4 +1,4 @@
- /**
+﻿ /**
  * UniMove API - A Unity plugin for the PlayStation Move motion controller
  * Copyright (C) 2012, 2013, Copenhagen Game Collective (http://www.cphgc.org)
  * 					         Patrick Jarnfelt
@@ -74,7 +74,7 @@ public class UniMoveTest : MonoBehaviour
 
 
 			// Remember to initialize!
-			if (!move.Init(i))
+			if (move.Init(i) != PSMove_Connect_Status.MoveConnect_OK)
 			{
 				Destroy(move);	// If it failed to initialize, destroy and continue on
 				continue;
@@ -94,8 +94,8 @@ public class UniMoveTest : MonoBehaviour
 
 				move.OnControllerDisconnected += HandleControllerDisconnected;
 
-				move.InitOrientation();
-				move.ResetOrientation();
+				//move.InitOrientation();
+				//move.ResetOrientation();
 
 				// Start all controllers with a white LED
 				move.SetLED(Color.white);
@@ -142,7 +142,7 @@ public class UniMoveTest : MonoBehaviour
 			// Remember to keep the controller leveled and pointing at the screen
 			// Reset once in a while because of drifting
 			else if(move.GetButtonDown(PSMoveButton.Move)) {
-				move.ResetOrientation();
+				//move.ResetOrientation();
 				moveObj.SetLED(Color.black);
 				move.SetLED(Color.black);
 			}
