@@ -2344,6 +2344,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1823821827}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &184549850 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1823821827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &186983652 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 666394524065433378, guid: a80040a5e7f619943bc70f445d8eff85,
@@ -4970,6 +4976,7 @@ GameObject:
   - component: {fileID: 396790705}
   - component: {fileID: 396790704}
   - component: {fileID: 396790707}
+  - component: {fileID: 396790708}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5058,6 +5065,19 @@ MonoBehaviour:
   turnSpeedY: 2
   scrollSpeed: 1.1
   player: {fileID: 181047232}
+--- !u!114 &396790708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396790703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c23fe90a462a9488c916059c3f4f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 184549850}
 --- !u!1001 &408345735
 PrefabInstance:
   m_ObjectHideFlags: 0
