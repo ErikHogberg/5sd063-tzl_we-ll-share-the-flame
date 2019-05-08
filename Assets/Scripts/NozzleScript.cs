@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Input;
 using WiimoteApi;
-
+using Assets.Scripts.Utilities;
 
 public class NozzleScript : MonoBehaviour {
 
@@ -28,6 +28,10 @@ public class NozzleScript : MonoBehaviour {
 	public float FoamSwitchSpeed = 0.1f;
 
 	public bool AllowAimWithMouse = false;
+	private float yaw = 0.0f;
+	private float pitch = 90.0f;
+	public float MaxUpPitch = 85.0f;
+	public float MaxDownPitch = 45.0f;
 
 	// wiimote
 	private Wiimote wiimote;
@@ -36,10 +40,13 @@ public class NozzleScript : MonoBehaviour {
 	public float WiimoteSensetivityX = 1.0f;
 	public float WiimoteSensetivityY = 1.0f;
 
-	private float yaw = 0.0f;
-	private float pitch = 90.0f;
-	public float MaxUpPitch = 85.0f;
-	public float MaxDownPitch = 45.0f;
+	private float wiimoteYaw = 0.0f;
+	private float wiimotePitch = 90.0f;
+
+	public RectTransform ir_pointer;
+
+	private Timer ledTimer;
+	private int ledState = 0;
 
 	void Start() {
 
@@ -55,6 +62,8 @@ public class NozzleScript : MonoBehaviour {
 		action.performed += _ => { firing = true; };
 		action.cancelled += _ => { firing = false; };
 		action.Enable();
+
+		ledTimer = new Timer(0.1f);
 	}
 
 	void Update() {
@@ -67,6 +76,23 @@ public class NozzleScript : MonoBehaviour {
 			WiimoteManager.FindWiimotes();
 		} else {
 			wiimote = WiimoteManager.Wiimotes[0];
+
+			if (ledTimer.Update()) {
+				ledState++;
+				if (ledState > 3)
+					ledState = 0;
+
+				if (ledState == 0)
+					wiimote.SendPlayerLED(true, true, false, false);
+				if (ledState == 1)
+					wiimote.SendPlayerLED(false, true, true, false);
+				if (ledState == 2)
+					wiimote.SendPlayerLED(false, false, true, true);
+				if (ledState == 3)
+					wiimote.SendPlayerLED(true, false, false, true);
+
+				ledTimer.RestartWithDelta();
+			}
 
 			int ret;
 			do {
@@ -82,15 +108,6 @@ public class NozzleScript : MonoBehaviour {
 					wiimote.RequestIdentifyWiiMotionPlus();
 					wiimote.ActivateWiiMotionPlus();
 				} else {
-					if (keyboard.gKey.wasPressedThisFrame) {
-						wmpOffset = Vector3.zero;
-					}
-					if (keyboard.hKey.wasPressedThisFrame) {
-						wiimote.RequestIdentifyWiiMotionPlus();
-					}
-					if (keyboard.jKey.wasPressedThisFrame) {
-						wiimote.MotionPlus.SetZeroValues();
-					}
 
 					Vector3 offset = new Vector3(
 						wiimote.MotionPlus.PitchSpeed,
@@ -102,29 +119,45 @@ public class NozzleScript : MonoBehaviour {
 
 					wmpOffset += offset;
 
-					// TODO: re-aling using sensor bar
 
-					if (wiimote.Button.a) {
-						// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
-						yaw = 0.0f;
-                        pitch = 90.0f;
-						//wiimote.MotionPlus.SetZeroValues();
-					}
-					if (wiimote.Button.d_down) {
-						wmpOffset = Vector3.zero;
-					}
-					if (wiimote.Button.d_up) {
-						wiimote.MotionPlus.SetZeroValues();
-					}
+					wiimoteYaw += -offset.z * WiimoteSensetivityX;
+					wiimotePitch += offset.x * WiimoteSensetivityY;
 
-					yaw += -offset.z * WiimoteSensetivityX;	
-                    pitch += offset.x * WiimoteSensetivityY;
-
+					yaw = wiimoteYaw;
+					pitch = wiimotePitch;
 
 					// transform.localRotation *= Quaternion.Euler(offset);
 
 				}
 			} while (ret > 0);
+
+			if (keyboard.gKey.wasPressedThisFrame) {
+				wmpOffset = Vector3.zero;
+			}
+			if (keyboard.hKey.wasPressedThisFrame) {
+				wiimote.RequestIdentifyWiiMotionPlus();
+			}
+			if (keyboard.jKey.wasPressedThisFrame) {
+				wiimote.MotionPlus.SetZeroValues();
+			}
+			// TODO: re-aling using sensor bar
+
+			if (wiimote.Button.a) {
+				// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+				wiimoteYaw = 0.0f;
+				wiimotePitch = 90.0f;
+				//wiimote.MotionPlus.SetZeroValues();
+			}
+			if (wiimote.Button.d_down) {
+				wmpOffset = Vector3.zero;
+			}
+			if (wiimote.Button.d_up) {
+				wiimote.MotionPlus.SetZeroValues();
+			}
+			if (wiimote.Button.d_right) {
+				wiimote.SetupIRCamera(IRDataType.FULL);
+			}
+
 
 			wiimoteFiring = wiimote.Button.b;
 		}
@@ -165,7 +198,7 @@ public class NozzleScript : MonoBehaviour {
 			}
 		}
 
-		
+
 		if (pitch < 90.0f - MaxUpPitch) {
 			pitch = 90.0f - MaxUpPitch;
 		} else
