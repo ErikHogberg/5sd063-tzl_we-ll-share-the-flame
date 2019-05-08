@@ -33,10 +33,11 @@ public class NozzleScript : MonoBehaviour {
 	private Wiimote wiimote;
 	private Vector3 wmpOffset = Vector3.zero;
 
-	//private Quaternion orientationBuffer = Quaternion.AngleAxis(60, Vector3.right);
+	public float WiimoteSensetivityX = 1.0f;
+	public float WiimoteSensetivityY = 1.0f;
+
 	private float yaw = 0.0f;
 	private float pitch = 90.0f;
-	public Vector3 angleOut = Vector3.zero;
 	public float MaxUpPitch = 85.0f;
 	public float MaxDownPitch = 45.0f;
 
@@ -48,14 +49,11 @@ public class NozzleScript : MonoBehaviour {
 			particles.Pause();
 		}
 
-		// Create action that binds to the primary action control on all devices.
 		// var action = new InputAction(binding: "*/{primaryAction}");
 		//  var action = new InputAction(binding: "shooter/{shoot}");
 		InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
-		// Have it run your code when action is triggered.
 		action.performed += _ => { firing = true; };
 		action.cancelled += _ => { firing = false; };
-		// Start listening for control changes.
 		action.Enable();
 	}
 
@@ -73,6 +71,8 @@ public class NozzleScript : MonoBehaviour {
 			int ret;
 			do {
 				ret = wiimote.ReadWiimoteData();
+
+				// FIXME: ret returns less than 1 when reporting motion plus rotation
 				// if (ret < 1) {
 				// 	Debug.Log("ret less than 1");
 				// 	continue;
@@ -92,8 +92,6 @@ public class NozzleScript : MonoBehaviour {
 						wiimote.MotionPlus.SetZeroValues();
 					}
 
-
-
 					Vector3 offset = new Vector3(
 						wiimote.MotionPlus.PitchSpeed,
 						0,
@@ -107,9 +105,9 @@ public class NozzleScript : MonoBehaviour {
 					// TODO: re-aling using sensor bar
 
 					if (wiimote.Button.a) {
-						transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
-						//orientationBuffer = Quaternion.AngleAxis(90, transform.parent.right);
-						// IDEA:
+						// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+						yaw = 0.0f;
+                        pitch = 90.0f;
 						//wiimote.MotionPlus.SetZeroValues();
 					}
 					if (wiimote.Button.d_down) {
@@ -119,9 +117,11 @@ public class NozzleScript : MonoBehaviour {
 						wiimote.MotionPlus.SetZeroValues();
 					}
 
+					yaw += -offset.z * WiimoteSensetivityX;	
+                    pitch += offset.x * WiimoteSensetivityY;
 
-					//orientationBuffer *= Quaternion.Euler(offset);
-					transform.localRotation *= Quaternion.Euler(offset);
+
+					// transform.localRotation *= Quaternion.Euler(offset);
 
 				}
 			} while (ret > 0);
@@ -148,32 +148,11 @@ public class NozzleScript : MonoBehaviour {
 				//	Space.World
 				//);
 
-				//orientationBuffer *= Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, new Vector3(transform.forward.x + 45.0f, 0, 0));
-				//orientationBuffer *= Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, Vector3.up);
-
-
 				//transform.localRotation *= Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, transform.InverseTransformVector(Vector3.up));
 				//transform.localRotation *= Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, transform.InverseTransformVector(transform.right));
 
 				yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
 				pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
-
-				// TODO: clamp pitch for motion controls
-				if (pitch < 90.0f - MaxUpPitch) {
-					pitch = 90.0f - MaxUpPitch;
-				} else
-				if (pitch > 90.0f + MaxDownPitch) {
-					pitch = 90.0f + MaxDownPitch;
-				}
-
-				//*
-				transform.localRotation = Quaternion.identity
-					* Quaternion.AngleAxis(yaw, Vector3.up)
-					* Quaternion.AngleAxis(pitch, Vector3.right)
-					;
-				// */
-
-				//transform.localRotation = Quaternion.Euler(yaw, pitch, 0);
 
 			}
 
@@ -186,41 +165,18 @@ public class NozzleScript : MonoBehaviour {
 			}
 		}
 
-		//float yaw = Mathf.Asin(2 * orientationBuffer.x * orientationBuffer.y + 2 * orientationBuffer.z * orientationBuffer.w);
-		//float pitch = Mathf.Atan2(2 * orientationBuffer.x * orientationBuffer.w - 2 * orientationBuffer.y * orientationBuffer.z, 1 - 2 * orientationBuffer.x * orientationBuffer.x - 2 * orientationBuffer.z * orientationBuffer.z);
-		//float roll = Mathf.Atan2(2 * orientationBuffer.y * orientationBuffer.w - 2 * orientationBuffer.x * orientationBuffer.z, 1 - 2 * orientationBuffer.y * orientationBuffer.y - 2 * orientationBuffer.z * orientationBuffer.z);
-		//Vector3 eulerAngles = new Vector3(yaw, pitch, roll) * Mathf.Rad2Deg;
-		//angleOut = eulerAngles;
-
-		//angleOut = transform.forward;
-		angleOut = new Vector3(yaw, pitch, 0);
-
-		/*
-		Vector3 eulerAngles = transform.eulerAngles;
-		if (eulerAngles.z < 180.0f) {
-			if (eulerAngles.x < 90.0f - MaxUpPitch ) {
-				eulerAngles.x = 90.0f - MaxUpPitch;
-			}
-		} else {
-			if (eulerAngles.x < 90.0f - MaxDownPitch) {
-				eulerAngles.x = 90.0f - MaxDownPitch;
-			}
-		}
-		//eulerAngles.x = Mathf.Clamp(eulerAngles.x, 15, 90);
-		transform.eulerAngles = eulerAngles;
-		// */
-
-		/*
-		if (forward.x < 0.01f) {
-			.x = 5.0f;
-		} else if (forward.x > 135.0f) {
-			eulerAngles.x = 135.0f;
+		
+		if (pitch < 90.0f - MaxUpPitch) {
+			pitch = 90.0f - MaxUpPitch;
+		} else
+		if (pitch > 90.0f + MaxDownPitch) {
+			pitch = 90.0f + MaxDownPitch;
 		}
 
-		orientationBuffer.eulerAngles = eulerAngles;
-
-		// */
-
+		transform.localRotation = Quaternion.identity
+			* Quaternion.AngleAxis(yaw, Vector3.up)
+			* Quaternion.AngleAxis(pitch, Vector3.right)
+			;
 
 		// TODO: Apply spread change to all relevant particle effects
 		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
@@ -255,7 +211,7 @@ public class NozzleScript : MonoBehaviour {
 			}
 
 		}
-		*/
+		//*/
 
 	}
 
