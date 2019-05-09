@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.UI;
 
 public class CameraFollowScript : MonoBehaviour {
 
@@ -7,7 +8,7 @@ public class CameraFollowScript : MonoBehaviour {
 	private InputActionAsset controls;
 
     public float Yaw = 0.0f;
-    public float Pitch = 0.0f;
+    public float Pitch = 30.0f;
     public float Zoom = 10.0f;
 
 
@@ -27,7 +28,9 @@ public class CameraFollowScript : MonoBehaviour {
 	public float CameraTurnSpeedScale = 1.0f;
 	public float CameraTurnDeadZone = 1.0f;
 
-	void Start() {
+    public Text InfoPane;
+
+    void Start() {
 		Vector3 distance = transform.position - PositionAnchor.transform.position;
 		offset = distance;
 
@@ -49,7 +52,10 @@ public class CameraFollowScript : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		if (Mouse.current.rightButton.isPressed) {
+
+        string infoText = "";
+
+        if (Mouse.current.rightButton.isPressed) {
 
             //Mouse.current.position.x.ReadValue()
 
@@ -102,14 +108,24 @@ public class CameraFollowScript : MonoBehaviour {
 			float angleDelta = Vector2.SignedAngle(cameraFacing, playerFacing);
 			float turnSpeed = CameraTurnSpeed + CameraTurnSpeedScale * wheelchairSpeed;
 			float tempSpeed = turnSpeed * Time.deltaTime;
-			if (angleDelta < -CameraTurnDeadZone) {
+			infoText += "speed: " + tempSpeed + "\n";
+			infoText += "Yaw: " + Yaw + "\n";
+            infoText += "Pitch: " + Pitch + "\n";
+            infoText += "delta: " + angleDelta + "\n";
+
+            float playerAngle = Vector2.SignedAngle(Vector2.up, playerFacing);
+            infoText += "player angle: " + playerAngle + "\n";
+
+
+            if (angleDelta < -CameraTurnDeadZone) {
 				Turn(tempSpeed);
 				
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
 				if (Vector2.SignedAngle(cameraFacing, playerFacing) > CameraTurnDeadZone) {
-					Yaw = CameraTurnDeadZone + 180f;
+					Yaw = -CameraTurnDeadZone - 180f - playerAngle;
+                    // Yaw = CameraTurnDeadZone + 180f;
 					// UpdateOffset();
 				}
 			} else if (angleDelta > CameraTurnDeadZone) {
@@ -119,7 +135,7 @@ public class CameraFollowScript : MonoBehaviour {
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
 				if (Vector2.SignedAngle(cameraFacing, playerFacing) < -CameraTurnDeadZone) {
-					Yaw = -CameraTurnDeadZone + 180f;
+					Yaw = CameraTurnDeadZone + 180f - playerAngle;
 					// UpdateOffset();
 				}
 			}
@@ -129,6 +145,10 @@ public class CameraFollowScript : MonoBehaviour {
 		// TODO: restrict pitch
 
 		UpdateOffset();
+
+		if (InfoPane != null) {
+			InfoPane.text = infoText;
+		}
 	}
 
 	public void Turn(float AngleDelta) {
@@ -142,7 +162,7 @@ public class CameraFollowScript : MonoBehaviour {
 	private void UpdateOffset(){
 		offset =
         Quaternion.AngleAxis(Yaw, Vector3.up)
-            * Quaternion.AngleAxis(Pitch, Vector3.right)
+            * Quaternion.AngleAxis(Pitch, Vector3.left)
          	* Vector3.forward * Zoom
 		 ;
 
