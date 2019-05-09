@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UniMoveExtended Eric Itomura, 2013
  * http://eric.itomura.org/unimovex
  **/ 

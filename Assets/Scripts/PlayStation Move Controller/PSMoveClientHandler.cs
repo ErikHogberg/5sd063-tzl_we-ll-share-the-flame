@@ -16,6 +16,7 @@ public class PSMoveClientHandler : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+
 		//int result = PSM_Initialize("localhost", "9512", 100);
 		//{
 		//	InputAction action = controls.TryGetActionMap("shooter").TryGetAction("yaw");
@@ -40,6 +41,9 @@ public class PSMoveClientHandler : MonoBehaviour
     {
 		if (Keyboard.current.xKey.wasPressedThisFrame) {
 			Debug.Log("psmove count: " + psmove_count_connected());
+			IntPtr handle = psmove_connect_by_id(0);
+
+			Debug.Log("handle: " + handle + ", " + IntPtr.Zero + ", " + psmove_update_leds(handle));
 		}
     }
 
@@ -47,4 +51,8 @@ public class PSMoveClientHandler : MonoBehaviour
 	//private static extern int PSM_Initialize(string host, string port, int timeout_ms);
 	[DllImport("libpsmoveapi")]
 	private static extern int psmove_count_connected();
+	[DllImport("libpsmoveapi")]
+	private static extern IntPtr psmove_connect_by_id(int id);
+	[DllImport("libpsmoveapi")]
+	private static extern int psmove_update_leds(IntPtr move);
 }
