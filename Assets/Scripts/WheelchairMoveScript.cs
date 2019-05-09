@@ -259,7 +259,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 
 		// moving wheels
-		LeftWheel.transform.Rotate(WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 
 		if (InfoPane != null) {

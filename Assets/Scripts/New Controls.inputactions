@@ -110,6 +110,36 @@
                     "processors": "",
                     "interactions": "",
                     "bindings": []
+                },
+                {
+                    "name": "yaw",
+                    "id": "dc4a57e2-ff19-48ad-913d-3f66c1f28f96",
+                    "expectedControlLayout": "",
+                    "continuous": false,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
+                },
+                {
+                    "name": "Pitch",
+                    "id": "244a024d-adb0-48e1-a261-a0c9f18d90a3",
+                    "expectedControlLayout": "",
+                    "continuous": false,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
+                },
+                {
+                    "name": "Roll",
+                    "id": "c5d3f8d6-5be8-4ed6-bd77-9a998db00c34",
+                    "expectedControlLayout": "",
+                    "continuous": false,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
                 }
             ],
             "bindings": [
@@ -120,6 +150,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "shoot",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<PS4MoveController>/circle",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "yaw",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<HID::Sony Computer Entertainment Motion Controller>/Stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "yaw",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<HID::Sony Computer Entertainment Motion Controller>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pitch",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<HID::Sony Computer Entertainment Motion Controller>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": false,
@@ -142,7 +220,7 @@
                     "bindings": []
                 },
                 {
-                    "name": "zoomout",
+                    "name": "zoom out",
                     "id": "af18d8fe-1e1e-4fee-bd06-02f82d9d9077",
                     "expectedControlLayout": "",
                     "continuous": false,
@@ -154,7 +232,7 @@
                 {
                     "name": "zoom",
                     "id": "7ba228d3-200a-4176-aa34-5f3f98dfd4b5",
-                    "expectedControlLayout": "",
+                    "expectedControlLayout": "Axis",
                     "continuous": false,
                     "passThrough": false,
                     "processors": "",
@@ -177,23 +255,11 @@
                 },
                 {
                     "name": "",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "zoom in",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
                     "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "zoomout",
+                    "action": "zoom out",
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": false,
@@ -201,19 +267,7 @@
                 },
                 {
                     "name": "",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "zoomout",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "path": "<Mouse>/scroll",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
