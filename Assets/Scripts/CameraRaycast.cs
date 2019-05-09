@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CameraRaycast : MonoBehaviour
 {
-	public Transform player;
+	public Transform MainCamera;
 	private GameObject objectToHide = null;
 
 	void Update() {
-		Vector3 heading = player.position - transform.position;
+		Vector3 heading = MainCamera.position - transform.position;
 		float distance = heading.magnitude;
 		Vector3 direction = heading / distance;
 
@@ -16,6 +16,8 @@ public class CameraRaycast : MonoBehaviour
 		RaycastHit hit;
 
 		if(Physics.Raycast(ray, out hit)) {
+			Debug.DrawRay(transform.position, direction, Color.green, 10f);
+			Debug.Log(hit.collider.name);
 			if(hit.collider.CompareTag("Building")) {
 				if(objectToHide != null) {
 					objectToHide.GetComponent<MeshRenderer>().enabled = true;
