@@ -5062,7 +5062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
   Yaw: 0
-  Pitch: 0
+  Pitch: 20
   Zoom: 10
   turnSpeedX: 4
   turnSpeedY: 2
@@ -5071,9 +5071,10 @@ MonoBehaviour:
   AngleAnchor: {fileID: 184549850}
   WheelchairScript: {fileID: 1857260657}
   AutoTurning: 1
-  CameraTurnSpeed: 1
-  CameraTurnSpeedScale: 1
+  CameraTurnSpeed: 500
+  CameraTurnSpeedScale: 10
   CameraTurnDeadZone: 1
+  InfoPane: {fileID: 0}
 --- !u!114 &396790708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25818,6 +25819,11 @@ PrefabInstance:
         type: 3}
       propertyPath: UseMouse
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: TurningSpeed
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
