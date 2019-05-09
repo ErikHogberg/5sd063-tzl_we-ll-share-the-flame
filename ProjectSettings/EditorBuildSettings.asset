@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Erik/playtest progress.unity
     guid: 7fa5a6839f213314485c4ffa4d9950cd
+  - enabled: 1
+    path: Assets/Scripts/PlayStation Move Controller/psmoveTestScene.unity
+    guid: 511167752a569457597d194b31100305
   m_configObjects: {}
