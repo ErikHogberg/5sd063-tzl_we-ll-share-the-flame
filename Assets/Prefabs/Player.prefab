@@ -446,7 +446,7 @@ MonoBehaviour:
   DriftDampingAdd: 10
   DriftDampingMul: 2
   DriftScale: 0.1
-  WheelRotationAxis: {x: 0, y: 0, z: 1}
+  WheelRotationAxis: {x: 1, y: 0, z: 0}
   InfoPane: {fileID: 0}
   EnableCollision: 0
 --- !u!65 &6929900565973988701
@@ -855,25 +855,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
-        type: 3}
-      propertyPath: m_Name
-      value: Left Wheel
-      objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.1
+      value: -0.856
       objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.08
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
@@ -914,6 +909,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
+        type: 3}
+      propertyPath: m_Name
+      value: Left Wheel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e8dd0c196667142998acc8905035b9, type: 3}
@@ -1161,25 +1161,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
-        type: 3}
-      propertyPath: m_Name
-      value: Right Wheel
-      objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.29
+      value: 0.857
       objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.46
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.19
+      value: -0.092
       objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
@@ -1220,6 +1215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
+        type: 3}
+      propertyPath: m_Name
+      value: Right Wheel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e8dd0c196667142998acc8905035b9, type: 3}
