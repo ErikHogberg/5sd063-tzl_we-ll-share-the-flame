@@ -45,6 +45,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	private float leftWheelSpeed = 0.0f;
 	private float rightWheelSpeed = 0.0f;
+	public Vector3 WheelRotationAxis = Vector3.down;
 
 	public Text InfoPane;
 
@@ -258,8 +259,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 
 		// moving wheels
-		LeftWheel.transform.Rotate(Vector3.down, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-		RightWheel.transform.Rotate(Vector3.down, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		LeftWheel.transform.Rotate(WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 
 		if (InfoPane != null) {
 			InfoPane.text = infoText;
