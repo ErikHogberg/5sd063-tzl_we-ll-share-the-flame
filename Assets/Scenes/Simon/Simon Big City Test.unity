@@ -5061,10 +5061,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
+  Yaw: 0
+  Pitch: 0
+  Zoom: 10
   turnSpeedX: 4
   turnSpeedY: 2
   scrollSpeed: 1.1
-  player: {fileID: 181047232}
+  PositionAnchor: {fileID: 181047232}
+  AngleAnchor: {fileID: 184549850}
+  WheelchairScript: {fileID: 1857260657}
+  AutoTurning: 1
+  CameraTurnSpeed: 1
+  CameraTurnSpeedScale: 1
+  CameraTurnDeadZone: 1
 --- !u!114 &396790708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26209,6 +26218,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1344386035}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1857260657 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1823821827}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a055575212a1d4293efc0030330672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1857806387
 PrefabInstance:
   m_ObjectHideFlags: 0

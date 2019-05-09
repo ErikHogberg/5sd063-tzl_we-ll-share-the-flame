@@ -4,16 +4,14 @@ using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
-public enum DebugKey
-{
+public enum DebugKey {
 	W,
 	S,
 	E,
 	D
 }
 
-public class ButtonPanelScript : MonoBehaviour
-{
+public class ButtonPanelScript : MonoBehaviour {
 
 	public DebugKey debugKey;
 	private UnityEngine.Experimental.Input.Controls.KeyControl key;
@@ -22,14 +20,12 @@ public class ButtonPanelScript : MonoBehaviour
 	public Color DownColor;
 
 	private Image image;
-		
-	void Start()
-	{
+
+	void Start() {
 		image = GetComponent<Image>();
 		defaultColor = image.color;
 
-		switch (debugKey)
-		{
+		switch (debugKey) {
 			case DebugKey.W:
 				key = Keyboard.current.wKey;
 				break;
@@ -47,15 +43,11 @@ public class ButtonPanelScript : MonoBehaviour
 		}
 	}
 
-	void Update()
-	{
+	void Update() {
 
-		if (key.isPressed)
-		{
+		if (key.isPressed) {
 			image.color = DownColor;
-		}
-		else
-		{
+		} else {
 			image.color = defaultColor;
 		}
 
