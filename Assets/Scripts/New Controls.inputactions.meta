@@ -10,7 +10,10 @@ ScriptedImporter:
     11400010: driver/right wheel backwards
     11400012: shooter/shoot
     11400014: debug/zoom in
-    11400020: debug/zoomout
+    11400018: shooter/Pitch
+    11400020: shooter/yaw
+    11400022: shooter/Roll
+    11400024: debug/zoom out
   externalObjects: {}
   userData: 
   assetBundleName: 
