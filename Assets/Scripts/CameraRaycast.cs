@@ -16,8 +16,6 @@ public class CameraRaycast : MonoBehaviour
 		RaycastHit hit;
 
 		if(Physics.Raycast(ray, out hit)) {
-			Debug.DrawRay(transform.position, direction, Color.green, 10f);
-			Debug.Log(hit.collider.name);
 			if(hit.collider.CompareTag("Building")) {
 				if(objectToHide != null) {
 					objectToHide.GetComponent<MeshRenderer>().enabled = true;
