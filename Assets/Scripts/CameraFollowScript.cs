@@ -37,17 +37,23 @@ public class CameraFollowScript : MonoBehaviour {
 		// InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
 
 		{
-			// FIXME: debug action map not triggering
-			InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoom in");
-			action.performed += _ => { offset *= scrollSpeed; Debug.Log("zoom in"); };
+			InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoom");
+			action.performed += _ => {
+				
+				Debug.Log("zoom");
+			};
+			action.Enable();
 		}
 
-		{
-			// InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
-			// FIXME: debug action map not triggering
-			InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoomout");
-			action.performed += _ => { offset *= 2.0f - scrollSpeed; Debug.Log("zoom out"); };
-		}
+		//{
+		//	// InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
+		//	// FIXME: debug action map not triggering
+		//	InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoom out");
+		//	action.performed += _ => {
+		//		Debug.Log("zoom out");
+		//	};
+		//	action.Enable();
+		//}
 
 	}
 
