@@ -154,54 +154,6 @@
                     "isComposite": false,
                     "isPartOfComposite": false,
                     "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "path": "<PS4MoveController>/circle",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "yaw",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "path": "<HID::Sony Computer Entertainment Motion Controller>/Stick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "yaw",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "path": "<HID::Sony Computer Entertainment Motion Controller>/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pitch",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "path": "<HID::Sony Computer Entertainment Motion Controller>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Roll",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
                 }
             ]
         },
@@ -260,18 +212,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "zoom out",
-                    "chainWithPrevious": false,
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "zoom",
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": false,
