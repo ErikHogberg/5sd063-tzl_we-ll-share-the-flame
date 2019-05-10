@@ -208,26 +208,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraSpots:
-  - AnchorObject: {fileID: 0}
-    StartYaw: 0
-    StartPitch: 0
-    Speed: 0
-    Time: 0
-  - AnchorObject: {fileID: 0}
-    StartYaw: 0
-    StartPitch: 0
-    Speed: 0
-    Time: 0
-  - AnchorObject: {fileID: 0}
-    StartYaw: 0
-    StartPitch: 0
-    Speed: 0
-    Time: 0
-  - AnchorObject: {fileID: 0}
-    StartYaw: 0
-    StartPitch: 0
-    Speed: 0
-    Time: 0
+  - AnchorObject: {fileID: 1112722392}
+    StartOrientation: {x: 0, y: 10, z: 0}
+    StartZoom: 3
+    Speed: {x: 1, y: 0, z: 0}
+    ZoomSpeed: 0
+    Time: 2
+  - AnchorObject: {fileID: 1716767035}
+    StartOrientation: {x: 90, y: 30, z: 0}
+    StartZoom: 5
+    Speed: {x: 2, y: 0, z: 0}
+    ZoomSpeed: 0
+    Time: 2
+  - AnchorObject: {fileID: 475872667}
+    StartOrientation: {x: -45, y: 60, z: 0}
+    StartZoom: 10
+    Speed: {x: 3, y: 0, z: 0}
+    ZoomSpeed: 1
+    Time: 3
 --- !u!1 &475872667
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +397,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112722392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.7, y: 0, z: 0}
+  m_LocalPosition: {x: -2.92, y: 3.3, z: 6.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 610884247}
@@ -630,7 +628,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1716767035}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11, y: 0, z: 0}
+  m_LocalPosition: {x: 0.81, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 610884247}
