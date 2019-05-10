@@ -31,8 +31,7 @@ public class WiimoteHandlerScript : MonoBehaviour {
 
 		var keyboard = Keyboard.current;
 
-		if (keyboard.yKey.wasPressedThisFrame)
-		{
+		if (keyboard.yKey.wasPressedThisFrame) {
 			HideGUI = !HideGUI;
 		}
 
@@ -106,15 +105,14 @@ public class WiimoteHandlerScript : MonoBehaviour {
 
 	void OnGUI() {
 
-		if (HideGUI)
-		{
+		if (HideGUI) {
 			return;
 		}
 
 		GUI.Box(new Rect(0, 0, 350, 700), "");
 
 		GUILayout.BeginVertical(GUILayout.Width(300));
-		
+
 		GUILayout.Label("Wiimote Found: " + WiimoteManager.HasWiimote());
 		if (GUILayout.Button("Find Wiimote"))
 			WiimoteManager.FindWiimotes();
@@ -269,27 +267,27 @@ public class WiimoteHandlerScript : MonoBehaviour {
 				GUILayout.Label("R: " + data.r);
 				GUILayout.Label("ZL: " + data.zl);
 				GUILayout.Label("ZR: " + data.zr);
-			// } else if (wiimote.current_ext == ExtensionController.GUITAR) {
-			// 	GUILayout.Label("Guitar", bold);
-			// 	GuitarData data = wiimote.Guitar;
-			// 	float[] stick = data.GetStick01();
-			// 	GUILayout.Label("Stick: " + stick[0] + ", " + stick[1]);
-			// 	GUILayout.Label("Slider: " + (data.has_slider ? Convert.ToString(data.GetSlider01()) : "unsupported"));
-			// 	GUILayout.Label("Green: " + data.green);
-			// 	GUILayout.Label("Red: " + data.red);
-			// 	GUILayout.Label("Yellow: " + data.yellow);
-			// 	GUILayout.Label("Blue: " + data.blue);
-			// 	GUILayout.Label("Orange: " + data.orange);
-			// 	GUILayout.Label("Strum Up: " + data.strum_up);
-			// 	GUILayout.Label("Strum Down: " + data.strum_down);
-			// 	GUILayout.Label("Minus: " + data.minus);
-			// 	GUILayout.Label("Plus: " + data.plus);
-			// 	GUILayout.Label("Whammy: " + data.GetWhammy01());
+				// } else if (wiimote.current_ext == ExtensionController.GUITAR) {
+				// 	GUILayout.Label("Guitar", bold);
+				// 	GuitarData data = wiimote.Guitar;
+				// 	float[] stick = data.GetStick01();
+				// 	GUILayout.Label("Stick: " + stick[0] + ", " + stick[1]);
+				// 	GUILayout.Label("Slider: " + (data.has_slider ? Convert.ToString(data.GetSlider01()) : "unsupported"));
+				// 	GUILayout.Label("Green: " + data.green);
+				// 	GUILayout.Label("Red: " + data.red);
+				// 	GUILayout.Label("Yellow: " + data.yellow);
+				// 	GUILayout.Label("Blue: " + data.blue);
+				// 	GUILayout.Label("Orange: " + data.orange);
+				// 	GUILayout.Label("Strum Up: " + data.strum_up);
+				// 	GUILayout.Label("Strum Down: " + data.strum_down);
+				// 	GUILayout.Label("Minus: " + data.minus);
+				// 	GUILayout.Label("Plus: " + data.plus);
+				// 	GUILayout.Label("Whammy: " + data.GetWhammy01());
 			}
 			GUILayout.EndScrollView();
 		} else {
-		// */
-		scrollPosition = Vector2.zero;
+			// */
+			scrollPosition = Vector2.zero;
 		}
 		GUILayout.EndVertical();
 	}
@@ -314,23 +312,23 @@ public class WiimoteHandlerScript : MonoBehaviour {
 		return new Vector3(accel_x, accel_y, accel_z).normalized;
 	}
 
-/*
-	[System.Serializable]
-	public class WiimoteModel {
-		public Transform rot;
-		public Renderer a;
-		public Renderer b;
-		public Renderer one;
-		public Renderer two;
-		public Renderer d_up;
-		public Renderer d_down;
-		public Renderer d_left;
-		public Renderer d_right;
-		public Renderer plus;
-		public Renderer minus;
-		public Renderer home;
-	}
-*/
+	/*
+		[System.Serializable]
+		public class WiimoteModel {
+			public Transform rot;
+			public Renderer a;
+			public Renderer b;
+			public Renderer one;
+			public Renderer two;
+			public Renderer d_up;
+			public Renderer d_down;
+			public Renderer d_left;
+			public Renderer d_right;
+			public Renderer plus;
+			public Renderer minus;
+			public Renderer home;
+		}
+	*/
 
 	void OnApplicationQuit() {
 		if (wiimote != null) {

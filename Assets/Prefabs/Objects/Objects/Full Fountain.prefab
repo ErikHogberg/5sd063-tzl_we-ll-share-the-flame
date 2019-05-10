@@ -40,7 +40,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7507739008700267560}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.97838145
@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
@@ -182,10 +182,70 @@ PrefabInstance:
       propertyPath: InitialModule.startLifetime.scalar
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: ShapeModule.arc.mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.size3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: useUnscaledTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: scalingMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838672926218441, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: autoRandomSeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9193838672421148705, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
