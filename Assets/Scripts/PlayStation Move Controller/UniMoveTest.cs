@@ -74,7 +74,7 @@ public class UniMoveTest : MonoBehaviour
 
 
 			// Remember to initialize!
-			if (move.Init(i) != PSMove_Connect_Status.MoveConnect_OK)
+			if (!move.Init(i))
 			{
 				Destroy(move);	// If it failed to initialize, destroy and continue on
 				continue;

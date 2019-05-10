@@ -33,6 +33,10 @@ public class NozzleScript : MonoBehaviour {
 	public float MaxUpPitch = 85.0f;
 	public float MaxDownPitch = 45.0f;
 
+    public bool FlipYaw = false;
+    public bool FlipPitch = false;
+    public bool FlipRoll = false;
+
 	// wiimote
 	private Wiimote wiimote;
 	private Vector3 wmpOffset = Vector3.zero;
@@ -106,7 +110,8 @@ public class NozzleScript : MonoBehaviour {
 
 				if (wiimote.current_ext != ExtensionController.MOTIONPLUS) {
 					wiimote.RequestIdentifyWiiMotionPlus();
-					wiimote.ActivateWiiMotionPlus();
+                    wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_EXT8);
+					wiimote.ActivateWiiMotionPlus();					
 				} else {
 
 					Vector3 offset = new Vector3(
