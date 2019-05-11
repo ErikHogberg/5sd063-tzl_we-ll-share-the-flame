@@ -36,16 +36,16 @@ public class NozzleScript : MonoBehaviour {
     public bool FlipYaw = false;
     public bool FlipPitch = false;
     public bool FlipRoll = false;
+	public bool IgnoreRoll = true;
 
 	// wiimote
 	private Wiimote wiimote;
-	private Vector3 wmpOffset = Vector3.zero;
 
-	public float WiimoteSensetivityX = 1.0f;
-	public float WiimoteSensetivityY = 1.0f;
+	public float WiimoteYawSensitivity = 1.0f;
+	public float WiimotePitchSensitivity = 1.0f;
+	public float WiimoteRollSensitivity = 1.0f;
 
-	private float wiimoteYaw = 0.0f;
-	private float wiimotePitch = 90.0f;
+	private Vector3 wiimoteOrientation = new Vector3(0f, 90f, 0f); // Yaw, Pitch, Roll
 
 	public RectTransform ir_pointer;
 
@@ -115,33 +115,46 @@ public class NozzleScript : MonoBehaviour {
 				} else {
 
 					Vector3 offset = new Vector3(
-						wiimote.MotionPlus.PitchSpeed,
-						0,
+						wiimote.MotionPlus.YawSpeed * WiimoteYawSensitivity,
+						wiimote.MotionPlus.PitchSpeed * WiimotePitchSensitivity,
+						// 0,
 						// FIXME: ignoring roll messes with other axises
-						// wiimote.MotionPlus.RollSpeed, 
-						wiimote.MotionPlus.YawSpeed
+						wiimote.MotionPlus.RollSpeed * WiimoteRollSensitivity 
 						) / 95f; // Divide by 95Hz (average updates per second from wiimote)
 
-					wmpOffset += offset;
+					if (FlipYaw)
+						offset.x *= -1;
+					if (FlipPitch)
+						offset.y *= -1;
+					if (FlipRoll)
+						offset.z *= -1;
 
+					wiimoteOrientation += offset;
 
-					wiimoteYaw += -offset.z * WiimoteSensetivityX;
-					wiimotePitch += offset.x * WiimoteSensetivityY;
+					float rollRadians = 0f;
+					if (!IgnoreRoll)
+						rollRadians = wiimoteOrientation.z * Mathf.Deg2Rad;
 
-					yaw = wiimoteYaw;
-					pitch = wiimotePitch;
+					yaw = 
+					wiimoteOrientation.x * Mathf.Cos(rollRadians)
+					+ wiimoteOrientation.y * Mathf.Sin(rollRadians)
+						;
+					pitch = 
+					wiimoteOrientation.y * Mathf.Cos(rollRadians)
+					+ wiimoteOrientation.x * Mathf.Sin(rollRadians)
+					;
+
+					if (wiimote.Button.plus)
+					{
+						Debug.Log("yaw: " + yaw + ", pitch: " + pitch);
+						Debug.Log("orientation: " + wiimoteOrientation);
+					}
 
 					// transform.localRotation *= Quaternion.Euler(offset);
 
 				}
 			} while (ret > 0);
 
-			if (keyboard.gKey.wasPressedThisFrame) {
-				wmpOffset = Vector3.zero;
-			}
-			if (keyboard.hKey.wasPressedThisFrame) {
-				wiimote.RequestIdentifyWiiMotionPlus();
-			}
 			if (keyboard.jKey.wasPressedThisFrame) {
 				wiimote.MotionPlus.SetZeroValues();
 			}
@@ -149,14 +162,11 @@ public class NozzleScript : MonoBehaviour {
 
 			if (wiimote.Button.a) {
 				// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
-				wiimoteYaw = 0.0f;
-				wiimotePitch = 90.0f;
+				wiimoteOrientation = new Vector3(0f,90f,0f);
 				//wiimote.MotionPlus.SetZeroValues();
 			}
-			if (wiimote.Button.d_down) {
-				wmpOffset = Vector3.zero;
-			}
-			if (wiimote.Button.d_up) {
+			
+			if (wiimote.Button.d_down || keyboard.jKey.wasPressedThisFrame) {
 				wiimote.MotionPlus.SetZeroValues();
 			}
 			if (wiimote.Button.d_right) {
