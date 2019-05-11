@@ -47,7 +47,7 @@ public class NozzleScript : MonoBehaviour {
 
 	private Vector3 wiimoteOrientation = new Vector3(0f, 90f, 0f); // Yaw, Pitch, Roll
 
-	public RectTransform ir_pointer;
+	private RectTransform ir_pointer;
 
 	private Timer ledTimer;
 	private int ledState = 0;
@@ -68,6 +68,10 @@ public class NozzleScript : MonoBehaviour {
 		action.Enable();
 
 		ledTimer = new Timer(0.1f);
+
+		ir_pointer = new RectTransform();
+		
+
 	}
 
 	void Update() {
@@ -135,16 +139,13 @@ public class NozzleScript : MonoBehaviour {
 					if (!IgnoreRoll)
 						rollRadians = wiimoteOrientation.z * Mathf.Deg2Rad;
 
-					yaw = 
-					wiimoteOrientation.x * Mathf.Cos(rollRadians)
-					+ wiimoteOrientation.y * Mathf.Sin(rollRadians)
-						;
-					pitch = 
-					wiimoteOrientation.y * Mathf.Cos(rollRadians)
-					+ wiimoteOrientation.x * Mathf.Sin(rollRadians)
-					;
+					yaw = wiimoteOrientation.x * Mathf.Cos(rollRadians)
+					+ wiimoteOrientation.y * Mathf.Sin(rollRadians);
 
-					if (wiimote.Button.plus)
+					pitch = wiimoteOrientation.y * Mathf.Cos(rollRadians)
+					+ wiimoteOrientation.x * Mathf.Sin(rollRadians);
+
+					if (wiimote.Button.minus)
 					{
 						Debug.Log("yaw: " + yaw + ", pitch: " + pitch);
 						Debug.Log("orientation: " + wiimoteOrientation);
@@ -158,7 +159,15 @@ public class NozzleScript : MonoBehaviour {
 			if (keyboard.jKey.wasPressedThisFrame) {
 				wiimote.MotionPlus.SetZeroValues();
 			}
+
 			// TODO: re-aling using sensor bar
+		
+			if (wiimote.Button.d_left) {
+				float[] pointer = wiimote.Ir.GetPointingPosition();
+				ir_pointer.anchorMin = new Vector2(pointer[0], pointer[1]);
+				ir_pointer.anchorMax = new Vector2(pointer[0], pointer[1]);
+				Debug.Log("ir: " + ir_pointer);
+			}
 
 			if (wiimote.Button.a) {
 				// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
@@ -186,8 +195,7 @@ public class NozzleScript : MonoBehaviour {
 				wasFiring = true;
 			}
 
-			// TODO: limit angle
-			// IDEA: add "buffer" rotation that is assigned current rotation, but is capped to certain angles
+			
 			if (AllowAimWithMouse) {
 				//transform.Rotate(
 				//	Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
