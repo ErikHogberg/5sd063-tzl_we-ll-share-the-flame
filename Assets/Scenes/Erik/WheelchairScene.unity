@@ -866,6 +866,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Container
       objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: InfoPane
+      value: 
+      objectReference: {fileID: 1516080148}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraScript
+      value: 
+      objectReference: {fileID: 534669906}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: DriftScale
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: FlipKeys
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraTurnDeadZone
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraAutoTurning
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: Damping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4883142326818491642, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -921,41 +956,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: InfoPane
-      value: 
-      objectReference: {fileID: 1516080148}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: CameraScript
-      value: 
-      objectReference: {fileID: 534669906}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: DriftScale
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: FlipKeys
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: CameraTurnDeadZone
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: CameraAutoTurning
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: Damping
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: PositionAnchorObject
@@ -1005,6 +1005,16 @@ PrefabInstance:
         type: 3}
       propertyPath: WiimoteRollSensitivity
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: SensorBarAngleScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: SensorBarAngleScale.y
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 6793237623012469954, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
