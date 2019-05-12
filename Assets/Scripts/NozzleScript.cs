@@ -56,6 +56,7 @@ public class NozzleScript : MonoBehaviour {
 
 	private bool dLeftWasPressed = false;
 	private bool irToggle = false;
+	public bool UseAccelerometer = false;
 
 	void Start() {
 
@@ -120,39 +121,47 @@ public class NozzleScript : MonoBehaviour {
 					wiimote.ActivateWiiMotionPlus();
 				} else {
 
-					Vector3 offset = new Vector3(
-						wiimote.MotionPlus.YawSpeed * WiimoteYawSensitivity,
-						wiimote.MotionPlus.PitchSpeed * WiimotePitchSensitivity,
-						// 0,
-						// FIXME: ignoring roll messes with other axises
-						wiimote.MotionPlus.RollSpeed * WiimoteRollSensitivity
-						) / 95f; // Divide by 95Hz (average updates per second from wiimote)
+					if (UseAccelerometer) {
+						float[] accel = wiimote.Accel.GetCalibratedAccelData();
+						wiimoteOrientation = new Vector3(
+							accel[0],
+							-accel[2],
+							-accel[1]
+						);
+					} else {
 
-					if (FlipYaw)
-						offset.x *= -1;
-					if (FlipPitch)
-						offset.y *= -1;
-					if (FlipRoll)
-						offset.z *= -1;
+						Vector3 offset = new Vector3(
+							wiimote.MotionPlus.YawSpeed * WiimoteYawSensitivity,
+							wiimote.MotionPlus.PitchSpeed * WiimotePitchSensitivity,
+							wiimote.MotionPlus.RollSpeed * WiimoteRollSensitivity
+							) / 95f; // Divide by 95Hz (average updates per second from wiimote)
 
-					wiimoteOrientation += offset;
+						if (FlipYaw)
+							offset.x *= -1;
+						if (FlipPitch)
+							offset.y *= -1;
+						if (FlipRoll)
+							offset.z *= -1;
 
-					float rollRadians = 0f;
-					if (!IgnoreRoll)
-						rollRadians = wiimoteOrientation.z * Mathf.Deg2Rad;
+						wiimoteOrientation += offset;
 
-					yaw = wiimoteOrientation.x * Mathf.Cos(rollRadians)
-					+ wiimoteOrientation.y * Mathf.Sin(rollRadians);
+						float rollRadians = 0f;
+						if (!IgnoreRoll)
+							rollRadians = wiimoteOrientation.z * Mathf.Deg2Rad;
 
-					pitch = wiimoteOrientation.y * Mathf.Cos(rollRadians)
-					+ wiimoteOrientation.x * Mathf.Sin(rollRadians);
+						yaw = wiimoteOrientation.x * Mathf.Cos(rollRadians)
+						+ wiimoteOrientation.y * Mathf.Sin(rollRadians);
 
-					if (wiimote.Button.minus) {
-						Debug.Log("yaw: " + yaw + ", pitch: " + pitch);
-						Debug.Log("orientation: " + wiimoteOrientation);
+						pitch = wiimoteOrientation.y * Mathf.Cos(rollRadians)
+						+ wiimoteOrientation.x * Mathf.Sin(rollRadians);
+
+						if (wiimote.Button.minus) {
+							Debug.Log("yaw: " + yaw + ", pitch: " + pitch);
+							Debug.Log("orientation: " + wiimoteOrientation);
+						}
+
+						// transform.localRotation *= Quaternion.Euler(offset);
 					}
-
-					// transform.localRotation *= Quaternion.Euler(offset);
 
 				}
 			} while (ret > 0);
@@ -160,8 +169,9 @@ public class NozzleScript : MonoBehaviour {
 			// TODO: use wiimote.Accel.GetCalibratedAccelData() to reduce wmp drift
 
 			// TODO: re-aling using sensor bar
-			// IDEA: add init process where drift is sampled while still, subtract average drift every frame.
 			// IDEA: get roll from sensor bar, measure angle between dots?
+
+			// IDEA: add init process where drift is sampled while still, subtract average drift every frame.
 
 			if (wiimote.Button.d_left) {
 				if (dLeftWasPressed) {
@@ -179,14 +189,20 @@ public class NozzleScript : MonoBehaviour {
 			if (irToggle) {
 				// left 0, down 0
 				float[] pointer = wiimote.Ir.GetPointingPosition();
-				Debug.Log("ir loop");
+				// Debug.Log("ir loop");
 				if (pointer[0] > -1f && pointer[1] > -1f) {
-					wiimoteOrientation = new Vector3((pointer[0] - 0.5f) * SensorBarAngleScale.x, 90f + (pointer[1] - 0.5f) * SensorBarAngleScale.y, 0f);
-					Debug.Log("orientation set from sensor bar");
+					wiimoteOrientation = new Vector3(
+						(pointer[0] - 0.5f) * SensorBarAngleScale.x,
+						 (pointer[1] - 0.5f) * SensorBarAngleScale.y + 90f,
+						 0f
+					);
+					// Debug.Log("orientation set from sensor bar");
 				}
+
 				// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);
 				// ir_pointer.anchorMin = new Vector2(pointer[0], pointer[1]);
 				// ir_pointer.anchorMax = new Vector2(pointer[0], pointer[1]);
+
 			}
 
 			if (wiimote.Button.a) {
@@ -201,7 +217,6 @@ public class NozzleScript : MonoBehaviour {
 			if (wiimote.Button.d_right || keyboard.kKey.wasPressedThisFrame) {
 				wiimote.SetupIRCamera(SensorBarMode);
 			}
-
 
 			wiimoteFiring = wiimote.Button.b;
 		}
