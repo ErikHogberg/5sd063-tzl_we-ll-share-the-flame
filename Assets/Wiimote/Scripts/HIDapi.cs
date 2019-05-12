@@ -61,12 +61,13 @@ public class HIDapi {
     public static extern int hid_write(IntPtr device, byte[] data, UIntPtr length);
 }
 
+#pragma warning disable 0649
 struct hid_device_info {
     public string path;
     public ushort vendor_id;
     public ushort product_id;
     public string serial_number;
-    public ushort release_number;
+     public ushort release_number;
     public string manufacturer_string;
     public string product_string;
     public ushort usage_page;
