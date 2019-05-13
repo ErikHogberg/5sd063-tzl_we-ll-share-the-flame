@@ -295,7 +295,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 
-		if (!EnableCollision) {
+		if (!EnableCollision || other.tag == "Ignore Collision") {
 			return;
 		}
 

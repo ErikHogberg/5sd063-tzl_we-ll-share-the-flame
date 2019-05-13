@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Building
   - Ramp
+  - Ignore Collision
   layers:
   - Default
   - TransparentFX

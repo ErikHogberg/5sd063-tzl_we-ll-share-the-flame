@@ -58,6 +58,8 @@ public class NozzleScript : MonoBehaviour {
 
 	private bool dLeftWasPressed = false;
 	private bool irToggle = false;
+	// TODO: IR (reverse-)deadzone
+
 	public bool UseAccelerometer = false;
 
 	void Start() {

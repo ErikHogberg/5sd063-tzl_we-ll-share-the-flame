@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -518,7 +518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &763975396
 Transform:
   m_ObjectHideFlags: 0
@@ -762,25 +762,6 @@ Transform:
   m_Father: {fileID: 491188952}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1902448185 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 230601413145677354, guid: ee2cab4ef99400148ad285869ec15447,
-    type: 3}
-  m_PrefabInstance: {fileID: 230601411248078867}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1902448186
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902448185}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.9999999, z: 0.6516576}
-  m_Center: {x: 0, y: 0, z: -0.3258288}
 --- !u!4 &1973794317 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5781311979573252235, guid: c13350caf30ef2649a58195c3d2452df,
@@ -806,6 +787,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 341485293}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 230601412753847714, guid: ee2cab4ef99400148ad285869ec15447,
         type: 3}
       propertyPath: m_Name
@@ -866,11 +851,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 230601413145677359, guid: ee2cab4ef99400148ad285869ec15447,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c76b138b6b024484a8fd697a7cbb02c1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee2cab4ef99400148ad285869ec15447, type: 3}
 --- !u!1001 &2742243151790432483
@@ -1004,10 +984,55 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Container
       objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: InfoPane
+      value: 
+      objectReference: {fileID: 1516080148}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraScript
+      value: 
+      objectReference: {fileID: 534669906}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: DriftScale
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: FlipKeys
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraTurnDeadZone
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraAutoTurning
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: Damping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: EnableCollision
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: DriftSpeedThreshold
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4883142326818491642, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -11.72
       objectReference: {fileID: 0}
     - target: {fileID: 4883142326818491642, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1059,46 +1084,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: InfoPane
-      value: 
-      objectReference: {fileID: 1516080148}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: CameraScript
-      value: 
-      objectReference: {fileID: 534669906}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: DriftScale
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: FlipKeys
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: CameraTurnDeadZone
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: CameraAutoTurning
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: Damping
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: EnableCollision
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: PositionAnchorObject
@@ -1127,7 +1112,7 @@ PrefabInstance:
     - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: AllowAimWithMouse
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1194,6 +1179,11 @@ PrefabInstance:
       propertyPath: TriggerModule.collisionShape0
       value: 
       objectReference: {fileID: 1466136476}
+    - target: {fileID: 5837283664976493421, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85a03d8647d7c642afff3adbc6ddbd0, type: 3}
 --- !u!4 &4883142327949061641 stripped
@@ -1301,7 +1291,7 @@ PrefabInstance:
     - target: {fileID: 8791826686283614601, guid: 3a66bedcaa65ea8439a16fcde323df52,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.84
+      value: -21.06
       objectReference: {fileID: 0}
     - target: {fileID: 8791826686283614601, guid: 3a66bedcaa65ea8439a16fcde323df52,
         type: 3}
@@ -1311,7 +1301,7 @@ PrefabInstance:
     - target: {fileID: 8791826686283614601, guid: 3a66bedcaa65ea8439a16fcde323df52,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.7
+      value: 3.77
       objectReference: {fileID: 0}
     - target: {fileID: 8791826686283614601, guid: 3a66bedcaa65ea8439a16fcde323df52,
         type: 3}
@@ -1356,6 +1346,21 @@ PrefabInstance:
     - target: {fileID: 8791826686158166873, guid: 3a66bedcaa65ea8439a16fcde323df52,
         type: 3}
       propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255139034699524248, guid: 3a66bedcaa65ea8439a16fcde323df52,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516202966069587258, guid: 3a66bedcaa65ea8439a16fcde323df52,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791826686158166872, guid: 3a66bedcaa65ea8439a16fcde323df52,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
