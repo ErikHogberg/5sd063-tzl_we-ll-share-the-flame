@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+<asset>
+<contributor>
+<author>VoxelShop User</author>
+<authoring_tool>VoxelShop V1.8.26
+</authoring_tool>
+</contributor>
+<created>2019-05-09T14:48:57</created>
+<modified>2019-05-09T14:48:57</modified>
+<unit meter="1" name="meter"/>
+<up_axis>Z_UP</up_axis>
+</asset>
+<library_images>
+<image id="roadEnd_texture0-image" name="roadEnd_texture0-image">
+<init_from>file://roadEnd_texture0.png</init_from>
+</image>
+</library_images>
+<library_effects>
+<effect id="lambert0-fx">
+<profile_COMMON>
+<newparam sid="roadEnd_texture0-surface">
+<surface type="2D">
+<init_from>roadEnd_texture0-image</init_from>
+</surface>
+</newparam>
+<newparam sid="roadEnd_texture0-sampler">
+<sampler2D>
+<source>roadEnd_texture0-surface</source>
+<wrap_s>WRAP</wrap_s>
+<wrap_t>WRAP</wrap_t>
+<minfilter>NEAREST</minfilter>
+<magfilter>NEAREST</magfilter>
+</sampler2D>
+</newparam>
+<technique sid="common">
+<lambert>
+<emission>
+<color>0 0 0 1</color>
+</emission>
+<ambient>
+<color>0 0 0 1</color>
+</ambient>
+<diffuse>
+<texture texcoord="TEX0" texture="roadEnd_texture0-sampler"/>
+</diffuse>
+</lambert>
+</technique>
+</profile_COMMON>
+</effect>
+</library_effects>
+<library_materials>
+<material id="lambert0-material" name="lambert0">
+<instance_effect url="#lambert0-fx"/>
+</material>
+</library_materials>
+<library_geometries>
+<geometry id="Plane-tex-mesh-0" name="Plane-tex">
+<mesh>
+<source id="Plane-tex-mesh-0-positions">
+<float_array count="48" id="Plane-tex-mesh-0-positions-array">-80 -80 4 -80 80 -4 -80 -80 -4 -80 80 4 56 -56 4 56 80 0 56 -56 0 56 80 4 80 -80 4 80 80 -4 80 -80 -4 80 80 4 -56 -56 4 -56 80 0 -56 -56 0 -56 80 4</float_array>
+<technique_common>
+<accessor count="16" source="#Plane-tex-mesh-0-positions-array" stride="3">
+<param name="X" type="float"/>
+<param name="Y" type="float"/>
+<param name="Z" type="float"/>
+</accessor>
+</technique_common>
+</source>
+<source id="Plane-tex-mesh-0-uvs">
+<float_array count="156" id="Plane-tex-mesh-0-uvs-array">0.25001472 0.16326891 0.2916593 0.5714214 0.2916593 0.16326891 0.29167402 0.16327251 0.29167402 0.57142496 0.3333186 0.57142496 0.5937647 0.23469749 0.614576 0.58162546 0.614576 0.23469749 0.614576 0.2347011 0.614576 0.58162904 0.5937647 0.58162904 0.020848066 0.051024016 0.062492635 0.45917645 0.062492635 0.051024016 0.13542403 0.051027622 0.13542403 0.45918006 0.1770686 0.45918006 1.4731392E-5 0.25510564 0.020825967 0.6020336 0.020825967 0.25510564 7.365696E-6 0.25510925 7.365696E-6 0.6020372 0.020818602 0.6020372 0.9999926 0.52041537 0.1666814 0.9285678 0.9999926 0.9285678 0.8333186 0.5918403 7.365696E-6 0.5918403 7.365696E-6 0.9999928 0.7499926 0.28570706 0.041681398 3.6076879E-6 0.7499926 3.6076879E-6 0.7083186 0.65306485 7.365696E-6 0.65306485 7.365696E-6 0.93876827 0.91665983 0.5714247 0.79168034 0.51020175 0.91665983 0.1632715 0.937484 0.29592264 0.35417232 0.29592264 0.22917695 0.35713428 0.79165983 0.60203695 0.79165983 0.19388375 0.66668034 0.540814 0.291653 0.540814 0.1666735 0.19388375 0.1666735 0.60203695 0.48959807 0.58162904 0.12498527 0.6020372 0.9583407 0.14286436 0.9999853 0.5510168 0.9583407 0.5510168 0.95834804 0.14286076 0.9999926 0.14286076 0.9999926 0.5510132 6.835195E-6 0.59184057 0.020819662 0.6530636 6.835195E-6 0.9999938 0.020824587 0.653069 0.020824587 0.93877274 1.7491046E-5 0.99999493 0.8541753 0.3163237 0.8958247 0.3163237 0.875 0.2551077 0.66667825 0.3469388 0.7916609 0.33673894 0.7916609 0.3571386 0.8125147 0.29592198 0.9374926 0.29592198 0.9374926 0.30611524 0.37500736 0.2959256 0.37500736 0.30611885 0.49998528 0.30611885 0.9374853 0.29592198 0.35417402 0.30611524 0.35417402 0.29592198 0.3541814 0.29592198</float_array>
+<technique_common>
+<accessor count="78" source="#Plane-tex-mesh-0-uvs-array" stride="2">
+<param name="S" type="float"/>
+<param name="T" type="float"/>
+</accessor>
+</technique_common>
+</source>
+<source id="Plane-tex-mesh-0-normals">
+<float_array count="18" id="Plane-tex-mesh-0-normals-array">-1 0 0 1 0 0 0 0 -1 0 0 1 0 -1 0 0 1 0 </float_array>
+<technique_common>
+<accessor count="6" source="#Plane-tex-mesh-0-normals-array" stride="3">
+<param name="X" type="float"/>
+<param name="Y" type="float"/>
+<param name="Z" type="float"/>
+</accessor>
+</technique_common>
+</source>
+<vertices id="Plane-tex-mesh-0-vertices">
+<input semantic="POSITION" source="#Plane-tex-mesh-0-positions"/>
+</vertices>
+<triangles count="28" material="Plane-tex-mesh-0-lambert0-material">
+<input offset="0" semantic="VERTEX" source="#Plane-tex-mesh-0-vertices"/>
+<input offset="1" semantic="TEXCOORD" set="0" source="#Plane-tex-mesh-0-uvs"/>
+<input offset="2" semantic="NORMAL" source="#Plane-tex-mesh-0-normals"/>
+<p>0 0 0 1 1 0 2 2 0 0 3 0 3 4 0 1 5 0 4 6 0 5 7 0 6 8 0 4 9 0 7 10 0 5 11 0 9 13 1 8 12 1 10 14 1 11 16 1 8 15 1 9 17 1 13 19 1 12 18 1 14 20 1 15 22 1 12 21 1 13 23 1 1 25 2 10 24 2 2 26 2 9 28 2 10 27 2 1 29 2 6 30 3 13 31 3 14 32 3 6 33 3 5 34 3 13 35 3 8 36 3 4 37 3 0 38 3 4 39 3 12 40 3 0 41 3 8 42 3 11 43 3 4 44 3 12 45 3 3 46 3 0 47 3 11 48 3 7 10 3 4 9 3 12 21 3 15 22 3 3 49 3 10 50 4 0 51 4 2 52 4 10 53 4 8 54 4 0 55 4 5 57 5 9 56 5 1 58 5 13 60 5 5 59 5 1 61 5 11 63 5 9 62 5 5 64 5 3 66 5 13 65 5 1 67 5 7 69 5 11 68 5 5 70 5 15 72 5 13 71 5 3 73 5 12 75 5 6 74 5 14 76 5 4 69 5 6 70 5 12 77 5</p>
+</triangles>
+</mesh>
+</geometry>
+</library_geometries>
+<library_visual_scenes>
+<visual_scene id="Scene" name="Scene">
+<node id="roadend.merged" name="roadEnd.Merged" type="NODE">
+<translate sid="location">1.0 1.0 3.0</translate>
+<rotate sid="rotationZ">0 0 1 0</rotate>
+<rotate sid="rotationY">0 1 0 0</rotate>
+<rotate sid="rotationX">1 0 0 0</rotate>
+<scale sid="scale">1.0 1.0 1.0</scale>
+<instance_geometry name="Merged" sid="roadend.merged" url="#Plane-tex-mesh-0">
+<bind_material>
+<technique_common>
+<instance_material symbol="lambert0-material" target="#lambert0-material">
+<bind_vertex_input input_semantic="TEXCOORD" input_set="0" semantic="TEX0"/>
+</instance_material>
+</technique_common>
+</bind_material>
+</instance_geometry>
+</node>
+</visual_scene>
+</library_visual_scenes>
+<scene>
+<instance_visual_scene url="#Scene"/>
+</scene>
+</COLLADA>
