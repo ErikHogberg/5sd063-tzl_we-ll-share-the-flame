@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Utilities;
+﻿using Assets.Scripts;
+using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,12 +52,28 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public bool EnableCollision = false;
 
+	// Ramp jumping	
+	public float JumpTime = 1.0f;
+	public float JumpHeight = 1.0f;
+	private Timer jumpTimer;
+	private float jumpSpeed;
+	private float playerY;
+	public AnimationCurve JumpArc;
+
 	void Start() {
+
+		Globals.Player = this;
+
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
 
+		playerY = transform.position.y;
+
 		leftWheelTrail = LeftWheelSparks.GetComponentInChildren<TrailRenderer>();
 		rightWheelTrail = RightWheelSparks.GetComponentInChildren<TrailRenderer>();
+
+		jumpTimer = new Timer(JumpTime);
+		jumpTimer.Stop();
 
 	}
 
@@ -64,6 +81,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 		var keyboard = Keyboard.current;
 
 		string infoText = "";
+
+		if (jumpTimer.IsRunning()) {
+			if (jumpTimer.Update()) {
+			} else {
+				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
+				Vector3 pos = transform.position;
+				pos.y = playerY + JumpHeight * JumpArc.Evaluate( jumpTimer.TimeLeft() / JumpTime);
+				transform.position = pos;
+				return;
+			}
+		}
+
 
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
@@ -270,11 +299,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 
-		if (!EnableCollision) {
+		if (!EnableCollision || other.tag == "Ignore Collision") {
 			return;
 		}
 
-		Debug.Log("hit wall!");
+		if (other.tag == "Ramp") {
+			// Debug.Log("hit ramp!");
+			jumpTimer.Restart(JumpTime);
+			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+			return;
+		}
+
+		Debug.Log("hit wall: " + other.name);
 		// Turn 180 degrees when hitting a wall
 		// TODO: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
 		transform.Rotate(Vector3.up, 180);
