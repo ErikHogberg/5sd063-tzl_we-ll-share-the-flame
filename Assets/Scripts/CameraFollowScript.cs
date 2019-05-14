@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class CameraFollowScript : MonoBehaviour {
 
-	[SerializeField]
-	private InputActionAsset controls;
+	// [SerializeField]
+	public InputActionAsset controls;
 
     public float Yaw = 0.0f;
     public float Pitch = 30.0f;
