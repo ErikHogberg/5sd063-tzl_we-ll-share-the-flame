@@ -187,10 +187,12 @@ public class CameraFollowScript : MonoBehaviour {
 		transform.position = PositionAnchor.position + distanceOffset;
 		transform.LookAt(PositionAnchor.position);
 
-		Camera.transform.transform.localRotation = Quaternion.identity
-			* Quaternion.AngleAxis(YawOffset + yawAimOffset, transform.InverseTransformVector(Vector3.up))
-			* Quaternion.AngleAxis(PitchOffset + pitchAimOffset, Vector3.left)
-		 ;
+		if (Camera != null) {
+			Camera.transform.transform.localRotation = Quaternion.identity
+				* Quaternion.AngleAxis(YawOffset + yawAimOffset, transform.InverseTransformVector(Vector3.up))
+				* Quaternion.AngleAxis(PitchOffset + pitchAimOffset, Vector3.left)
+			 ;
+		}
 
 	}
 

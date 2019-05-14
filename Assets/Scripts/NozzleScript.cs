@@ -131,7 +131,9 @@ public class NozzleScript : MonoBehaviour {
 			* Quaternion.AngleAxis(pitch, Vector3.right)
 		;
 
-		CameraScript.UpdateAimOffset(yaw, -pitch+90f);
+		if (CameraScript != null) {
+			CameraScript.UpdateAimOffset(yaw, -pitch + 90f);
+		}
 
 	}
 
@@ -259,7 +261,7 @@ public class NozzleScript : MonoBehaviour {
 
 		if (wiimoteFiring) {
 			if (wiimoteWasFiring) {
-				
+
 			} else {
 				wiimote.RumbleOn = true;
 				wiimoteWasFiring = true;
