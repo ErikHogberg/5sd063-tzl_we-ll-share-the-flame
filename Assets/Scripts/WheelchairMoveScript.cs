@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Utilities;
+﻿using Assets.Scripts;
+using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,6 +61,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public AnimationCurve JumpArc;
 
 	void Start() {
+
+		Globals.Player = this;
+
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
 
