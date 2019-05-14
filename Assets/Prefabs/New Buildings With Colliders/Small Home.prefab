@@ -31,19 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6558695637699947214
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133754620315900287}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.000002, y: 1.641803, z: 2.650001}
-  m_Center: {x: 0, y: -0.47909972, z: -3.094131e-16}
 --- !u!65 &1353924503339142856
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57,6 +44,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.98287, y: 0.9626946, z: 2.650001}
   m_Center: {x: -1.0085675, y: 0.81865424, z: 2.0069658e-15}
+--- !u!65 &6558695637699947214
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133754620315900287}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.000002, y: 1.641803, z: 2.650001}
+  m_Center: {x: 0, y: -0.47909972, z: -3.094131e-16}
 --- !u!1001 &4133754620315869151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67,6 +67,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
       propertyPath: m_Name
       value: SmallHome
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
       propertyPath: m_LocalPosition.x

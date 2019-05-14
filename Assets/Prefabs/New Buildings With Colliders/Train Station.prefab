@@ -69,6 +69,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainstationPt2
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.1
@@ -149,6 +153,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
       propertyPath: m_Name
       value: TrainstationPt1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
       propertyPath: m_LocalPosition.x
