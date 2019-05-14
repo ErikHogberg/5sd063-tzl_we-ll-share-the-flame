@@ -194,6 +194,8 @@ public class CameraFollowScript : MonoBehaviour {
 
 	}
 
+	// TODO: deadzone for nozzle camera aim
+	// IDEA: lerp nozzle camera aim to reduce jitter
 	public void UpdateAimOffset(float yaw, float pitch) {
 		yawAimOffset = Mathf.Sin(yaw * Mathf.Deg2Rad) * YawAimOffsetScale;
 		pitchAimOffset = Mathf.Sin(pitch * Mathf.Deg2Rad) * PitchAimOffsetScale;
