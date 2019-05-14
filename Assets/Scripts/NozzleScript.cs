@@ -8,6 +8,8 @@ public class NozzleScript : MonoBehaviour {
 	// [SerializeField]
 	public InputActionAsset controls;
 
+	public CameraFollowScript CameraScript;
+
 	public GameObject Foam;
 	private ParticleSystem[] foamParticles;
 
@@ -128,6 +130,8 @@ public class NozzleScript : MonoBehaviour {
 			* Quaternion.AngleAxis(yaw, Vector3.up)
 			* Quaternion.AngleAxis(pitch, Vector3.right)
 		;
+
+		CameraScript.UpdateAimOffset(yaw, -pitch+90f);
 
 	}
 

@@ -24,8 +24,13 @@ public class CameraFollowScript : MonoBehaviour {
 	public WheelchairMoveScript WheelchairScript;
 
 	private Vector3 distanceOffset;
-	public float yawOffset = 0f;
-	public float pitchOffset = 0f;
+
+	public float YawOffset = 0f;
+	public float PitchOffset = 0f;
+	private float yawAimOffset = 1f;
+	private float pitchAimOffset = 1f;
+	public float YawAimOffsetScale = 1f;
+	public float PitchAimOffsetScale = 1f;
 
 	public bool AutoTurning = true;
 	public float CameraTurnSpeed = 1.0f;
@@ -137,7 +142,7 @@ public class CameraFollowScript : MonoBehaviour {
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
-				if (Vector2.SignedAngle(cameraFacing, playerFacing) + yawOffset > CameraTurnDeadZone) {
+				if (Vector2.SignedAngle(cameraFacing, playerFacing) + (YawOffset + yawAimOffset) > CameraTurnDeadZone) {
 					Yaw = -CameraTurnDeadZone - 180f - playerAngle;
 					// Yaw = CameraTurnDeadZone + 180f;
 					// UpdateOffset();
@@ -148,7 +153,7 @@ public class CameraFollowScript : MonoBehaviour {
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
-				if (Vector2.SignedAngle(cameraFacing, playerFacing) - yawOffset < -CameraTurnDeadZone) {
+				if (Vector2.SignedAngle(cameraFacing, playerFacing) - (YawOffset + yawAimOffset) < -CameraTurnDeadZone) {
 					Yaw = CameraTurnDeadZone + 180f - playerAngle;
 					// UpdateOffset();
 				}
@@ -172,7 +177,7 @@ public class CameraFollowScript : MonoBehaviour {
 	}
 
 	private void UpdateOffset() {
-		
+
 		distanceOffset =
 		Quaternion.AngleAxis(Yaw, Vector3.up)
 			* Quaternion.AngleAxis(Pitch, Vector3.left)
@@ -183,10 +188,15 @@ public class CameraFollowScript : MonoBehaviour {
 		transform.LookAt(PositionAnchor.position);
 
 		Camera.transform.transform.localRotation = Quaternion.identity
-			* Quaternion.AngleAxis(yawOffset, transform.InverseTransformVector(Vector3.up))
-			* Quaternion.AngleAxis(pitchOffset, Vector3.left)
+			* Quaternion.AngleAxis(YawOffset + yawAimOffset, transform.InverseTransformVector(Vector3.up))
+			* Quaternion.AngleAxis(PitchOffset + pitchAimOffset, Vector3.left)
 		 ;
 
+	}
+
+	public void UpdateAimOffset(float yaw, float pitch) {
+		yawAimOffset = Mathf.Sin(yaw * Mathf.Deg2Rad) * YawAimOffsetScale;
+		pitchAimOffset = Mathf.Sin(pitch * Mathf.Deg2Rad) * PitchAimOffsetScale;
 	}
 
 }

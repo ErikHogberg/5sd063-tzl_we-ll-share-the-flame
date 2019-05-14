@@ -339,6 +339,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7838698095397932809}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &407870682 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7838698095397932809}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407870680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a84b4820f8a5c1043a7f621021c670e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &433066678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4883142328164948886, guid: d85a03d8647d7c642afff3adbc6ddbd0,
@@ -1382,6 +1394,11 @@ PrefabInstance:
       propertyPath: SensorBarAngleScale.y
       value: -100
       objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CameraScript
+      value: 
+      objectReference: {fileID: 407870682}
     - target: {fileID: 2291411879976372067, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_Enabled
@@ -1596,6 +1613,16 @@ PrefabInstance:
       propertyPath: InfoPane
       value: 
       objectReference: {fileID: 1984907540}
+    - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+        type: 3}
+      propertyPath: YawAimOffsetScale
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+        type: 3}
+      propertyPath: PitchAimOffsetScale
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7838698095267681234, guid: 6df0d2c81435eff47a9ba09b161c812d,
         type: 3}
       propertyPath: AnchorScripts.Array.data[0]
