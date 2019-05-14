@@ -81,6 +81,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CatDropoff
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 40bf58aed308a534091027722a080286, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 40bf58aed308a534091027722a080286, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5

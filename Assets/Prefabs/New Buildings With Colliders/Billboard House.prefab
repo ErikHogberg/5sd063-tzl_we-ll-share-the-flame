@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: billboardHouse
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 06064900dcd5a58408a84e8b258b2d3f, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 06064900dcd5a58408a84e8b258b2d3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.7255
