@@ -2,13 +2,12 @@
 using UnityEngine.Experimental.Input;
 using WiimoteApi;
 using Assets.Scripts.Utilities;
+using Assets.Scripts;
 
 public class NozzleScript : MonoBehaviour {
 
 	// [SerializeField]
 	public InputActionAsset controls;
-
-	public CameraFollowScript CameraScript;
 
 	public GameObject Foam;
 	private ParticleSystem[] foamParticles;
@@ -65,6 +64,8 @@ public class NozzleScript : MonoBehaviour {
 	public bool UseAccelerometer = false;
 
 	void Start() {
+
+		Globals.Nozzle = this;
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
 
@@ -131,8 +132,8 @@ public class NozzleScript : MonoBehaviour {
 			* Quaternion.AngleAxis(pitch, Vector3.right)
 		;
 
-		if (CameraScript != null) {
-			CameraScript.UpdateAimOffset(yaw, -pitch + 90f);
+		if (Globals.CameraScript != this) {
+			Globals.CameraScript.UpdateAimOffset(yaw, -pitch + 90f);
 		}
 
 	}

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CameraRaycast : MonoBehaviour
 {
-	public Transform MainCamera;
+	// public Transform MainCamera;
 	private GameObject objectToHide = null;
 
 	void Update() {
-		Vector3 heading = MainCamera.position - transform.position;
+		Vector3 heading = Camera.current.transform.position - transform.position;
+		// Vector3 heading = MainCamera.position - transform.position;
 		float distance = heading.magnitude;
 		Vector3 direction = heading / distance;
 
