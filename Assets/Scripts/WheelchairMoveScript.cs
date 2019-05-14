@@ -40,7 +40,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	//private Timer DriftTimer;
 	public float DriftScale = 0.1f;
 
-	private float driftAngle = 0.0f;
+	// private float driftAngle = 0.0f;
 	private float driftSpeed = 0.0f;
 
 	private float leftWheelSpeed = 0.0f;
