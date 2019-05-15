@@ -13,7 +13,7 @@ public enum ButtonAction {
 	Resume
 }
 
-public class ChangeSceneButtonScript : MonoBehaviour {
+public class ButtonScript : MonoBehaviour {
 
 	[Tooltip("The action of the button when clicked.")]
 	public ButtonAction ButtonAction = ButtonAction.StartLevel;
