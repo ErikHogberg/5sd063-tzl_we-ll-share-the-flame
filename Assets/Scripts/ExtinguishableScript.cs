@@ -9,7 +9,7 @@ public class ExtinguishableScript : MonoBehaviour
     public int ScoreWorth = 10;
 
     void OnParticleCollision(GameObject other) {
-        Debug.Log("particle collision");
+        Debug.Log("Extinguished " + name);
 
         Globals.Score += ScoreWorth;
 
