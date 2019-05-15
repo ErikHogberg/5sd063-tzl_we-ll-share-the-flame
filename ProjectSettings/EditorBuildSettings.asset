@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Erik/playtest progress.unity
     guid: 7fa5a6839f213314485c4ffa4d9950cd
   - enabled: 0
-    path: Assets/Scripts/PlayStation Move Controller/psmoveTestScene.unity
+    path: 
     guid: 511167752a569457597d194b31100305
+  - enabled: 1
+    path: Assets/Scenes/Nike/Nike Test.unity
+    guid: df8439601bbb44be9ae40edf495fb8cb
   m_configObjects: {}
