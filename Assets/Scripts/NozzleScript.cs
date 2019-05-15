@@ -48,6 +48,7 @@ public class NozzleScript : MonoBehaviour {
 
 	// wiimote
 	private Wiimote wiimote;
+	public bool DisableRumble = false;
 
 	private bool wiimoteWasFiring = false;
 
@@ -276,7 +277,9 @@ public class NozzleScript : MonoBehaviour {
 			if (wiimoteWasFiring) {
 
 			} else {
-				wiimote.RumbleOn = true;
+				if (!DisableRumble) {
+					wiimote.RumbleOn = true;
+				}
 				wiimoteWasFiring = true;
 			}
 
