@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
 
-public class ExtinguishableScript : MonoBehaviour {
+public class CatSavingScript : MonoBehaviour {
 
 	public int ScoreWorth = 10;
 
 	void OnParticleCollision(GameObject other) {
 		// Debug.Log("Extinguished " + name);
-		Globals.NotificationPanel.Notify("Extinguished " + name + " for " + ScoreWorth + " points!");
+		Globals.NotificationPanel.Notify("You saved a Cat! " + ScoreWorth + " points!");
 
 		Globals.Score += ScoreWorth;
 
 		gameObject.SetActive(false);
 	}
-
-	// void OnParticleTrigger() {
-	//     Debug.Log("particle trigger");
-
-	// }
 
 }
