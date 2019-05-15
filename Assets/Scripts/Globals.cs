@@ -18,7 +18,7 @@ namespace Assets.Scripts {
 
 
 		// UI
-		//public static NotificationScript NotificationWindow;
+		public static NotificationWidgetScript NotificationPanel;
 		public static FadeScript FadePanel;
 		// public static Image GameOverPanel;
 

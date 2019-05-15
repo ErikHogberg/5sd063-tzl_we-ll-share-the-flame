@@ -14,16 +14,13 @@ public class AmmoCounterWidgetScript : MonoBehaviour {
 	void Start() {
 		dims = GetComponent<RectTransform>();
 		startTopY = dims.anchorMax.y;
-
-		Debug.Log("top right: " + dims.anchorMax);
-		Debug.Log("bottom left: " + dims.anchorMin);
 	}
 
 	void Update() {
-		
+
 		Vector3 scale = transform.localScale;
-		scale.y = Globals.Nozzle.AmmoAmount/ Globals.Nozzle.AmmoCapacity;
-		transform.localScale = scale;		
+		scale.y = Globals.Nozzle.AmmoAmount / Globals.Nozzle.AmmoCapacity;
+		transform.localScale = scale;
 
 	}
 }
