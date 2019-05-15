@@ -11,7 +11,7 @@ public class ExtinguishableScript : MonoBehaviour {
 		// Debug.Log("Extinguished " + name);
 		Globals.NotificationPanel.Notify("Extinguished " + name + " for " + ScoreWorth + " points!");
 
-		Globals.AddScore(ScoreWorth);
+		Globals.AddScore(ScoreWorth, 0.1f);
 
 		gameObject.SetActive(false);
 	}

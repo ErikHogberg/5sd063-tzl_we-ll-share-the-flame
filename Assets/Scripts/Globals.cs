@@ -13,7 +13,7 @@ namespace Assets.Scripts {
 		public static float Score {
 			get { return score; }
 		}
-		public static float ScoreMultiplier = 0;
+		public static float ScoreMultiplier = 1;
 
 		// The current player
 		public static WheelchairMoveScript Player;
@@ -26,6 +26,8 @@ namespace Assets.Scripts {
 		public static FadeScript FadePanel;
 		// public static Image GameOverPanel;
 
+		public static ScoreMultiplierWidgetScript ScoreMultiplierPanel;
+
 		public static GameObject PersitentMusic;
 
 		public static void GameOver() {
@@ -37,9 +39,9 @@ namespace Assets.Scripts {
 
 		}
 
-		public static void AddScore(float points) {
-			
-			score += points;
+		public static void AddScore(float points, float multiplierIncrease) {
+			ScoreMultiplier += multiplierIncrease;
+			score += ScoreMultiplierPanel.AddPoints(points);
 		}
 
 	}
