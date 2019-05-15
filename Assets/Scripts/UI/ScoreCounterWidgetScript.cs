@@ -13,6 +13,6 @@ public class ScoreCounterWidgetScript : MonoBehaviour {
 	}
 
 	void Update() {
-        text.text = Globals.Score.ToString();
+        text.text = Globals.Score.ToString("F0");
 	}
 }

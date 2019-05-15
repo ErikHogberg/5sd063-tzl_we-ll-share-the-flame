@@ -9,7 +9,8 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		public static int Score = 0;
+		public static float Score = 0.2f;
+		public static float ScoreMultiplier = 0;
 
 		// The current player
 		public static WheelchairMoveScript Player;
@@ -18,7 +19,7 @@ namespace Assets.Scripts {
 
 
 		// UI
-		//public static NotificationScript NotificationWindow;
+		public static NotificationWidgetScript NotificationPanel;
 		public static FadeScript FadePanel;
 		// public static Image GameOverPanel;
 
