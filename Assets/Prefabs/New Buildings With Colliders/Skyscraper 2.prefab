@@ -31,19 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2506026491904188403
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7273410822561079072}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.64019, y: 8.368033, z: 4.9912004}
-  m_Center: {x: -4.2201, y: 6.18402, z: -5.7044134}
 --- !u!65 &2224003352167656110
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57,6 +44,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.8781533, y: 2.4868448, z: 3.8943167}
   m_Center: {x: -5.051505, y: 3.2434366, z: -4.845728}
+--- !u!65 &2506026491904188403
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7273410822561079072}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.64019, y: 8.368033, z: 4.9912004}
+  m_Center: {x: -4.2201, y: 6.18402, z: -5.7044134}
 --- !u!65 &3822447011424580101
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93,6 +93,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: c57d2d2b062e38747bf62dfeba6281a1, type: 3}
       propertyPath: m_Name
       value: skyscraper 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: c57d2d2b062e38747bf62dfeba6281a1, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: c57d2d2b062e38747bf62dfeba6281a1, type: 3}
       propertyPath: m_TagString
