@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: buildingUnderConstruction
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.25

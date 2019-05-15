@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public class CameraFollowScript : MonoBehaviour {
 
+	public GameObject Camera;
+	public AnchorUpdateOrderScript AnchorUpdater;
+
 	// [SerializeField]
 	public InputActionAsset controls;
 
-    public float Yaw = 0.0f;
-    public float Pitch = 30.0f;
-    public float Zoom = 10.0f;
+	public float Yaw = 0.0f;
+	public float Pitch = 30.0f;
+	public float Zoom = 10.0f;
 
 
 	public float turnSpeedX = 4.0f;
@@ -18,28 +22,37 @@ public class CameraFollowScript : MonoBehaviour {
 	public Transform PositionAnchor;
 	public Transform AngleAnchor;
 
-	public WheelchairMoveScript WheelchairScript;
+	// public WheelchairMoveScript WheelchairScript;
 
-	private Vector3 offset;
-	// public Vector2 Distance = new Vector2(8.0f, 7.0f);
+	private Vector3 distanceOffset;
+
+	public float YawOffset = 0f;
+	public float PitchOffset = 0f;
+	private float yawAimOffset = 1f;
+	private float pitchAimOffset = 1f;
+	public float YawAimOffsetScale = 1f;
+	public float PitchAimOffsetScale = 1f;
 
 	public bool AutoTurning = true;
 	public float CameraTurnSpeed = 1.0f;
 	public float CameraTurnSpeedScale = 1.0f;
 	public float CameraTurnDeadZone = 1.0f;
 
-    public Text InfoPane;
+	public Text InfoPane;
 
-    void Start() {
+	void Start() {
+
+		Globals.CameraScript = this;
+
 		Vector3 distance = transform.position - PositionAnchor.transform.position;
-		offset = distance;
+		distanceOffset = distance;
 
 		// InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
 
 		{
 			InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoom");
 			action.performed += _ => {
-				
+
 				Debug.Log("zoom");
 			};
 			action.Enable();
@@ -59,31 +72,35 @@ public class CameraFollowScript : MonoBehaviour {
 
 	void LateUpdate() {
 
-        string infoText = "";
+		string infoText = "";
 
-        if (Mouse.current.rightButton.isPressed) {
+		if (AnchorUpdater != null) {
+			AnchorUpdater.UpdateAnchors();
+		}
 
-            //Mouse.current.position.x.ReadValue()
+		if (Mouse.current.rightButton.isPressed) {
 
-            //offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeedX, Vector3.up) * offset;
-            // offset = Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, Vector3.up) * offset;
-            Yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
+			//Mouse.current.position.x.ReadValue()
 
-            //offset = Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * turnSpeedY, transform.right) * offset;
-            // offset = Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, transform.right) * offset;
-            Pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
-            //offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up);
-        }
+			//offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeedX, Vector3.up) * offset;
+			// offset = Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, Vector3.up) * offset;
+			Yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
+
+			//offset = Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * turnSpeedY, transform.right) * offset;
+			// offset = Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, transform.right) * offset;
+			Pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
+			//offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up);
+		}
 
 		// if ((Keyboard.current.iKey.isPressed) && Vector3.Magnitude(offset) > 0.1f) {
 		if ((Keyboard.current.iKey.isPressed) && Zoom > 0.1f) {
-            // offset *= 1.0f - scrollSpeed * Time.deltaTime;
+			// offset *= 1.0f - scrollSpeed * Time.deltaTime;
 			Zoom *= 1.0f - scrollSpeed * Time.deltaTime;
-        }
+		}
 		if (Keyboard.current.oKey.isPressed) {
-            // offset *= 1.0f + scrollSpeed * Time.deltaTime;
+			// offset *= 1.0f + scrollSpeed * Time.deltaTime;
 			Zoom *= 1.0f + scrollSpeed * Time.deltaTime;
-        }
+		}
 
 		// float scroll = Mouse.current. .mouseScrollDelta.x;
 
@@ -99,9 +116,7 @@ public class CameraFollowScript : MonoBehaviour {
 		if (AutoTurning) {
 
 			float wheelchairSpeed = 1f;
-			if (WheelchairScript != null) {
-				wheelchairSpeed = WheelchairScript.Speed;
-			}
+			wheelchairSpeed = Globals.Player.Speed;
 
 			// TODO: quickly move the camera behind the player when they face the camera
 
@@ -116,39 +131,37 @@ public class CameraFollowScript : MonoBehaviour {
 			float tempSpeed = turnSpeed * Time.deltaTime;
 			infoText += "speed: " + tempSpeed + "\n";
 			infoText += "Yaw: " + Yaw + "\n";
-            infoText += "Pitch: " + Pitch + "\n";
-            infoText += "delta: " + angleDelta + "\n";
+			infoText += "Pitch: " + Pitch + "\n";
+			infoText += "delta: " + angleDelta + "\n";
 
-            float playerAngle = Vector2.SignedAngle(Vector2.up, playerFacing);
-            infoText += "player angle: " + playerAngle + "\n";
+			float playerAngle = Vector2.SignedAngle(Vector2.up, playerFacing);
+			infoText += "player angle: " + playerAngle + "\n";
 
 
-            if (angleDelta < -CameraTurnDeadZone) {
+			if (angleDelta < -CameraTurnDeadZone) {
 				Turn(tempSpeed);
-				
+
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
-				if (Vector2.SignedAngle(cameraFacing, playerFacing) > CameraTurnDeadZone) {
+				if (Vector2.SignedAngle(cameraFacing, playerFacing) + (YawOffset + yawAimOffset) > CameraTurnDeadZone) {
 					Yaw = -CameraTurnDeadZone - 180f - playerAngle;
-                    // Yaw = CameraTurnDeadZone + 180f;
+					// Yaw = CameraTurnDeadZone + 180f;
 					// UpdateOffset();
 				}
 			} else if (angleDelta > CameraTurnDeadZone) {
 				Turn(-tempSpeed);
-				
+
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
-				if (Vector2.SignedAngle(cameraFacing, playerFacing) < -CameraTurnDeadZone) {
+				if (Vector2.SignedAngle(cameraFacing, playerFacing) - (YawOffset + yawAimOffset) < -CameraTurnDeadZone) {
 					Yaw = CameraTurnDeadZone + 180f - playerAngle;
 					// UpdateOffset();
 				}
 			}
 
 		}
-
-		// TODO: restrict pitch
 
 		UpdateOffset();
 
@@ -165,15 +178,31 @@ public class CameraFollowScript : MonoBehaviour {
 
 	}
 
-	private void UpdateOffset(){
-		offset =
-        Quaternion.AngleAxis(Yaw, Vector3.up)
-            * Quaternion.AngleAxis(Pitch, Vector3.left)
-         	* Vector3.forward * Zoom
+	private void UpdateOffset() {
+
+		distanceOffset =
+		Quaternion.AngleAxis(Yaw, Vector3.up)
+			* Quaternion.AngleAxis(Pitch, Vector3.left)
+			 * Vector3.forward * Zoom
 		 ;
 
-		transform.position = PositionAnchor.position + offset;
+		transform.position = PositionAnchor.position + distanceOffset;
 		transform.LookAt(PositionAnchor.position);
-    }
+
+		if (Camera != null) {
+			Camera.transform.transform.localRotation = Quaternion.identity
+				* Quaternion.AngleAxis(YawOffset + yawAimOffset, transform.InverseTransformVector(Vector3.up))
+				* Quaternion.AngleAxis(PitchOffset + pitchAimOffset, Vector3.left)
+			 ;
+		}
+
+	}
+
+	// TODO: deadzone for nozzle camera aim
+	// IDEA: lerp nozzle camera aim to reduce jitter
+	public void UpdateAimOffset(float yaw, float pitch) {
+		yawAimOffset = Mathf.Sin(yaw * Mathf.Deg2Rad) * YawAimOffsetScale;
+		pitchAimOffset = Mathf.Sin(pitch * Mathf.Deg2Rad) * PitchAimOffsetScale;
+	}
 
 }

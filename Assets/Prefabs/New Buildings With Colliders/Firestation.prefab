@@ -31,19 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4848834838813470246
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7734635205069132099}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.6000023, y: 1.5944082, z: 2.6000018}
-  m_Center: {x: 0, y: -1.4777927, z: 3.1107912e-15}
 --- !u!65 &2487151660949648958
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57,6 +44,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.3454762, y: 3.0549982, z: 2.6000018}
   m_Center: {x: -1.6272644, y: -0.74750173, z: 1.6654565e-15}
+--- !u!65 &4848834838813470246
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7734635205069132099}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.6000023, y: 1.5944082, z: 2.6000018}
+  m_Center: {x: 0, y: -1.4777927, z: 3.1107912e-15}
 --- !u!1001 &7734635205069232099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67,6 +67,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: e8afacdb6d2c6f4479b9b4ee87ea668e, type: 3}
       propertyPath: m_Name
       value: Firestation
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e8afacdb6d2c6f4479b9b4ee87ea668e, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e8afacdb6d2c6f4479b9b4ee87ea668e, type: 3}
       propertyPath: m_LocalPosition.x

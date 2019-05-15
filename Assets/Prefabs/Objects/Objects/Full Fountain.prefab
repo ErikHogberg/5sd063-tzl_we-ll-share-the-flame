@@ -8,7 +8,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256768321619268594}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.95, y: 0.9500002, z: 0.45000014}
@@ -133,11 +133,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852787757136823690}
     m_Modifications:
-    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: m_Name
-      value: Water Jet
-      objectReference: {fileID: 0}
     - target: {fileID: 9193838673014712479, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -202,6 +197,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.0000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: m_Name
+      value: Water Jet
       objectReference: {fileID: 0}
     - target: {fileID: 9193838672926218439, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}

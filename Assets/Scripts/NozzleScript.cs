@@ -2,6 +2,7 @@
 using UnityEngine.Experimental.Input;
 using WiimoteApi;
 using Assets.Scripts.Utilities;
+using Assets.Scripts;
 
 public class NozzleScript : MonoBehaviour {
 
@@ -41,6 +42,8 @@ public class NozzleScript : MonoBehaviour {
 	// wiimote
 	private Wiimote wiimote;
 
+	private bool wiimoteWasFiring = false;
+
 	public float WiimoteYawSensitivity = 1.0f;
 	public float WiimotePitchSensitivity = 1.0f;
 	public float WiimoteRollSensitivity = 1.0f;
@@ -56,9 +59,13 @@ public class NozzleScript : MonoBehaviour {
 
 	private bool dLeftWasPressed = false;
 	private bool irToggle = false;
+	// TODO: IR (reverse-)deadzone
+
 	public bool UseAccelerometer = false;
 
 	void Start() {
+
+		Globals.Nozzle = this;
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
 
@@ -86,139 +93,7 @@ public class NozzleScript : MonoBehaviour {
 		if (!WiimoteManager.HasWiimote()) {
 			WiimoteManager.FindWiimotes();
 		} else {
-			wiimote = WiimoteManager.Wiimotes[0];
-
-			if (ledTimer.Update()) {
-				ledState++;
-				if (ledState > 3)
-					ledState = 0;
-
-				if (ledState == 0)
-					wiimote.SendPlayerLED(true, true, false, false);
-				if (ledState == 1)
-					wiimote.SendPlayerLED(false, true, true, false);
-				if (ledState == 2)
-					wiimote.SendPlayerLED(false, false, true, true);
-				if (ledState == 3)
-					wiimote.SendPlayerLED(true, false, false, true);
-
-				ledTimer.RestartWithDelta();
-			}
-
-			int ret;
-			do {
-				ret = wiimote.ReadWiimoteData();
-
-				// FIXME: ret returns less than 1 when reporting motion plus rotation
-				// if (ret < 1) {
-				// 	Debug.Log("ret less than 1");
-				// 	continue;
-				// }
-
-				if (wiimote.current_ext != ExtensionController.MOTIONPLUS) {
-					wiimote.RequestIdentifyWiiMotionPlus();
-					wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_EXT8);
-					wiimote.ActivateWiiMotionPlus();
-				} else {
-
-					if (UseAccelerometer) {
-						float[] accel = wiimote.Accel.GetCalibratedAccelData();
-						wiimoteOrientation = new Vector3(
-							accel[0],
-							-accel[2],
-							-accel[1]
-						);
-					} else {
-
-						Vector3 offset = new Vector3(
-							wiimote.MotionPlus.YawSpeed * WiimoteYawSensitivity,
-							wiimote.MotionPlus.PitchSpeed * WiimotePitchSensitivity,
-							wiimote.MotionPlus.RollSpeed * WiimoteRollSensitivity
-							) / 95f; // Divide by 95Hz (average updates per second from wiimote)
-
-						if (FlipYaw)
-							offset.x *= -1;
-						if (FlipPitch)
-							offset.y *= -1;
-						if (FlipRoll)
-							offset.z *= -1;
-
-						wiimoteOrientation += offset;
-
-						float rollRadians = 0f;
-						if (!IgnoreRoll)
-							rollRadians = wiimoteOrientation.z * Mathf.Deg2Rad;
-
-						yaw = wiimoteOrientation.x * Mathf.Cos(rollRadians)
-						+ wiimoteOrientation.y * Mathf.Sin(rollRadians);
-
-						pitch = wiimoteOrientation.y * Mathf.Cos(rollRadians)
-						+ wiimoteOrientation.x * Mathf.Sin(rollRadians);
-
-						if (wiimote.Button.minus) {
-							Debug.Log("yaw: " + yaw + ", pitch: " + pitch);
-							Debug.Log("orientation: " + wiimoteOrientation);
-						}
-
-						// transform.localRotation *= Quaternion.Euler(offset);
-					}
-
-				}
-			} while (ret > 0);
-
-			// TODO: use wiimote.Accel.GetCalibratedAccelData() to reduce wmp drift
-
-			// TODO: re-aling using sensor bar
-			// IDEA: get roll from sensor bar, measure angle between dots?
-
-			// IDEA: add init process where drift is sampled while still, subtract average drift every frame.
-
-			if (wiimote.Button.d_left) {
-				if (dLeftWasPressed) {
-
-				} else {
-					irToggle = !irToggle;
-
-					dLeftWasPressed = true;
-				}
-
-			} else {
-				dLeftWasPressed = false;
-			}
-
-			if (irToggle) {
-				// left 0, down 0
-				float[] pointer = wiimote.Ir.GetPointingPosition();
-				// Debug.Log("ir loop");
-				if (pointer[0] > -1f && pointer[1] > -1f) {
-					wiimoteOrientation = new Vector3(
-						(pointer[0] - 0.5f) * SensorBarAngleScale.x,
-						 (pointer[1] - 0.5f) * SensorBarAngleScale.y + 90f,
-						 0f
-					);
-					// Debug.Log("orientation set from sensor bar");
-				}
-
-				// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);
-				// ir_pointer.anchorMin = new Vector2(pointer[0], pointer[1]);
-				// ir_pointer.anchorMax = new Vector2(pointer[0], pointer[1]);
-
-			}
-
-			if (wiimote.Button.a) {
-				// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
-				wiimoteOrientation = new Vector3(0f, 90f, 0f);
-				//wiimote.MotionPlus.SetZeroValues();
-			}
-
-			if (wiimote.Button.d_down || keyboard.jKey.wasPressedThisFrame) {
-				wiimote.MotionPlus.SetZeroValues();
-			}
-			if (wiimote.Button.d_right || keyboard.kKey.wasPressedThisFrame) {
-				wiimote.SetupIRCamera(SensorBarMode);
-			}
-
-			wiimoteFiring = wiimote.Button.b;
+			wiimoteFiring = WiimoteUpdate();
 		}
 
 		//if (Mouse.current.leftButton.isPressed) {
@@ -230,21 +105,9 @@ public class NozzleScript : MonoBehaviour {
 				wasFiring = true;
 			}
 
-
 			if (AllowAimWithMouse) {
-				//transform.Rotate(
-				//	Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime,
-				//	0,
-				//	Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime,
-				//	Space.World
-				//);
-
-				//transform.localRotation *= Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, transform.InverseTransformVector(Vector3.up));
-				//transform.localRotation *= Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, transform.InverseTransformVector(transform.right));
-
 				yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
 				pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
-
 			}
 
 		} else {
@@ -267,43 +130,173 @@ public class NozzleScript : MonoBehaviour {
 		transform.localRotation = Quaternion.identity
 			* Quaternion.AngleAxis(yaw, Vector3.up)
 			* Quaternion.AngleAxis(pitch, Vector3.right)
-			;
+		;
 
-		// TODO: Apply spread change to all relevant particle effects
-		// TODO: change percentually between min and max values, make both speed and spread reach their limits at the same time.
-		/*
-		if (keyboard.lKey.isPressed) {
-			if (Foam.startSpeed > MinFoamSpeed) {
-				Foam.startSpeed -= FoamSwitchSpeed;
-			}
+		if (Globals.CameraScript != this) {
+			Globals.CameraScript.UpdateAimOffset(yaw, -pitch + 90f);
+		}
 
-			// if(Foam.startSize < 3) {
-			// 	Foam.startSize += 0.1f;
+	}
+
+	private bool WiimoteUpdate() {
+		Keyboard keyboard = Keyboard.current;
+
+		wiimote = WiimoteManager.Wiimotes[0];
+
+		UpdateLEDs();
+
+		int ret;
+		do {
+			ret = wiimote.ReadWiimoteData();
+
+			// FIXME: ret returns less than 1 when reporting motion plus rotation
+			// if (ret < 1) {
+			// 	Debug.Log("ret less than 1");
+			// 	continue;
 			// }
 
-			ParticleSystem.ShapeModule shape = Foam.shape;
+			if (wiimote.current_ext != ExtensionController.MOTIONPLUS) {
+				wiimote.RequestIdentifyWiiMotionPlus(); // find/prepare wmp
+				wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_EXT8); // set data reporting to support wmp
+				wiimote.ActivateWiiMotionPlus(); // force wmp
+			} else {
 
-			if (shape.angle < MaxFoamSpread) {
-				shape.angle += FoamSwitchSpeed;
+				if (UseAccelerometer) {
+					float[] accel = wiimote.Accel.GetCalibratedAccelData();
+					wiimoteOrientation = new Vector3(
+						accel[0],
+						-accel[2],
+						-accel[1]
+					);
+				} else {
+
+					Vector3 offset = new Vector3(
+						wiimote.MotionPlus.YawSpeed * WiimoteYawSensitivity,
+						wiimote.MotionPlus.PitchSpeed * WiimotePitchSensitivity,
+						wiimote.MotionPlus.RollSpeed * WiimoteRollSensitivity
+						) / 95f; // Divide by 95Hz (average updates per second from wiimote)
+
+					if (FlipYaw)
+						offset.x *= -1;
+					if (FlipPitch)
+						offset.y *= -1;
+					if (FlipRoll)
+						offset.z *= -1;
+
+					wiimoteOrientation += offset;
+
+					float rollRadians = 0f;
+					if (!IgnoreRoll)
+						rollRadians = wiimoteOrientation.z * Mathf.Deg2Rad;
+
+					yaw = wiimoteOrientation.x * Mathf.Cos(rollRadians)
+					+ wiimoteOrientation.y * Mathf.Sin(rollRadians);
+
+					pitch = wiimoteOrientation.y * Mathf.Cos(rollRadians)
+					+ wiimoteOrientation.x * Mathf.Sin(rollRadians);
+
+					if (wiimote.Button.minus) {
+						Debug.Log("yaw: " + yaw + ", pitch: " + pitch);
+						Debug.Log("orientation: " + wiimoteOrientation);
+					}
+
+					// transform.localRotation *= Quaternion.Euler(offset);
+				}
+
+			}
+		} while (ret > 0);
+
+		// TODO: use wiimote.Accel.GetCalibratedAccelData() to reduce wmp drift
+
+		// TODO: re-aling using sensor bar
+		// IDEA: get roll from sensor bar, measure angle between dots?
+
+		// IDEA: add init process where drift is sampled while still, subtract average drift every frame.
+
+		if (wiimote.Button.d_left) {
+			if (dLeftWasPressed) {
+
+			} else {
+				irToggle = !irToggle;
+
+				dLeftWasPressed = true;
 			}
 
-		} else if (keyboard.kKey.isPressed) {
-			if (Foam.startSpeed < MaxFoamSpeed) {
-				Foam.startSpeed += FoamSwitchSpeed;
+		} else {
+			dLeftWasPressed = false;
+		}
+
+		if (irToggle) {
+			// left 0, down 0
+			float[] pointer = wiimote.Ir.GetPointingPosition();
+			// Debug.Log("ir loop");
+			if (pointer[0] > -1f && pointer[1] > -1f) {
+				wiimoteOrientation = new Vector3(
+					(pointer[0] - 0.5f) * SensorBarAngleScale.x,
+					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + 90f,
+					 0f
+				);
+				// Debug.Log("orientation set from sensor bar");
 			}
 
-			// if (Foam.startSize > 0.2) {
-			// 	Foam.startSize -= 0.1f;
-			// }
-			ParticleSystem.ShapeModule shape = Foam.shape;
-
-			if (shape.angle > MinFoamSpread) {
-				shape.angle -= FoamSwitchSpeed;
-			}
+			// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);
+			// ir_pointer.anchorMin = new Vector2(pointer[0], pointer[1]);
+			// ir_pointer.anchorMax = new Vector2(pointer[0], pointer[1]);
 
 		}
-		//*/
 
+		if (wiimote.Button.a) {
+			// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
+			wiimoteOrientation = new Vector3(0f, 90f, 0f);
+			//wiimote.MotionPlus.SetZeroValues();
+		}
+
+		if (wiimote.Button.d_down || keyboard.jKey.wasPressedThisFrame) {
+			wiimote.MotionPlus.SetZeroValues();
+		}
+		if (wiimote.Button.d_right || keyboard.kKey.wasPressedThisFrame) {
+			wiimote.SetupIRCamera(SensorBarMode);
+		}
+
+		bool wiimoteFiring = wiimote.Button.b;
+
+		if (wiimoteFiring) {
+			if (wiimoteWasFiring) {
+
+			} else {
+				wiimote.RumbleOn = true;
+				wiimoteWasFiring = true;
+			}
+
+		} else {
+			if (wiimoteWasFiring) {
+				wiimote.RumbleOn = false;
+				wiimoteWasFiring = false;
+			} else {
+			}
+		}
+
+		return wiimoteFiring;
+
+	}
+
+	private void UpdateLEDs() {
+		if (ledTimer.Update()) {
+			ledState++;
+			if (ledState > 3)
+				ledState = 0;
+
+			if (ledState == 0)
+				wiimote.SendPlayerLED(true, true, false, false);
+			if (ledState == 1)
+				wiimote.SendPlayerLED(false, true, true, false);
+			if (ledState == 2)
+				wiimote.SendPlayerLED(false, false, true, true);
+			if (ledState == 3)
+				wiimote.SendPlayerLED(true, false, false, true);
+
+			ledTimer.RestartWithDelta();
+		}
 	}
 
 }
