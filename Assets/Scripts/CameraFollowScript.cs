@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class CameraFollowScript : MonoBehaviour {
 	public Transform PositionAnchor;
 	public Transform AngleAnchor;
 
-	public WheelchairMoveScript WheelchairScript;
+	// public WheelchairMoveScript WheelchairScript;
 
 	private Vector3 distanceOffset;
 
@@ -40,6 +41,9 @@ public class CameraFollowScript : MonoBehaviour {
 	public Text InfoPane;
 
 	void Start() {
+
+		Globals.CameraScript = this;
+
 		Vector3 distance = transform.position - PositionAnchor.transform.position;
 		distanceOffset = distance;
 
@@ -112,9 +116,7 @@ public class CameraFollowScript : MonoBehaviour {
 		if (AutoTurning) {
 
 			float wheelchairSpeed = 1f;
-			if (WheelchairScript != null) {
-				wheelchairSpeed = WheelchairScript.Speed;
-			}
+			wheelchairSpeed = Globals.Player.Speed;
 
 			// TODO: quickly move the camera behind the player when they face the camera
 
