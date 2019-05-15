@@ -1657,6 +1657,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 2742243151945734659, guid: d827bba1b324e784e9a24816b034e783,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2742243151945734658, guid: d827bba1b324e784e9a24816b034e783,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2916,6 +2921,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467243209653805273, guid: 10c88d44970efef458c8700d7f77511f,
+        type: 3}
+      propertyPath: m_Text
+      value: Test notification text.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10c88d44970efef458c8700d7f77511f, type: 3}
