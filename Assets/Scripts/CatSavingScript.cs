@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CatSavingScript : MonoBehaviour {
 
-	public int ScoreWorth = 10;
+	public float ScoreWorth = 10f;
 
 	void OnParticleCollision(GameObject other) {
 		// Debug.Log("Extinguished " + name);
