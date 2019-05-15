@@ -9,7 +9,10 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		public static float Score = 0.2f;
+		private static float score = 0.2f;
+		public static float Score {
+			get { return score; }
+		}
 		public static float ScoreMultiplier = 0;
 
 		// The current player
@@ -32,6 +35,11 @@ namespace Assets.Scripts {
 
 			// NOTE: Reset fields here
 
+		}
+
+		public static void AddScore(float points) {
+			
+			score += points;
 		}
 
 	}
