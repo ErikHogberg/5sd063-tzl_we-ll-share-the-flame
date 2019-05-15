@@ -23,16 +23,25 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 	void Update() {
 
-		int timeLeft = Mathf.FloorToInt(timer.TimeLeft() * 100);
-
-		int minutes = timeLeft / 6000;
-		int seconds = (timeLeft % 6000) / 100;
-		int tensOfMilliseconds = (timeLeft % 6000) % 100;
-
-        text.text = "" + minutes + ":" + seconds.ToString("00") + ":" + tensOfMilliseconds.ToString("00");
-
 		if (timer.Update()) {
+			
+			text.text = "0:00:00";
+			
 			// TODO: do something when time runs out, change scene? trigger game over?
+
+
+
+		} else if (timer.IsRunning()) {
+
+			int timeLeft = Mathf.FloorToInt(timer.TimeLeft() * 100);
+
+			int minutes = timeLeft / 6000;
+			int seconds = (timeLeft % 6000) / 100;
+			int tensOfMilliseconds = (timeLeft % 6000) % 100;
+
+			text.text = "" + minutes + ":" + seconds.ToString("00") + ":" + tensOfMilliseconds.ToString("00");
+
 		}
+
 	}
 }
