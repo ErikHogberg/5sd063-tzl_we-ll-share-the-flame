@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Utilities;
+﻿using Assets.Scripts;
+using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,9 @@ public class FadeScript : MonoBehaviour {
 	public float alphaTemp;
 
 	void Start() {
+
+		Globals.FadePanel = this;
+
 		blackImage = GetComponent<Image>();
 		timer = new Timer(Time);
 

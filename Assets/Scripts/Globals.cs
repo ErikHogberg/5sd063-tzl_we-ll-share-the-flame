@@ -13,19 +13,21 @@ namespace Assets.Scripts {
 
 		// The current player
 		public static WheelchairMoveScript Player;
+		public static NozzleScript Nozzle;
+		public static CameraFollowScript CameraScript;
 
 
 		// UI
 		//public static NotificationScript NotificationWindow;
 		public static FadeScript FadePanel;
-		public static Image GameOverPanel;
+		// public static Image GameOverPanel;
 
 		public static GameObject PersitentMusic;
 
 		public static void GameOver() {
-			if (GameOverPanel != null) {
-				GameOverPanel.gameObject.SetActive(true);
-			}
+			// if (GameOverPanel != null) {
+			// 	GameOverPanel.gameObject.SetActive(true);
+			// }
 
 			// NOTE: Reset fields here
 
