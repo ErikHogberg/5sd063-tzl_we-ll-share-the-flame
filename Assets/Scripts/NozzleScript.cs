@@ -61,6 +61,7 @@ public class NozzleScript : MonoBehaviour {
 	public IRDataType SensorBarMode = IRDataType.BASIC;
 	// private RectTransform ir_pointer;
 	public Vector2 SensorBarAngleScale = new Vector2(10f, 10f);
+	public Vector2 SensorBarAngleOffset = new Vector2(0f, 90f);
 
 	private Timer ledTimer;
 	private int ledState = 0;
@@ -245,8 +246,8 @@ public class NozzleScript : MonoBehaviour {
 			// Debug.Log("ir loop");
 			if (pointer[0] > -1f && pointer[1] > -1f) {
 				wiimoteOrientation = new Vector3(
-					(pointer[0] - 0.5f) * SensorBarAngleScale.x,
-					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + 90f,
+					(pointer[0] - 0.5f) * SensorBarAngleScale.x + SensorBarAngleOffset.x,
+					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + SensorBarAngleOffset.y,
 					 0f
 				);
 				// Debug.Log("orientation set from sensor bar");
