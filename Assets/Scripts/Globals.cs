@@ -9,7 +9,7 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		private static float score = 0.2f;
+		private static float score = 0f;
 		public static float Score {
 			get { return score; }
 		}
