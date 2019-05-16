@@ -64,14 +64,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2526761702969095789}
     m_Modifications:
-    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
-      propertyPath: m_Name
-      value: WhiteChurchCasino
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
-      propertyPath: m_TagString
-      value: Building
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.3
@@ -128,6 +120,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
+      propertyPath: m_Name
+      value: WhiteChurchCasino
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f6511d3e94d61134bb147d89d271675d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
 --- !u!1 &4585689997278932774 stripped

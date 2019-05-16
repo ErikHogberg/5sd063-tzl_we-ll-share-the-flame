@@ -51,10 +51,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6744316227309500158}
     m_Modifications:
-    - target: {fileID: 100000, guid: 6ff85f31c8259e04585750114761c0a4, type: 3}
-      propertyPath: m_Name
-      value: fireHydrant
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6ff85f31c8259e04585750114761c0a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.32
@@ -111,6 +107,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.40000024
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 6ff85f31c8259e04585750114761c0a4, type: 3}
+      propertyPath: m_Name
+      value: fireHydrant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 6ff85f31c8259e04585750114761c0a4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: af5a75ed686e9334e999a1e5158bce39, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ff85f31c8259e04585750114761c0a4, type: 3}
 --- !u!1 &474616751837330352 stripped

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 800141875593355934}
   m_Layer: 0
-  m_Name: Blue Container
+  m_Name: Container Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,6 +111,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: a8858a37a4e0bc6448bd72e17ade8965, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a25e27cff64e004fae6c95d82054a13, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8858a37a4e0bc6448bd72e17ade8965, type: 3}
 --- !u!1 &8875063408381597768 stripped

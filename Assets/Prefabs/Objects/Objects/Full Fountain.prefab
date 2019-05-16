@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a4cb104eb1fba364987400a4a7c43fdc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
 --- !u!1 &1256768321619268594 stripped
@@ -133,6 +137,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852787757136823690}
     m_Modifications:
+    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: m_Name
+      value: Water Jet
+      objectReference: {fileID: 0}
     - target: {fileID: 9193838673014712479, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -197,11 +206,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.0000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: m_Name
-      value: Water Jet
       objectReference: {fileID: 0}
     - target: {fileID: 9193838672926218439, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
