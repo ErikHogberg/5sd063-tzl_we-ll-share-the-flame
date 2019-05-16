@@ -2386,7 +2386,7 @@ PrefabInstance:
     - target: {fileID: 3397028712657135273, guid: 7e371b354241f244ab823c09ec03b9ab,
         type: 3}
       propertyPath: time
-      value: 5
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 3397028712657135273, guid: 7e371b354241f244ab823c09ec03b9ab,
         type: 3}
@@ -2592,6 +2592,16 @@ PrefabInstance:
       propertyPath: AmmoConsumptionRate
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: SensorBarAngleOffset.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: UseAccelerometer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2291411879976372067, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_Enabled
@@ -2635,7 +2645,7 @@ PrefabInstance:
     - target: {fileID: 3722234772996164626, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_CollisionDetection
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85a03d8647d7c642afff3adbc6ddbd0, type: 3}
