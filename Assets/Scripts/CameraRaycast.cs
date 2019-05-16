@@ -13,11 +13,11 @@ public class CameraRaycast : MonoBehaviour
 		float distance = heading.magnitude;
 		Vector3 direction = heading / distance;
 
-		Ray ray = new Ray(transform.position, direction);
 		RaycastHit hit;
 
-		if(Physics.Raycast(ray, out hit)) {
+		if(Physics.Raycast(transform.position, direction, out hit, distance)) {
 			if(hit.collider.CompareTag("Building")) {
+				Debug.DrawRay(transform.position, direction, Color.green, 10f);
 				if(objectToHide != null) {
 					objectToHide.GetComponent<MeshRenderer>().enabled = true;
 					objectToHide = null;
@@ -29,6 +29,11 @@ public class CameraRaycast : MonoBehaviour
 					objectToHide.GetComponent<MeshRenderer>().enabled = true;
 					objectToHide = null;
 				}
+			}
+		} else {
+			if(objectToHide != null) {
+				objectToHide.GetComponent<MeshRenderer>().enabled = true;
+				objectToHide = null;
 			}
 		}
 	}

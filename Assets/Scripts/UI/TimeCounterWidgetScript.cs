@@ -12,9 +12,12 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 	private Text text;
 
+	public GameObject GameOverPanel;
+
 	void Start() {
 
 		text = GetComponent<Text>();
+		GameOverPanel.SetActive(false);
 
 		timer = new Timer(time);
 
@@ -29,7 +32,7 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 			
 			// TODO: do something when time runs out, change scene? trigger game over?
 
-
+			GameOverPanel.SetActive(true);
 
 		} else if (timer.IsRunning()) {
 
