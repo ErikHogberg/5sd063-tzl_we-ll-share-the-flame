@@ -11,14 +11,14 @@ public class CameraRaycast : MonoBehaviour
 		Vector3 heading = Camera.main.transform.position - transform.position;
 		// Vector3 heading = MainCamera.position - transform.position;
 		float distance = heading.magnitude;
-		Vector3 direction = heading / distance;
+		//Vector3 direction = heading / distance;
+		Debug.DrawRay(transform.position, heading, Color.green, 10f);
 
 		RaycastHit hit;
-		transform.LookAt(Camera.main.transform);
+		Ray checkRay = new Ray(transform.position, heading);
 
-		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distance)) {
+		if (Physics.Raycast(checkRay, out hit, distance)) {
 			if(hit.collider.CompareTag("Building")) {
-				Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.green, 10f);
 				if(objectToHide != null) {
 					objectToHide.GetComponent<MeshRenderer>().enabled = true;
 					objectToHide = null;
