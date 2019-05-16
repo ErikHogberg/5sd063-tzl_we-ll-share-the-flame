@@ -77,14 +77,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9028118018092760153}
     m_Modifications:
-    - target: {fileID: 100000, guid: f88c749d805108f4bb4858520328304d, type: 3}
-      propertyPath: m_Name
-      value: anotherBigBuilding
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: f88c749d805108f4bb4858520328304d, type: 3}
-      propertyPath: m_TagString
-      value: Building
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f88c749d805108f4bb4858520328304d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.8
@@ -141,6 +133,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f88c749d805108f4bb4858520328304d, type: 3}
+      propertyPath: m_Name
+      value: anotherBigBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f88c749d805108f4bb4858520328304d, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: f88c749d805108f4bb4858520328304d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 561bc01779f23984f8d514d9a02bf61a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f88c749d805108f4bb4858520328304d, type: 3}
 --- !u!1 &3106933611547616277 stripped
