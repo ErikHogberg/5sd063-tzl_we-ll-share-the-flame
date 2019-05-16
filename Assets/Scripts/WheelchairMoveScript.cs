@@ -51,6 +51,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public Text InfoPane;
 
 	public bool EnableCollision = false;
+	public float CollisionSlowdownMultiplier = 1.0f;
 
 	// Ramp jumping	
 	public float JumpTime = 1.0f;
@@ -314,6 +315,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// Turn 180 degrees when hitting a wall
 		// TODO: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
 		transform.Rotate(Vector3.up, 180);
+		leftWheelSpeed *= CollisionSlowdownMultiplier;
+		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
 }
