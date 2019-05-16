@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class CatSavingScript : MonoBehaviour {
 
-	public int ScoreWorth = 10;
+	public float ScoreWorth = 10f;
 
 	void OnParticleCollision(GameObject other) {
 		// Debug.Log("Extinguished " + name);
 		Globals.NotificationPanel.Notify("You saved a Cat! " + ScoreWorth + " points!");
 
-		Globals.Score += ScoreWorth;
+		Globals.AddScore(ScoreWorth, 2f);
 
 		gameObject.SetActive(false);
 	}

@@ -65,14 +65,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1610209476665308411}
     m_Modifications:
-    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
-      propertyPath: m_Name
-      value: TrainstationPt2
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
-      propertyPath: m_TagString
-      value: Building
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.1
@@ -129,6 +121,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
+      propertyPath: m_Name
+      value: TrainstationPt2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35a19f7caeb17854c839e51d59b91b0a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
 --- !u!1 &1430406016262247428 stripped
@@ -150,14 +154,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1610209476665308411}
     m_Modifications:
-    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
-      propertyPath: m_Name
-      value: TrainstationPt1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
-      propertyPath: m_TagString
-      value: Building
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.1
@@ -214,6 +210,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
+      propertyPath: m_Name
+      value: TrainstationPt1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a4ac1ce4d3a5a4479eff26670438d30, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
 --- !u!1 &8749284910416401948 stripped

@@ -9,7 +9,11 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		public static int Score = 0;
+		private static float score = 0f;
+		public static float Score {
+			get { return score; }
+		}
+		public static float ScoreMultiplier = 1;
 
 		// The current player
 		public static WheelchairMoveScript Player;
@@ -22,6 +26,8 @@ namespace Assets.Scripts {
 		public static FadeScript FadePanel;
 		// public static Image GameOverPanel;
 
+		public static ScoreMultiplierWidgetScript ScoreMultiplierPanel;
+
 		public static GameObject PersitentMusic;
 
 		public static void GameOver() {
@@ -31,6 +37,11 @@ namespace Assets.Scripts {
 
 			// NOTE: Reset fields here
 
+		}
+
+		public static void AddScore(float points, float multiplierIncrease) {
+			ScoreMultiplier += multiplierIncrease;
+			score += ScoreMultiplierPanel.AddPoints(points);
 		}
 
 	}
