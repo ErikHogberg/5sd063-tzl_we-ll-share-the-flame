@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Experimental.Input;
 
 public class TimeCounterWidgetScript : MonoBehaviour {
 
@@ -26,10 +27,15 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 	void Update() {
 
+		if (Keyboard.current.pKey.wasPressedThisFrame) {
+			timer.Stop();
+			GameOverPanel.SetActive(true);
+		}
+
 		if (timer.Update()) {
-			
+
 			text.text = "0:00:00";
-			
+
 			// TODO: do something when time runs out, change scene? trigger game over?
 
 			GameOverPanel.SetActive(true);
