@@ -11,7 +11,7 @@ public class CatSavingScript : MonoBehaviour {
 		// Debug.Log("Extinguished " + name);
 		Globals.NotificationPanel.Notify("You saved a Cat! " + ScoreWorth + " points!");
 
-		Globals.Score += ScoreWorth;
+		Globals.AddScore(ScoreWorth, 2f);
 
 		gameObject.SetActive(false);
 	}
