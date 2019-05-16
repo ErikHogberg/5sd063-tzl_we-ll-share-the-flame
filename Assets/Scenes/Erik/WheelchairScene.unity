@@ -3628,22 +3628,22 @@ PrefabInstance:
     - target: {fileID: 8467243208857438164, guid: 10c88d44970efef458c8700d7f77511f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -436.8
       objectReference: {fileID: 0}
     - target: {fileID: 8467243208857438164, guid: 10c88d44970efef458c8700d7f77511f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 255
+      value: 443.9
       objectReference: {fileID: 0}
     - target: {fileID: 8467243208857438164, guid: 10c88d44970efef458c8700d7f77511f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -1271.9
+      value: -1500.4
       objectReference: {fileID: 0}
     - target: {fileID: 8467243208857438164, guid: 10c88d44970efef458c8700d7f77511f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -977.6
+      value: -1039.5
       objectReference: {fileID: 0}
     - target: {fileID: 8467243208857438164, guid: 10c88d44970efef458c8700d7f77511f,
         type: 3}
@@ -3679,6 +3679,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Test notification text.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467243209653805273, guid: 10c88d44970efef458c8700d7f77511f,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10c88d44970efef458c8700d7f77511f, type: 3}
