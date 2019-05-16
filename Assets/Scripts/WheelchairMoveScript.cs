@@ -99,6 +99,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				Vector3 pos = transform.position;
 				pos.y = playerY + JumpHeight * JumpArc.Evaluate(jumpTimer.TimeLeft() / JumpTime);
 				transform.position = pos;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 				return;
 			}
 		}
@@ -112,7 +114,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-
+			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+			LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+			RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+			return;
 		}
 
 		if (UseMouse) {
