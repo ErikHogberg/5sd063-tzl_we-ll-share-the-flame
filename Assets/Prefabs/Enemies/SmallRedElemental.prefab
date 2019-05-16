@@ -4719,7 +4719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2790366810133191106}
   - component: {fileID: 2790366810133191109}
-  - component: {fileID: 8591458103642632796}
+  - component: {fileID: 2790366810133191108}
   m_Layer: 9
   m_Name: Fire elemental test
   m_TagString: Untagged
@@ -4778,7 +4778,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9486021db0aeb39468bee9b9dc3fa271, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9638457886509f743a00470d4e9b2ab1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4789,7 +4789,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8591458103642632796
+--- !u!95 &2790366810133191108
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -4799,7 +4799,7 @@ Animator:
   m_GameObject: {fileID: 2790366810133191111}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 150c8e0a4797b014db03e72d3c484218, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9c89592eb9ee7a14b809277bc3e17c75, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4881,7 +4881,7 @@ GameObject:
   - component: {fileID: 6682084134872180375}
   - component: {fileID: 6682084134872180368}
   m_Layer: 9
-  m_Name: BigBlueElemental
+  m_Name: SmallRedElemental
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
