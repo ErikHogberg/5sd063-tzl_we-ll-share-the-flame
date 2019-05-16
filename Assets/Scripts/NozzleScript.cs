@@ -12,6 +12,13 @@ public class NozzleScript : MonoBehaviour {
 	public GameObject Foam;
 	private ParticleSystem[] foamParticles;
 
+
+	[Tooltip("Max foam capacity")]
+	public float AmmoCapacity = 100;
+	[Tooltip("Amount of foam in tank")]
+	public float AmmoAmount = 100;
+	public float AmmoConsumptionRate = 0.1f;
+
 	public float turnSpeedX = 4.0f;
 	public float turnSpeedY = 2.0f;
 
@@ -41,6 +48,7 @@ public class NozzleScript : MonoBehaviour {
 
 	// wiimote
 	private Wiimote wiimote;
+	public bool DisableRumble = false;
 
 	private bool wiimoteWasFiring = false;
 
@@ -97,12 +105,17 @@ public class NozzleScript : MonoBehaviour {
 		}
 
 		//if (Mouse.current.leftButton.isPressed) {
-		if (firing || wiimoteFiring) {
+		if ((firing || wiimoteFiring) && AmmoAmount > 0f) {
 			if (!wasFiring) {
 				foreach (ParticleSystem particles in foamParticles) {
 					particles.Play();
 				}
 				wasFiring = true;
+			}
+
+			AmmoAmount -= AmmoConsumptionRate * Time.deltaTime;
+			if (AmmoAmount < 0f) {
+				AmmoAmount = 0f;
 			}
 
 			if (AllowAimWithMouse) {
@@ -264,7 +277,9 @@ public class NozzleScript : MonoBehaviour {
 			if (wiimoteWasFiring) {
 
 			} else {
-				wiimote.RumbleOn = true;
+				if (!DisableRumble) {
+					wiimote.RumbleOn = true;
+				}
 				wiimoteWasFiring = true;
 			}
 

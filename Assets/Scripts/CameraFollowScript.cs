@@ -144,7 +144,7 @@ public class CameraFollowScript : MonoBehaviour {
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
-				if (Vector2.SignedAngle(cameraFacing, playerFacing) + (YawOffset + yawAimOffset) > CameraTurnDeadZone) {
+				if (Vector2.SignedAngle(cameraFacing, playerFacing) + YawOffset + Mathf.Abs(yawAimOffset) > CameraTurnDeadZone) {
 					Yaw = -CameraTurnDeadZone - 180f - playerAngle;
 					// Yaw = CameraTurnDeadZone + 180f;
 					// UpdateOffset();
@@ -155,7 +155,7 @@ public class CameraFollowScript : MonoBehaviour {
 				cameraFacing = new Vector2(transform.forward.x, transform.forward.z);
 				playerFacing = new Vector2(AngleAnchor.transform.forward.x, AngleAnchor.transform.forward.z);
 
-				if (Vector2.SignedAngle(cameraFacing, playerFacing) - (YawOffset + yawAimOffset) < -CameraTurnDeadZone) {
+				if (Vector2.SignedAngle(cameraFacing, playerFacing) - YawOffset - Mathf.Abs(yawAimOffset) < -CameraTurnDeadZone) {
 					Yaw = CameraTurnDeadZone + 180f - playerAngle;
 					// UpdateOffset();
 				}

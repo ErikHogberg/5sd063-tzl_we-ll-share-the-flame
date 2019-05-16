@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class ScoreCounterWidgetScript : MonoBehaviour {
 
-    private Text text;
+	private Text text;
 
 	void Start() {
-        text = GetComponent<Text>();
+		text = GetComponent<Text>();
 	}
 
 	void Update() {
-        text.text = Globals.Score.ToString();
+		text.text = Globals.Score.ToString("F1");
 	}
 }

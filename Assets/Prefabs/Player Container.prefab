@@ -43,7 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5c23fe90a462a9488c916059c3f4f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainCamera: {fileID: 0}
 --- !u!1 &4883142326818491641
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PositionAnchorObject: {fileID: 4883142327712776024}
   AngleAnchorObject: {fileID: 0}
+  CalledManually: 0
 --- !u!1 &9072753700037925580
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PositionAnchorObject: {fileID: 6844312073823231828}
   AngleAnchorObject: {fileID: 4883142328164948885}
+  CalledManually: 0
 --- !u!1001 &3058513271478385868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -513,6 +514,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766533424796, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4042585769026940330, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
