@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 6682084134872180368}
   m_Layer: 9
   m_Name: BigRedElemental
-  m_TagString: Untagged
+  m_TagString: Ignore Collision
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
