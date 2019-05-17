@@ -9,9 +9,11 @@ public class NozzleScript : MonoBehaviour {
 	// [SerializeField]
 	public InputActionAsset controls;
 
+	public GameObject WaterJet;
 	public GameObject Foam;
+	private ParticleSystem[] waterJetParticles;
 	private ParticleSystem[] foamParticles;
-
+	public bool particleModeUseWater = false;
 
 	[Tooltip("Max foam capacity")]
 	public float AmmoCapacity = 100;
@@ -67,6 +69,7 @@ public class NozzleScript : MonoBehaviour {
 	private int ledState = 0;
 
 	private bool dLeftWasPressed = false;
+	private bool aWasPressed = false;
 	private bool irToggle = false;
 	// TODO: IR (reverse-)deadzone
 
@@ -77,8 +80,12 @@ public class NozzleScript : MonoBehaviour {
 		Globals.Nozzle = this;
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
+		waterJetParticles = WaterJet.GetComponentsInChildren<ParticleSystem>();
 
 		foreach (ParticleSystem particles in foamParticles) {
+			particles.Pause();
+		}
+		foreach (ParticleSystem particles in waterJetParticles) {
 			particles.Pause();
 		}
 
@@ -105,11 +112,23 @@ public class NozzleScript : MonoBehaviour {
 			wiimoteFiring = WiimoteUpdate();
 		}
 
+		if (keyboard.mKey.wasPressedThisFrame) {
+			SwitchParticles(firing);
+		}
+
 		//if (Mouse.current.leftButton.isPressed) {
 		if ((firing || wiimoteFiring) && AmmoAmount > 0f) {
 			if (!wasFiring) {
-				foreach (ParticleSystem particles in foamParticles) {
-					particles.Play();
+				if (particleModeUseWater) {
+					foreach (ParticleSystem particles in waterJetParticles) {
+						particles.Play();
+					}
+
+				} else {
+
+					foreach (ParticleSystem particles in foamParticles) {
+						particles.Play();
+					}
 				}
 				wasFiring = true;
 			}
@@ -126,9 +145,19 @@ public class NozzleScript : MonoBehaviour {
 
 		} else {
 			if (wasFiring) {
-				foreach (ParticleSystem particles in foamParticles) {
-					particles.Stop();
+
+				if (particleModeUseWater) {
+					foreach (ParticleSystem particles in waterJetParticles) {
+						particles.Stop();
+					}
+
+				} else {
+
+					foreach (ParticleSystem particles in foamParticles) {
+						particles.Stop();
+					}
 				}
+
 				wasFiring = false;
 			}
 		}
@@ -259,7 +288,17 @@ public class NozzleScript : MonoBehaviour {
 
 		}
 
+		bool wiimoteFiring = wiimote.Button.b;
+
 		if (wiimote.Button.a) {
+			if (!aWasPressed) {
+				SwitchParticles(wiimoteFiring);
+			}
+		} else {
+			aWasPressed = false;
+		}
+
+		if (wiimote.Button.d_up) {
 			// transform.localRotation = Quaternion.AngleAxis(90, transform.parent.right);
 			wiimoteOrientation = new Vector3(0f, 90f, 0f);
 			//wiimote.MotionPlus.SetZeroValues();
@@ -272,7 +311,6 @@ public class NozzleScript : MonoBehaviour {
 			wiimote.SetupIRCamera(SensorBarMode);
 		}
 
-		bool wiimoteFiring = wiimote.Button.b;
 
 		if (wiimoteFiring) {
 			if (wiimoteWasFiring) {
@@ -312,6 +350,30 @@ public class NozzleScript : MonoBehaviour {
 				wiimote.SendPlayerLED(true, false, false, true);
 
 			ledTimer.RestartWithDelta();
+		}
+	}
+
+	private void SwitchParticles(bool nozzleIsFiring){
+		aWasPressed = true;
+		Debug.Log("change foam mode");
+		particleModeUseWater = !particleModeUseWater;
+		if (nozzleIsFiring) {
+			if (particleModeUseWater) {
+				foreach (ParticleSystem particles in waterJetParticles) {
+					particles.Play();
+				}
+				foreach (ParticleSystem particles in foamParticles) {
+					particles.Stop();
+				}
+			} else {
+
+				foreach (ParticleSystem particles in foamParticles) {
+					particles.Play();
+				}
+				foreach (ParticleSystem particles in waterJetParticles) {
+					particles.Stop();
+				}
+			}
 		}
 	}
 
