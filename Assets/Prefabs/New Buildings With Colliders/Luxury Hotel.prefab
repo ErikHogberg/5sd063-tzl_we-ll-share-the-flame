@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!65 &4568470119310188180
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547698556700954935}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.900003, y: 3.277488, z: 4.800002}
-  m_Center: {x: 0, y: -0.5112571, z: 3.3974093e-15}
 --- !u!65 &2737777527198779296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26,6 +13,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5101284, y: 4.300002, z: 2.1930637}
   m_Center: {x: -2.1949348, y: -1.1160238e-14, z: -1.3034687}
+--- !u!65 &4568470119310188180
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547698556700954935}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.900003, y: 3.277488, z: 4.800002}
+  m_Center: {x: 0, y: -0.5112571, z: 3.3974093e-15}
 --- !u!65 &6551407800319295385
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,6 +141,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35836440a169cc14291f6275ab0b93f3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
 --- !u!1 &1547698556700954935 stripped

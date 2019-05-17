@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!65 &6521267078959724192
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5211840821147781680}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8500001, y: 0.8000002, z: 0.8724074}
-  m_Center: {x: 0, y: -1.3924633e-15, z: 0.31379646}
 --- !u!65 &4374503914300758908
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26,6 +13,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14622569, y: 0.16378129, z: 1.5000004}
   m_Center: {x: -0.024116736, y: 0.0095468955, z: -5.5474636e-17}
+--- !u!65 &6521267078959724192
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5211840821147781680}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8500001, y: 0.8000002, z: 0.8724074}
+  m_Center: {x: 0, y: -1.3924633e-15, z: 0.31379646}
 --- !u!1 &7341674758017883924
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,10 +64,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 129037927276851754}
     m_Modifications:
-    - target: {fileID: 100000, guid: 593a1ebfe21926840b4d0dba4f0d7b26, type: 3}
-      propertyPath: m_Name
-      value: treeH (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 593a1ebfe21926840b4d0dba4f0d7b26, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -100,6 +96,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.57004
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 593a1ebfe21926840b4d0dba4f0d7b26, type: 3}
+      propertyPath: m_Name
+      value: treeH (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 593a1ebfe21926840b4d0dba4f0d7b26, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ec2e65d22dfbd5346bf80344a68d2b0b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 593a1ebfe21926840b4d0dba4f0d7b26, type: 3}
 --- !u!1 &5211840821147781680 stripped
