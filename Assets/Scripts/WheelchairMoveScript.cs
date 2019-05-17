@@ -85,6 +85,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 		boostTimer = new Timer(BoostTime);
 		boostTimer.Stop();
 
+		if (UseMouse)
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			// Cursor.visible = false;
+		}
+
 	}
 
 	void Update() {
