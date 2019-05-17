@@ -45,8 +45,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	// private float driftAngle = 0.0f;
 	private float driftSpeed = 0.0f;
 
-	private float leftWheelSpeed = 0.0f;
-	private float rightWheelSpeed = 0.0f;
+	[HideInInspector]
+	public float leftWheelSpeed = 0.0f;
+	[HideInInspector]
+	public float rightWheelSpeed = 0.0f;
 	public Vector3 WheelRotationAxis = Vector3.down;
 
 	public Text InfoPane;
@@ -86,8 +88,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		boostTimer = new Timer(BoostTime);
 		boostTimer.Stop();
 
-		if (UseMouse)
-		{
+		if (UseMouse) {
 			Cursor.lockState = CursorLockMode.Locked;
 			// Cursor.visible = false;
 		}
