@@ -61,6 +61,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private float playerY;
 	public AnimationCurve JumpArc;
 
+	public float BoostTime = 2.5f;
+	private Timer boostTimer;
+	public float BoostAcceleration = 1f;
+	public float BoostMaxSpeed = 20f;
+
+
 	void Start() {
 
 		Globals.Player = this;
@@ -76,6 +82,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 		jumpTimer = new Timer(JumpTime);
 		jumpTimer.Stop();
 
+		boostTimer = new Timer(BoostTime);
+		boostTimer.Stop();
+
 	}
 
 	void Update() {
@@ -88,12 +97,28 @@ public class WheelchairMoveScript : MonoBehaviour {
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
-				pos.y = playerY + JumpHeight * JumpArc.Evaluate( jumpTimer.TimeLeft() / JumpTime);
+				pos.y = playerY + JumpHeight * JumpArc.Evaluate(jumpTimer.TimeLeft() / JumpTime);
 				transform.position = pos;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 				return;
 			}
 		}
 
+		if (keyboard.bKey.wasPressedThisFrame && !boostTimer.IsRunning()) {
+			boostTimer.Restart(BoostTime);
+		}
+
+		if (boostTimer.IsRunning()) {
+			boostTimer.Update();
+
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+			LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+			RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+			return;
+		}
 
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
