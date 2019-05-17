@@ -31073,6 +31073,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b31341e81db07184a9b77e7f56c53c02, type: 3}
+    - target: {fileID: 6379432527202510548, guid: 389cfebb8aeff20428d31f1858b15ddc,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379432527202510548, guid: 389cfebb8aeff20428d31f1858b15ddc,
+        type: 3}
+      propertyPath: ShapeModule.angle
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379432527202510548, guid: 389cfebb8aeff20428d31f1858b15ddc,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379432527202510548, guid: 389cfebb8aeff20428d31f1858b15ddc,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3137556096872644131, guid: 389cfebb8aeff20428d31f1858b15ddc, type: 3}
     - {fileID: 908616543938638887, guid: 389cfebb8aeff20428d31f1858b15ddc, type: 3}
@@ -31369,7 +31389,7 @@ PrefabInstance:
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: UseMouse
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
