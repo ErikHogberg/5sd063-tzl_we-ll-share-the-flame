@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -23491,7 +23491,7 @@ Transform:
   - {fileID: 1396759637}
   - {fileID: 103094689}
   m_Father: {fileID: 531879788}
-  m_RootOrder: 21
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1632147828 stripped
 Transform:
@@ -31067,6 +31067,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b31341e81db07184a9b77e7f56c53c02, type: 3}
+    - target: {fileID: 1350319419494541920, guid: 389cfebb8aeff20428d31f1858b15ddc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3137556096872644131, guid: 389cfebb8aeff20428d31f1858b15ddc, type: 3}
     - {fileID: 908616543938638887, guid: 389cfebb8aeff20428d31f1858b15ddc, type: 3}
@@ -31321,15 +31326,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
-        type: 3}
-      propertyPath: m_Name
-      value: Camera Focus Focus (yes, that's right)
-      objectReference: {fileID: 0}
     - target: {fileID: 7617396279243899797, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_Name
+      value: Camera Focus Focus (yes, that's right)
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -31519,7 +31524,7 @@ Transform:
   - {fileID: 3942549771697093823}
   - {fileID: 4061189928929868094}
   m_Father: {fileID: 531879788}
-  m_RootOrder: 20
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6132681777846739393
 MeshRenderer:
