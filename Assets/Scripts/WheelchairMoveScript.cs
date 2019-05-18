@@ -24,6 +24,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public bool FlipKeys = false;
 	public bool UseMouse = false;
+	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
 	public float Speed = 1.0f;
 	public float TurningSpeed = 1.0f;
@@ -61,6 +62,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private float playerY;
 	public AnimationCurve JumpArc;
 
+	public float BoostTime = 2.5f;
+	private Timer boostTimer;
+	public float BoostAcceleration = 1f;
+	public float BoostMaxSpeed = 20f;
+
+
 	void Start() {
 
 		Globals.Player = this;
@@ -76,6 +83,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 		jumpTimer = new Timer(JumpTime);
 		jumpTimer.Stop();
 
+		boostTimer = new Timer(BoostTime);
+		boostTimer.Stop();
+
+		if (UseMouse)
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			// Cursor.visible = false;
+		}
+
 	}
 
 	void Update() {
@@ -85,21 +101,40 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (jumpTimer.IsRunning()) {
 			if (jumpTimer.Update()) {
+				Vector3 pos = transform.position;
+				pos.y = playerY;
+				transform.position = pos;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
-				pos.y = playerY + JumpHeight * JumpArc.Evaluate( jumpTimer.TimeLeft() / JumpTime);
+				pos.y = playerY + JumpHeight * JumpArc.Evaluate(jumpTimer.TimeLeft() / JumpTime);
 				transform.position = pos;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 				return;
 			}
 		}
 
+		if (keyboard.bKey.wasPressedThisFrame && !boostTimer.IsRunning()) {
+			boostTimer.Restart(BoostTime);
+		}
+
+		if (boostTimer.IsRunning()) {
+			boostTimer.Update();
+
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+			LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+			RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+			return;
+		}
 
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
-				float x = Mouse.current.delta.x.ReadValue() * Speed * Time.deltaTime;
-				float y = Mouse.current.delta.y.ReadValue() * Speed * Time.deltaTime;
+				float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
+				float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
 
 				if (FlipKeys) {
 					leftWheelSpeed = y;
