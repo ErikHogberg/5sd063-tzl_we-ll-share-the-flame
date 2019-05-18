@@ -26,7 +26,6 @@ public class WobbleScript : MonoBehaviour {
 	private float pitchFlip = 1f;
 	private float rollFlip = 1f;
 
-	public float debug = 0f;
 
 	void Start() {
 		yawAnimationTimer = new Timer(AnimationTime.x);
@@ -42,15 +41,15 @@ public class WobbleScript : MonoBehaviour {
 
 	void Update() {
 		if (yawAnimationTimer.Update()) {
-			yawAnimationTimer.Restart();
+			yawAnimationTimer.Restart(AnimationTime.x);
 			yawFlip *= -1f;
 		}
 		if (pitchAnimationTimer.Update()) {
-			pitchAnimationTimer.Restart();
+			pitchAnimationTimer.Restart(AnimationTime.y);
 			pitchFlip *= -1f;
 		}
 		if (rollAnimationTimer.Update()) {
-			rollAnimationTimer.Restart();
+			rollAnimationTimer.Restart(AnimationTime.z);
 			rollFlip *= -1f;
 		}
 
@@ -67,9 +66,6 @@ public class WobbleScript : MonoBehaviour {
 		float roll = RollAnimation.Evaluate(
 			(rollTimerProgress + WobbleTimeOffset.z * 0.5f) * 2f
 		) * WobbleAmount.z * rollFlip;
-
-
-		debug = yawTimerProgress;
 
 		if (yawTimerProgress < WobbleTimeOffset.x * 0.5f
 		|| yawTimerProgress < 1f - WobbleTimeOffset.x * 0.5f) {
