@@ -71,6 +71,7 @@ public class NozzleScript : MonoBehaviour {
 	private bool dLeftWasPressed = false;
 	private bool aWasPressed = false;
 	private bool irToggle = false;
+	public Vector2 IrOuterDeadzone = new Vector2(1f, 1f);
 	// TODO: IR (reverse-)deadzone
 
 	public bool UseAccelerometer = false;
@@ -108,6 +109,7 @@ public class NozzleScript : MonoBehaviour {
 
 		if (!WiimoteManager.HasWiimote()) {
 			WiimoteManager.FindWiimotes();
+			// Debug.Log("scanned wiimotes");
 		} else {
 			wiimoteFiring = WiimoteUpdate();
 		}
@@ -273,7 +275,9 @@ public class NozzleScript : MonoBehaviour {
 			// left 0, down 0
 			float[] pointer = wiimote.Ir.GetPointingPosition();
 			// Debug.Log("ir loop");
-			if (pointer[0] > -1f && pointer[1] > -1f) {
+			// if (pointer[0] > -1f && pointer[1] > -1f) {
+			if (pointer[0] > IrOuterDeadzone.x && pointer[0] < 1f - IrOuterDeadzone.x
+			&& pointer[1] > IrOuterDeadzone.y && pointer[1] < 1f - IrOuterDeadzone.y) {
 				wiimoteOrientation = new Vector3(
 					(pointer[0] - 0.5f) * SensorBarAngleScale.x + SensorBarAngleOffset.x,
 					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + SensorBarAngleOffset.y,
@@ -353,7 +357,7 @@ public class NozzleScript : MonoBehaviour {
 		}
 	}
 
-	private void SwitchParticles(bool nozzleIsFiring){
+	private void SwitchParticles(bool nozzleIsFiring) {
 		aWasPressed = true;
 		Debug.Log("change foam mode");
 		particleModeUseWater = !particleModeUseWater;

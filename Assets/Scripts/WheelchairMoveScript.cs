@@ -134,8 +134,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
-				float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
-				float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
+				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
+				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed * Time.deltaTime;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed * Time.deltaTime;
 
 				if (FlipKeys) {
 					leftWheelSpeed = y;
