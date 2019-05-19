@@ -9,4 +9,8 @@ public class RampScript : MonoBehaviour {
     // TODO: set jump height
     // IDEA: set sump target location (as game object)
 
+    public bool RelativeHeight = false;
+    public float TargetHeight = 0f;
+    public float JumpHeight = 0f;
+
 }

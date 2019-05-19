@@ -59,6 +59,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	// Ramp jumping	
 	public float JumpTime = 1.0f;
 	public float JumpHeight = 1.0f;
+	private bool useTempJumpHeight = false;
+	private float tempJumpHeight = 1.0f;
 	private Timer jumpTimer;
 	private float jumpSpeed;
 	private float playerY;
@@ -105,21 +107,29 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (jumpTimer.IsRunning()) {
 			if (jumpTimer.Update()) {
 				Vector3 pos = transform.position;
-				pos.y = jumpTargetY;//playerY;
+				playerY = jumpTargetY;
+				pos.y = playerY;
 				transform.position = pos;
+				useTempJumpHeight = false;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
 
 				float jumpProgress = 1f - jumpTimer.TimeLeft() / JumpTime;
 
-				float arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+				float arcHeight;
+				if (useTempJumpHeight) {
+					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+				} else {
+					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+				}
 
-				if (jumpProgress < .5f) {
+				if (jumpProgress < 0.5f) {
 					pos.y = playerY + arcHeight * JumpArc.Evaluate(jumpProgress * 2f);
 				} else {
-					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY) ) * JumpArc.Evaluate(jumpProgress * 2f);
+					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY)) * JumpArc.Evaluate(jumpProgress * 2f);
 				}
+
 				transform.position = pos;
 				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
 				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
@@ -355,8 +365,26 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		if (other.tag == "Ramp") {
-			// Debug.Log("hit ramp!");
-			jumpTargetY = playerY + 2f;
+			Debug.Log("hit ramp " + other.name + "!");
+
+			// NOTE: ignores jump if already in air
+			if (jumpTimer.IsRunning()) {
+				return;
+			}
+
+			RampScript rampScript = other.GetComponent<RampScript>();
+
+			if (rampScript != null) {
+				Debug.Log("Found ramp script!");
+				if (rampScript.RelativeHeight) {
+					jumpTargetY = playerY + rampScript.TargetHeight;
+				} else {
+					jumpTargetY = rampScript.TargetHeight;
+				}
+				useTempJumpHeight = true;
+				tempJumpHeight = rampScript.JumpHeight;
+			}
+
 			jumpTimer.Restart(JumpTime);
 			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
 			return;
