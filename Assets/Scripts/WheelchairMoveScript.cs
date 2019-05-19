@@ -62,6 +62,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private Timer jumpTimer;
 	private float jumpSpeed;
 	private float playerY;
+	private float jumpTargetY;
 	public AnimationCurve JumpArc;
 
 	public float BoostTime = 2.5f;
@@ -78,6 +79,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//DriftTimer.Stop();
 
 		playerY = transform.position.y;
+		jumpTargetY = playerY;
 
 		leftWheelTrail = LeftWheelSparks.GetComponentInChildren<TrailRenderer>();
 		rightWheelTrail = RightWheelSparks.GetComponentInChildren<TrailRenderer>();
@@ -103,15 +105,24 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (jumpTimer.IsRunning()) {
 			if (jumpTimer.Update()) {
 				Vector3 pos = transform.position;
-				pos.y = playerY;
+				pos.y = jumpTargetY;//playerY;
 				transform.position = pos;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
-				pos.y = playerY + JumpHeight * JumpArc.Evaluate(jumpTimer.TimeLeft() / JumpTime);
+
+				float jumpProgress = 1f - jumpTimer.TimeLeft() / JumpTime;
+
+				float arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+
+				if (jumpProgress < .5f) {
+					pos.y = playerY + arcHeight * JumpArc.Evaluate(jumpProgress * 2f);
+				} else {
+					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY) ) * JumpArc.Evaluate(jumpProgress * 2f);
+				}
 				transform.position = pos;
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
 				return;
 			}
 		}
@@ -345,6 +356,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (other.tag == "Ramp") {
 			// Debug.Log("hit ramp!");
+			jumpTargetY = playerY + 2f;
 			jumpTimer.Restart(JumpTime);
 			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
 			return;
@@ -352,17 +364,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		Debug.Log("hit wall: " + other.name);
 		// Turn 180 degrees when hitting a wall
-		// TODO: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
+		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
+		// IDEA: Stop and teleport backwards instead
 		transform.Rotate(Vector3.up, 180);
 		leftWheelSpeed *= CollisionSlowdownMultiplier;
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
-	public void Boost(float boostTime){
+	public void Boost(float boostTime) {
 		boostTimer.Restart(boostTime);
 	}
 
-	public void Boost(float boostTime, Quaternion facing){
+	public void Boost(float boostTime, Quaternion facing) {
 		transform.rotation = facing;
 		Boost(boostTime);
 	}
