@@ -117,7 +117,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		if (keyboard.bKey.wasPressedThisFrame && !boostTimer.IsRunning()) {
-			boostTimer.Restart(BoostTime);
+			// boostTimer.Restart(BoostTime);
+			Boost();
 		}
 
 		if (boostTimer.IsRunning()) {
@@ -355,6 +356,19 @@ public class WheelchairMoveScript : MonoBehaviour {
 		transform.Rotate(Vector3.up, 180);
 		leftWheelSpeed *= CollisionSlowdownMultiplier;
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
+	}
+
+	public void Boost(float boostTime){
+		boostTimer.Restart(boostTime);
+	}
+
+	public void Boost(float boostTime, Quaternion facing){
+		transform.rotation = facing;
+		Boost(boostTime);
+	}
+
+	public void Boost() {
+		Boost(BoostTime);
 	}
 
 }
