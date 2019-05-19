@@ -4,6 +4,8 @@ using Assets.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Experimental.Input;
+using Assets.Scripts;
+using UnityEngine.SceneManagement;
 
 public class TimeCounterWidgetScript : MonoBehaviour {
 
@@ -29,6 +31,9 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 		if (Keyboard.current.pKey.wasPressedThisFrame) {
 			timer.Stop();
+			//Cursor.lockState = CursorLockMode.None;
+			Globals.FadePanel.StartLevelTransition(SceneManager.GetActiveScene().name);
+
 			GameOverPanel.SetActive(true);
 		}
 
@@ -37,7 +42,9 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 			text.text = "0:00:00";
 
 			// TODO: do something when time runs out, change scene? trigger game over?
-
+			//Cursor.lockState = CursorLockMode.Confined;
+			//Cursor.visible = true;
+			Globals.FadePanel.StartLevelTransition(SceneManager.GetActiveScene().name);
 			GameOverPanel.SetActive(true);
 
 		} else if (timer.IsRunning()) {

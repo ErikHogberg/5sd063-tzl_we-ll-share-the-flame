@@ -24,6 +24,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public bool FlipKeys = false;
 	public bool UseMouse = false;
+	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
 	public float Speed = 1.0f;
 	public float TurningSpeed = 1.0f;
@@ -100,6 +101,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (jumpTimer.IsRunning()) {
 			if (jumpTimer.Update()) {
+				Vector3 pos = transform.position;
+				pos.y = playerY;
+				transform.position = pos;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
@@ -129,8 +133,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
-				float x = Mouse.current.delta.x.ReadValue() * Speed * Time.deltaTime;
-				float y = Mouse.current.delta.y.ReadValue() * Speed * Time.deltaTime;
+				//float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed * Time.deltaTime;
+				float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
+				//float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed * Time.deltaTime;
+				float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
 
 				if (FlipKeys) {
 					leftWheelSpeed = y;
