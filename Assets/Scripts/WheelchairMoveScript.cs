@@ -422,7 +422,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// Turn 180 degrees when hitting a wall
 		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
 		// IDEA: Stop and teleport backwards instead
-		transform.Rotate(Vector3.up, 180);
+		// transform.Rotate(Vector3.up, 180);
+		float oldLeftSpeed = leftWheelSpeed;
+		leftWheelSpeed= -rightWheelSpeed;
+		rightWheelSpeed= -oldLeftSpeed;
+		
 		leftWheelSpeed *= CollisionSlowdownMultiplier;
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
