@@ -12,5 +12,6 @@ public class RampScript : MonoBehaviour {
     public bool RelativeHeight = false;
     public float TargetHeight = 0f;
     public float JumpHeight = 0f;
+    // TODO: skip first half bool, starting timer at 50%
 
 }

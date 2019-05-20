@@ -67,11 +67,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private float jumpTargetY;
 	public AnimationCurve JumpArc;
 
+	// Boost
 	public float BoostTime = 2.5f;
 	private Timer boostTimer;
 	public float BoostAcceleration = 1f;
 	public float BoostMaxSpeed = 20f;
 
+	// Zipline
+	private bool ziplining = false;
+	private Vector3 ziplineTarget;
+	private float ziplineSpeed;
 
 	void Start() {
 
@@ -103,6 +108,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 		var keyboard = Keyboard.current;
 
 		string infoText = "";
+
+		if (ziplining) {
+			float ziplineDelta = ziplineSpeed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
+			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
+				ziplining = false;
+				jumpTargetY = playerY;
+				playerY = transform.position.y;
+				jumpTimer.Restart();
+			}
+			return;
+		}
 
 		if (jumpTimer.IsRunning()) {
 			if (jumpTimer.Update()) {
@@ -375,7 +392,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 			RampScript rampScript = other.GetComponent<RampScript>();
 
 			if (rampScript != null) {
-				Debug.Log("Found ramp script!");
 				if (rampScript.RelativeHeight) {
 					jumpTargetY = playerY + rampScript.TargetHeight;
 				} else {
@@ -387,6 +403,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			jumpTimer.Restart(JumpTime);
 			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+			return;
+		}
+
+		if (other.tag == "Zipline") {
+			Debug.Log("hit zipline " + other.name + "!");
+			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
+			if (zipline != null) {
+				Debug.Log("Found zipline script");
+				ziplining = true;
+				ziplineTarget = zipline.End.transform.position;
+				ziplineSpeed = zipline.Speed;
+			}
 			return;
 		}
 
