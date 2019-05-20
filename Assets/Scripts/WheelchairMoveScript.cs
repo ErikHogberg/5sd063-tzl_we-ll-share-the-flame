@@ -24,6 +24,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public bool FlipKeys = false;
 	public bool UseMouse = false;
+	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
 	public float Speed = 1.0f;
 	public float TurningSpeed = 1.0f;
@@ -44,8 +45,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	// private float driftAngle = 0.0f;
 	private float driftSpeed = 0.0f;
 
-	private float leftWheelSpeed = 0.0f;
-	private float rightWheelSpeed = 0.0f;
+	[HideInInspector]
+	public float leftWheelSpeed = 0.0f;
+	[HideInInspector]
+	public float rightWheelSpeed = 0.0f;
 	public Vector3 WheelRotationAxis = Vector3.down;
 
 	public Text InfoPane;
@@ -56,16 +59,24 @@ public class WheelchairMoveScript : MonoBehaviour {
 	// Ramp jumping	
 	public float JumpTime = 1.0f;
 	public float JumpHeight = 1.0f;
+	private bool useTempJumpHeight = false;
+	private float tempJumpHeight = 1.0f;
 	private Timer jumpTimer;
 	private float jumpSpeed;
 	private float playerY;
+	private float jumpTargetY;
 	public AnimationCurve JumpArc;
 
+	// Boost
 	public float BoostTime = 2.5f;
 	private Timer boostTimer;
 	public float BoostAcceleration = 1f;
 	public float BoostMaxSpeed = 20f;
 
+	// Zipline
+	private bool ziplining = false;
+	private Vector3 ziplineTarget;
+	private float ziplineSpeed;
 
 	void Start() {
 
@@ -75,6 +86,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//DriftTimer.Stop();
 
 		playerY = transform.position.y;
+		jumpTargetY = playerY;
 
 		leftWheelTrail = LeftWheelSparks.GetComponentInChildren<TrailRenderer>();
 		rightWheelTrail = RightWheelSparks.GetComponentInChildren<TrailRenderer>();
@@ -85,8 +97,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		boostTimer = new Timer(BoostTime);
 		boostTimer.Stop();
 
-		if (UseMouse)
-		{
+		if (UseMouse) {
 			Cursor.lockState = CursorLockMode.Locked;
 			// Cursor.visible = false;
 		}
@@ -98,21 +109,54 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		string infoText = "";
 
+		if (ziplining) {
+			float ziplineDelta = ziplineSpeed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
+			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
+				ziplining = false;
+				jumpTargetY = playerY;
+				playerY = transform.position.y;
+				jumpTimer.Restart();
+			}
+			return;
+		}
+
 		if (jumpTimer.IsRunning()) {
 			if (jumpTimer.Update()) {
+				Vector3 pos = transform.position;
+				playerY = jumpTargetY;
+				pos.y = playerY;
+				transform.position = pos;
+				useTempJumpHeight = false;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
-				pos.y = playerY + JumpHeight * JumpArc.Evaluate(jumpTimer.TimeLeft() / JumpTime);
+
+				float jumpProgress = 1f - jumpTimer.TimeLeft() / JumpTime;
+
+				float arcHeight;
+				if (useTempJumpHeight) {
+					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+				} else {
+					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+				}
+
+				if (jumpProgress < 0.5f) {
+					pos.y = playerY + arcHeight * JumpArc.Evaluate(jumpProgress * 2f);
+				} else {
+					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY)) * JumpArc.Evaluate(jumpProgress * 2f);
+				}
+
 				transform.position = pos;
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
 				return;
 			}
 		}
 
 		if (keyboard.bKey.wasPressedThisFrame && !boostTimer.IsRunning()) {
-			boostTimer.Restart(BoostTime);
+			// boostTimer.Restart(BoostTime);
+			Boost();
 		}
 
 		if (boostTimer.IsRunning()) {
@@ -129,8 +173,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
-				float x = Mouse.current.delta.x.ReadValue() * Speed * Time.deltaTime;
-				float y = Mouse.current.delta.y.ReadValue() * Speed * Time.deltaTime;
+				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
+				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed * Time.deltaTime;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed * Time.deltaTime;
 
 				if (FlipKeys) {
 					leftWheelSpeed = y;
@@ -336,18 +382,62 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		if (other.tag == "Ramp") {
-			// Debug.Log("hit ramp!");
+			Debug.Log("hit ramp " + other.name + "!");
+
+			// NOTE: ignores jump if already in air
+			if (jumpTimer.IsRunning()) {
+				return;
+			}
+
+			RampScript rampScript = other.GetComponent<RampScript>();
+
+			if (rampScript != null) {
+				if (rampScript.RelativeHeight) {
+					jumpTargetY = playerY + rampScript.TargetHeight;
+				} else {
+					jumpTargetY = rampScript.TargetHeight;
+				}
+				useTempJumpHeight = true;
+				tempJumpHeight = rampScript.JumpHeight;
+			}
+
 			jumpTimer.Restart(JumpTime);
 			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
 			return;
 		}
 
+		if (other.tag == "Zipline") {
+			Debug.Log("hit zipline " + other.name + "!");
+			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
+			if (zipline != null) {
+				Debug.Log("Found zipline script");
+				ziplining = true;
+				ziplineTarget = zipline.End.transform.position;
+				ziplineSpeed = zipline.Speed;
+			}
+			return;
+		}
+
 		Debug.Log("hit wall: " + other.name);
 		// Turn 180 degrees when hitting a wall
-		// TODO: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
+		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
+		// IDEA: Stop and teleport backwards instead
 		transform.Rotate(Vector3.up, 180);
 		leftWheelSpeed *= CollisionSlowdownMultiplier;
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
+	}
+
+	public void Boost(float boostTime) {
+		boostTimer.Restart(boostTime);
+	}
+
+	public void Boost(float boostTime, Quaternion facing) {
+		transform.rotation = facing;
+		Boost(boostTime);
+	}
+
+	public void Boost() {
+		Boost(BoostTime);
 	}
 
 }
