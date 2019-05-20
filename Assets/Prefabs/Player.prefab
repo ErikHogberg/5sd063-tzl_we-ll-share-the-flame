@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 1862816048559059166}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -434,6 +434,7 @@ MonoBehaviour:
   DirectionArrow: {fileID: 7617396280038561364}
   FlipKeys: 1
   UseMouse: 0
+  MouseAdjust: {x: -1, y: 1}
   Speed: 1
   TurningSpeed: 1
   Acceleration: 18
@@ -446,9 +447,12 @@ MonoBehaviour:
   DriftDampingAdd: 10
   DriftDampingMul: 2
   DriftScale: 0.1
+  leftWheelSpeed: 0
+  rightWheelSpeed: 0
   WheelRotationAxis: {x: 1, y: 0, z: 0}
   InfoPane: {fileID: 0}
   EnableCollision: 0
+  CollisionSlowdownMultiplier: 1
   JumpTime: 1
   JumpHeight: 5
   JumpArc:
@@ -484,6 +488,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  BoostTime: 2.5
+  BoostAcceleration: 1
+  BoostMaxSpeed: 20
 --- !u!65 &6929900565973988701
 BoxCollider:
   m_ObjectHideFlags: 0
