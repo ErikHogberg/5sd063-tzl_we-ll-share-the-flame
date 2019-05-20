@@ -8,7 +8,17 @@ public class ExtinguishableScript : MonoBehaviour {
 	public float ScoreWorth = 10f;
 	public RespawnExtinguishableScript Respawner;
 
+	private void OnTriggerEnter(Collider other) {
+		if (other.tag == "Player") {
+			Extinguish();
+		}
+	}
+
 	void OnParticleCollision(GameObject other) {
+		Extinguish();
+	}
+
+	public void Extinguish() {
 		// Debug.Log("Extinguished " + name);
 		Globals.NotificationPanel.Notify("Extinguished " + name + " for " + ScoreWorth + " points!");
 

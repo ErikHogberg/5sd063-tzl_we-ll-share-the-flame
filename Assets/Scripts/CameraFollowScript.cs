@@ -16,8 +16,8 @@ public class CameraFollowScript : MonoBehaviour {
 	public float Zoom = 10.0f;
 
 
-	public float turnSpeedX = 4.0f;
-	public float turnSpeedY = 2.0f;
+	public float MouseTurnSpeedX = 4.0f;
+	public float MouseTurnSpeedY = 2.0f;
 	public float scrollSpeed = 1.1f;
 	public Transform PositionAnchor;
 	public Transform AngleAnchor;
@@ -84,11 +84,11 @@ public class CameraFollowScript : MonoBehaviour {
 
 			//offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeedX, Vector3.up) * offset;
 			// offset = Quaternion.AngleAxis(Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime, Vector3.up) * offset;
-			Yaw += Mouse.current.delta.x.ReadValue() * turnSpeedX * Time.deltaTime;
+			Yaw += Mouse.current.delta.x.ReadValue() * MouseTurnSpeedX * Time.deltaTime;
 
 			//offset = Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * turnSpeedY, transform.right) * offset;
 			// offset = Quaternion.AngleAxis(Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime, transform.right) * offset;
-			Pitch += Mouse.current.delta.y.ReadValue() * turnSpeedY * Time.deltaTime;
+			Pitch += Mouse.current.delta.y.ReadValue() * MouseTurnSpeedY * Time.deltaTime;
 			//offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up);
 		}
 
@@ -116,7 +116,8 @@ public class CameraFollowScript : MonoBehaviour {
 		if (AutoTurning) {
 
 			float wheelchairSpeed = 1f;
-			wheelchairSpeed = Globals.Player.Speed;
+			// wheelchairSpeed = Globals.Player.Speed;
+			wheelchairSpeed = Mathf.Abs(Globals.Player.leftWheelSpeed + Globals.Player.rightWheelSpeed);
 
 			// TODO: quickly move the camera behind the player when they face the camera
 
