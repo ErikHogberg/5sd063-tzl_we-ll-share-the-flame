@@ -309,7 +309,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				// TODO: drift when stopping too fast
 			}
 
-			//*
+			/*
 			// stabilize forward movement
 			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
 				if (leftWheelDir > rightWheelDir) {
@@ -321,7 +321,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// */
 		}
 
-		float angle = leftWheelSpeed - rightWheelSpeed;
+		float angle = Mathf.MoveTowards(leftWheelSpeed - rightWheelSpeed, 0, ForwardCorrectionSpeed);
 		angle *= TurningSpeed;
 		//angle %= Mathf.PI * 2.0f;
 		float speed = leftWheelSpeed + rightWheelSpeed;
@@ -368,6 +368,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			// driftAngle = (Mathf.Abs(angle) - DriftAngleThreshold) * DriftScale * (angle / Mathf.Abs(angle));
+			// TODO: reduce drift turn scale as movement speed increases
 			driftAngle += angle * DriftTurnScale;
 
 			//WheelChair.transform.Rotate(transform.up, angle);
