@@ -5359,7 +5359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &340717242
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27384,12 +27384,32 @@ PrefabInstance:
     - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
         type: 3}
       propertyPath: CameraTurnSpeed
-      value: 140
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
         type: 3}
       propertyPath: CameraTurnSpeedScale
-      value: 100
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+        type: 3}
+      propertyPath: CameraTurnDeadZone
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+        type: 3}
+      propertyPath: scrollSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+        type: 3}
+      propertyPath: MouseTurnSpeedY
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
+        type: 3}
+      propertyPath: AutoTurning
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7838698095267681234, guid: 6df0d2c81435eff47a9ba09b161c812d,
         type: 3}
@@ -35548,7 +35568,7 @@ PrefabInstance:
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: DriftScale
-      value: 0.1
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -35603,17 +35623,17 @@ PrefabInstance:
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: Speed
-      value: 25
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: TurningSpeed
-      value: 0.222
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: DriftAngleThreshold
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -35628,12 +35648,42 @@ PrefabInstance:
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: TopSpeed
-      value: 40
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: Acceleration
-      value: 40
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: MouseAdjust.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: Damping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: DriftSpeedThreshold
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: JumpTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: DriftDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: DriftDampingAdd
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1462122031010046861, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -35673,6 +35723,11 @@ PrefabInstance:
     - target: {fileID: 6401860069664732419, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1862816048559059166, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -35990,7 +36045,7 @@ PrefabInstance:
     - target: {fileID: 6244421318992002926, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: AllowAimWithMouse
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6244421318992002926, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
@@ -36015,7 +36070,7 @@ PrefabInstance:
     - target: {fileID: 6244421318992002926, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: DisableRumble
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6244421318992002926, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
@@ -36050,7 +36105,12 @@ PrefabInstance:
     - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 20
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
@@ -36080,17 +36140,22 @@ PrefabInstance:
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: simulationSpeed
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
@@ -36110,7 +36175,12 @@ PrefabInstance:
     - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 20
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
@@ -36125,7 +36195,12 @@ PrefabInstance:
     - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 6
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4684221547019121483, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
