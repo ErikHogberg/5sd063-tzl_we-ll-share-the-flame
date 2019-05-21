@@ -16,51 +16,77 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private TrailRenderer leftWheelTrail;
 	private TrailRenderer rightWheelTrail;
 
+	[Tooltip("How fast the wheels spin compared to the movement speed")]
 	public float WheelAnimationSpeed = 1.0f;
 
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
 
-
+	[Tooltip("Flips keys and trackballs")]
 	public bool FlipKeys = false;
+	[Tooltip("Enable trackballs, disables keys")]
 	public bool UseMouse = false;
+	[Tooltip("Adjustments for trackball direction and relative (to eachother) speed")]
 	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
+	[Tooltip("Movement speed multiplier, for both wheels, when using either trackballs or keys")]
 	public float Speed = 1.0f;
+	[Tooltip("How much the difference between the speed of the wheels causes the wheelchair to turn")]
 	public float TurningSpeed = 1.0f;
+	[Tooltip("Acceleration speed for keys (not used with trackballs)")]
 	public float Acceleration = 1.0f;
+	[Tooltip("How quickly the wheelchair stops (keys only)")]
 	public float Damping = 0.3f;
+	[Tooltip("How different the wheel speeds can be (in abstract \"speed\" units) and still go straight forward")]
 	public float ForwardCorrectionSpeed = 0.2f;
+	[Tooltip("Top speed of each wheel")]
 	public float TopSpeed = 1.0f;
 
 	private bool drifting = false;
+	[Tooltip("How fast the wheelchair has to turn before losing traction")]
 	public float DriftAngleThreshold = 1.0f;
+	[Tooltip("How slow the wheelchair has to move before gaining traction")]
 	public float DriftSpeedThreshold = 5.0f;
-	public float DriftDuration = 1.0f;
+	// public float DriftDuration = 1.0f;
+	[Tooltip("How quickly the drift direction follows the wheelchair facing")]
 	public float DriftDampingAdd = 1.0f;
+	[Tooltip("How much the wheel speed influences how quickly the drift direction follows the wheelchair facing")]
 	public float DriftDampingMul = 0.2f;
 	//private Timer DriftTimer;
-	public float DriftScale = 0.1f;
+	[Tooltip("How fast the wheelchair turns while drifting")]
+	public float DriftTurnScale = 0.1f;
+	[Tooltip("How much the wheel speed influences drifting movement speed, a scale of how much it adds to it")]
+	public float DriftSpeedAddScale = 0.1f;
+	private float driftAngle = 0f;
 
 	// private float driftAngle = 0.0f;
 	private float driftSpeed = 0.0f;
+	[Tooltip("How quickly the player loses speed while drifting")]
+	public float DriftDamping = 1.0f;
 
 	[HideInInspector]
 	public float leftWheelSpeed = 0.0f;
 	[HideInInspector]
 	public float rightWheelSpeed = 0.0f;
+
+	[Tooltip("Around which axis the wheel models turn")]
 	public Vector3 WheelRotationAxis = Vector3.down;
 
+	[Tooltip("UI text to output debug info to (optional)")]
 	public Text InfoPane;
 
 	public bool EnableCollision = false;
+	[Tooltip("Scale of how much speed is kept when bouncing off a wall")]
 	public float CollisionSlowdownMultiplier = 1.0f;
 
+	[Tooltip("How many seconds before regaining control after bouncing off wall")]
 	public float CollisionTime = 0.5f;
 	private Timer collisionTimer;
 
 	// Ramp jumping	
+	[Tooltip("How long the wheelchair is in the air when jumping")]
 	public float JumpTime = 1.0f;
+	[Tooltip("How high the wheelchair jumps (unless specified by the ramps settings)")]
 	public float JumpHeight = 1.0f;
 	private bool useTempJumpHeight = false;
 	private float tempJumpHeight = 1.0f;
@@ -68,14 +94,20 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private float jumpSpeed;
 	private float playerY;
 	private float jumpTargetY;
+	[Tooltip("The curve of the jumping arc (needs to be set to \"ping pong\" to mirror the graph when overflowing)")]
 	public AnimationCurve JumpArc;
+	private bool skipUp = false;
 
 	// Boost
+	[Tooltip("How Long the player boosts once triggered")]
 	public float BoostTime = 2.5f;
 	private Timer boostTimer;
+	[Tooltip("How fast the wheelchair stops after boosting (the remaining boost speed is added to the wheel speed, shrinking to 0 as it expires), trackballs only")]
 	public float BoostSlowdownTime = 1f;
 	private Timer boostSlowdownTimer;
+	[Tooltip("How fast the wheelchair accelerates when boosting")]
 	public float BoostAcceleration = 1f;
+	[Tooltip("Max speed when boosting")]
 	public float BoostMaxSpeed = 20f;
 	private float boostEndSpeedLeft;
 	private float boostEndSpeedRight;
@@ -147,11 +179,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 				pos.y = playerY;
 				transform.position = pos;
 				useTempJumpHeight = false;
+				skipUp = false;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
 
 				float jumpProgress = 1f - jumpTimer.TimeLeft() / JumpTime;
+				if (skipUp) {
+					jumpProgress = 0.5f + jumpProgress * 0.5f;
+				}
 
 				float arcHeight;
 				if (useTempJumpHeight) {
@@ -292,14 +328,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// turn
 		infoText += angle + "\n";
-		if (Mathf.Abs(angle) < DriftAngleThreshold || Mathf.Abs(speed) < DriftSpeedThreshold) {
+		if (Mathf.Abs(angle) < DriftAngleThreshold
+		|| (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
+		) {
 
 			if (drifting) {
 				drifting = false;
+				// NOTE: On drift end
 
 				//float wheelchairAngle = 0.0f;
 				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
-				transform.Rotate(transform.up, wheelchairAngle * axis.y * Time.deltaTime * 60);
+				transform.Rotate(transform.up, wheelchairAngle * axis.y * Time.deltaTime * 60f);
 
 				LeftWheelSparks.Stop();
 				RightWheelSparks.Stop();
@@ -316,8 +355,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			if (!drifting) {
 				drifting = true;
+				// NOTE: On drift start
 
 				driftSpeed = speed;
+				driftAngle = 0f;
 
 				LeftWheelSparks.Play();
 				RightWheelSparks.Play();
@@ -326,15 +367,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			}
 
-			float driftAngle =
-			(Mathf.Abs(angle) - DriftAngleThreshold) * DriftScale
-			 * (angle / Mathf.Abs(angle))
-			 ;
-
+			// driftAngle = (Mathf.Abs(angle) - DriftAngleThreshold) * DriftScale * (angle / Mathf.Abs(angle));
+			driftAngle += angle * DriftTurnScale;
 
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
-				// TODO: turn relativly while drifting
 				// (Mathf.Abs(angle) - DriftAngleThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
 				driftAngle * Mathf.Rad2Deg,
 				Vector3.up
@@ -354,10 +391,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			float trajectorySpeedChange = speed;
-			/*
-			if (Mathf.Abs(angle) > Mathf.PI/2.0f + DriftAngleThreshold) {
+			//*
+			if (Mathf.Abs(angle) > Mathf.PI / 2.0f + DriftAngleThreshold) {
 				//trajectorySpeedChange *= -1.0f;
-				
+
 			}
 			// */
 
@@ -388,7 +425,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// move forward
 		infoText += speed + "\n";
 		if (drifting) {
-			driftSpeed = Mathf.MoveTowards(driftSpeed, 0, Damping * Time.deltaTime);
+			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
 			transform.position += transform.forward * driftSpeed * Time.deltaTime;
 		} else {
 			transform.position += transform.forward * speed * Time.deltaTime;
@@ -431,6 +468,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				}
 				useTempJumpHeight = true;
 				tempJumpHeight = rampScript.JumpHeight;
+				skipUp = rampScript.SkipUp;
 			}
 
 			jumpTimer.Restart(JumpTime);

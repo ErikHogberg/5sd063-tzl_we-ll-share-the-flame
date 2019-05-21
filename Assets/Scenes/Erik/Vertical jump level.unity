@@ -427,6 +427,7 @@ MonoBehaviour:
   RelativeHeight: 0
   TargetHeight: 9
   JumpHeight: 0
+  SkipUp: 1
 --- !u!136 &537466996
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -601,6 +602,7 @@ MonoBehaviour:
   RelativeHeight: 0
   TargetHeight: 15
   JumpHeight: 8
+  SkipUp: 0
 --- !u!114 &643730500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +618,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: 0
   JumpHeight: 0
+  SkipUp: 0
 --- !u!1001 &665229228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1331,6 +1334,7 @@ MonoBehaviour:
   RelativeHeight: 0
   TargetHeight: 9
   JumpHeight: 0
+  SkipUp: 1
 --- !u!136 &1206697494
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1701,6 +1705,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: -9
   JumpHeight: 0
+  SkipUp: 1
 --- !u!136 &1339717938
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2177,6 +2182,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: 0
   JumpHeight: 0
+  SkipUp: 0
 --- !u!1 &1719732819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,6 +2435,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: -9
   JumpHeight: 5
+  SkipUp: 0
 --- !u!114 &1917986606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2444,6 +2451,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: 0
   JumpHeight: 0
+  SkipUp: 0
 --- !u!4 &2037815706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5781311979573252235, guid: c13350caf30ef2649a58195c3d2452df,
@@ -2471,6 +2479,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: 9
   JumpHeight: 15
+  SkipUp: 0
 --- !u!1 &2081862455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2518,6 +2527,7 @@ MonoBehaviour:
   RelativeHeight: 1
   TargetHeight: -9
   JumpHeight: 0
+  SkipUp: 1
 --- !u!136 &2081862458
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2865,7 +2875,7 @@ PrefabInstance:
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: DriftScale
-      value: 0.1
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
@@ -2900,7 +2910,7 @@ PrefabInstance:
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: UseMouse
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
