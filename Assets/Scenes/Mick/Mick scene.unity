@@ -591,6 +591,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100000, guid: d54bd15cdfc329541b4fdba6537ce7dc, type: 3}
+      propertyPath: m_Name
+      value: HomeYellowPink
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d54bd15cdfc329541b4fdba6537ce7dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.827679
@@ -635,10 +639,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: d54bd15cdfc329541b4fdba6537ce7dc, type: 3}
-      propertyPath: m_Name
-      value: HomeYellowPink
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d54bd15cdfc329541b4fdba6537ce7dc, type: 3}
 --- !u!1001 &1902134290
@@ -648,6 +648,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100000, guid: 2c21a9a2939117242a72a6f8ec50cec1, type: 3}
+      propertyPath: m_Name
+      value: pillarFixed
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2c21a9a2939117242a72a6f8ec50cec1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.9294728
@@ -692,10 +696,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 2c21a9a2939117242a72a6f8ec50cec1, type: 3}
-      propertyPath: m_Name
-      value: pillarFixed
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c21a9a2939117242a72a6f8ec50cec1, type: 3}
 --- !u!1001 &1990638414
@@ -705,6 +705,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_Name
+      value: LuxuryHotel
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.485846
@@ -748,10 +752,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
-      propertyPath: m_Name
-      value: LuxuryHotel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
@@ -5776,7 +5776,7 @@ PrefabInstance:
     - target: {fileID: 130739222138529882, guid: eaef81c206e47f241aaab3657bccd46f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.9426904
+      value: -28.14
       objectReference: {fileID: 0}
     - target: {fileID: 130739222138529882, guid: eaef81c206e47f241aaab3657bccd46f,
         type: 3}
@@ -10544,6 +10544,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: m_Name
+      value: Water Jet
+      objectReference: {fileID: 0}
     - target: {fileID: 9193838673014712479, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10598,11 +10603,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: m_Name
-      value: Water Jet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94e06c85140c84a4685ef59f86e698a1, type: 3}
