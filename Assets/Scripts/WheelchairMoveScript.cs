@@ -73,8 +73,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 	// Boost
 	public float BoostTime = 2.5f;
 	private Timer boostTimer;
+	public float BoostSlowdownTime = 1f;
+	private Timer boostSlowdownTimer;
 	public float BoostAcceleration = 1f;
 	public float BoostMaxSpeed = 20f;
+	private float boostEndSpeedLeft;
+	private float boostEndSpeedRight;
 
 	// Zipline
 	private bool ziplining = false;
@@ -99,6 +103,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		boostTimer = new Timer(BoostTime);
 		boostTimer.Stop();
+
+		boostSlowdownTimer = new Timer(BoostSlowdownTime);
+		boostSlowdownTimer.Stop();
 
 		collisionTimer = new Timer(CollisionTime);
 		collisionTimer.Stop();
@@ -171,8 +178,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Boost();
 		}
 
+		boostSlowdownTimer.Update();
+
 		if (boostTimer.IsRunning()) {
-			boostTimer.Update();
+			if (boostTimer.Update()) {
+				boostEndSpeedLeft = leftWheelSpeed;
+				boostEndSpeedRight = rightWheelSpeed;
+				boostSlowdownTimer.Restart(BoostSlowdownTime);
+			}
 
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
@@ -187,15 +200,20 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
 				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
-				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed * Time.deltaTime;
-				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed * Time.deltaTime;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+
+				float boostSlowdownProgress = 0f;
+				if (boostSlowdownTimer.IsRunning()) {
+					boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+				}
 
 				if (FlipKeys) {
-					leftWheelSpeed = Mathf.Min(y, TopSpeed);
-					rightWheelSpeed = Mathf.Min(x, TopSpeed);
+					leftWheelSpeed = Mathf.Min(y, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
+					rightWheelSpeed = Mathf.Min(x, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
 				} else {
-					leftWheelSpeed = x;
-					rightWheelSpeed = y;
+					leftWheelSpeed = Mathf.Min(y, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
+					rightWheelSpeed = Mathf.Min(x, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
 				}
 			}
 
@@ -401,6 +419,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				return;
 			}
 
+			boostTimer.Stop();
+
 			RampScript rampScript = other.GetComponent<RampScript>();
 
 			if (rampScript != null) {
@@ -434,13 +454,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// Turn 180 degrees when hitting a wall
 		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
 		// IDEA: Stop and teleport backwards instead
-		//transform.Rotate(Vector3.up, 180);
-		float tempLeftSpeed = leftWheelSpeed;
 
-		collisionTimer.Restart(CollisionTime);
+		if (jumpTimer.IsRunning()) {
+			transform.Rotate(Vector3.up, 180f);
+		} else {
+			collisionTimer.Restart(CollisionTime);
+			float tempLeftSpeed = leftWheelSpeed;
+			leftWheelSpeed = -rightWheelSpeed;
+			rightWheelSpeed = -tempLeftSpeed;
+		}
 
-		leftWheelSpeed = -rightWheelSpeed;
-		rightWheelSpeed = -tempLeftSpeed;
 		leftWheelSpeed *= CollisionSlowdownMultiplier;
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
