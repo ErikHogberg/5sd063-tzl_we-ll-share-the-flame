@@ -8,7 +8,7 @@ public class HighscorePanelScript : MonoBehaviour {
 
 	private Highscore HighscoreList;
 	public TextAsset SaveFile;
-	public Text NameInput;
+	public InputField NameInput;
 	public Button SubmitButton;
 
 	void Start() {
@@ -26,7 +26,7 @@ public class HighscorePanelScript : MonoBehaviour {
 	public void SubmitScore() {
 		int score = Globals.Score;
 		// if (score > 0) {
-		HighscoreList.ScoreList.Add(new ScoreEntry(NameInput.text, score));
+		HighscoreList.ScoreList.Add(new ScoreEntry(NameInput.textComponent.text, score));
 		// HighscoreList.NameList.Add(NameInput.text);
 		// }
 		Globals.ResetScore();
@@ -44,15 +44,10 @@ public class HighscorePanelScript : MonoBehaviour {
 		//Debug.LogError("uneven score lists!");
 		// }
 
-		// for (int i = 0; i < HighscoreList.ScoreList.Count; i++) {
-		for (int i = HighscoreList.ScoreList.Count - 1; i >= 0; i--) {
-			ScoreEntry scoreEntry = HighscoreList.ScoreList[i];
-
-			// foreach (ScoreEntry scoreEntry in HighscoreList.ScoreList) {
+		// TODO: better formatting for consistent name horizontal alignment
+		foreach (ScoreEntry scoreEntry in HighscoreList.ScoreList) {
 
 			scoreList +=
-			//HighscoreList.NameList[i] + " " + 
-			// HighscoreList.ScoreList[i]
 			scoreEntry.Player + ": " + scoreEntry.Score + "\n";
 		}
 

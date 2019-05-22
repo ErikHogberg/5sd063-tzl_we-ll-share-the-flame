@@ -1,56 +1,12 @@
 {
     "ScoreList": [
         {
-            "Player": "AAA",
-            "Score": 0
+            "Player": "abc",
+            "Score": 1000
         },
         {
             "Player": "AAA",
-            "Score": 0
-        },
-        {
-            "Player": "AAA",
-            "Score": 0
-        },
-        {
-            "Player": "AAA",
-            "Score": 0
-        },
-        {
-            "Player": "AAA",
-            "Score": 0
-        },
-        {
-            "Player": "AAA",
-            "Score": 0
-        },
-        {
-            "Player": "AAA",
-            "Score": 0
-        },
-        {
-            "Player": "AAA",
-            "Score": 1
-        },
-        {
-            "Player": "fds",
-            "Score": 2
-        },
-        {
-            "Player": "fds",
-            "Score": 50
-        },
-        {
-            "Player": "AAA",
-            "Score": 100
-        },
-        {
-            "Player": "AAA",
-            "Score": 150
-        },
-        {
-            "Player": "AAA",
-            "Score": 200
+            "Score": 434
         },
         {
             "Player": "AAA",
@@ -58,11 +14,31 @@
         },
         {
             "Player": "AAA",
-            "Score": 434
+            "Score": 200
         },
         {
-            "Player": "abc",
-            "Score": 1000
+            "Player": "AAA",
+            "Score": 150
+        },
+        {
+            "Player": "AAA",
+            "Score": 100
+        },
+        {
+            "Player": "fds",
+            "Score": 50
+        },
+        {
+            "Player": "fds",
+            "Score": 2
+        },
+        {
+            "Player": "AAA",
+            "Score": 1
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
         }
     ]
 }

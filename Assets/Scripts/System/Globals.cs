@@ -45,7 +45,8 @@ namespace Assets.Scripts {
 		}
 
 		public void Sort() {
-			ScoreList.Sort(delegate (ScoreEntry e1, ScoreEntry e2) { return e1.Score.CompareTo(e2.Score); });
+			ScoreList = ScoreList.OrderByDescending(x =>  x.Score).Take(10).ToList();
+			// .Sort(delegate (ScoreEntry e1, ScoreEntry e2) { return e1.Score.CompareTo(e2.Score); });
 		}
 
 	}
@@ -53,7 +54,7 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		private static float score = 0f;
+		private static float score = 100f;
 		public static int Score {
 			get { return Mathf.FloorToInt(score); }
 		}
