@@ -1,11 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts {
+
+	[Serializable]
+	public class Highscore {
+		public List<int> ScoreList;
+		public List<string> NameList;
+
+		public Highscore() {
+			ScoreList = new List<int>();
+			NameList = new List<string>();
+		}
+
+		public static Highscore Load(TextAsset SaveFile) {
+			return JsonUtility.FromJson<Highscore>(SaveFile.text);
+		}
+
+		public string ToJson(bool pretty = true) {
+			return JsonUtility.ToJson(this, pretty);
+		}
+
+		public void Save(TextAsset SaveFile) {
+			
+			File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
+		}
+
+	}
+
 	public static class Globals {
 
 		// Game-wide score
