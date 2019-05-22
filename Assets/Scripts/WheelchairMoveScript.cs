@@ -56,6 +56,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public bool EnableCollision = false;
 	public float CollisionSlowdownMultiplier = 1.0f;
 
+	public float CollisionTime = 0.5f;
+	private Timer collisionTimer;
+
 	// Ramp jumping	
 	public float JumpTime = 1.0f;
 	public float JumpHeight = 1.0f;
@@ -97,6 +100,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 		boostTimer = new Timer(BoostTime);
 		boostTimer.Stop();
 
+		collisionTimer = new Timer(CollisionTime);
+		collisionTimer.Stop();
+
 		if (UseMouse) {
 			Cursor.lockState = CursorLockMode.Locked;
 			// Cursor.visible = false;
@@ -108,6 +114,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 		var keyboard = Keyboard.current;
 
 		string infoText = "";
+
+		if (collisionTimer.IsRunning()) {
+			collisionTimer.Update();
+			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+			return;
+		}
 
 		if (ziplining) {
 			float ziplineDelta = ziplineSpeed * Time.deltaTime;
@@ -179,8 +191,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed * Time.deltaTime;
 
 				if (FlipKeys) {
-					leftWheelSpeed = y;
-					rightWheelSpeed = x;
+					leftWheelSpeed = Mathf.Min(y, TopSpeed);
+					rightWheelSpeed = Mathf.Min(x, TopSpeed);
 				} else {
 					leftWheelSpeed = x;
 					rightWheelSpeed = y;
@@ -422,7 +434,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// Turn 180 degrees when hitting a wall
 		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
 		// IDEA: Stop and teleport backwards instead
-		transform.Rotate(Vector3.up, 180);
+		//transform.Rotate(Vector3.up, 180);
+		float tempLeftSpeed = leftWheelSpeed;
+
+		collisionTimer.Restart(CollisionTime);
+
+		leftWheelSpeed = -rightWheelSpeed;
+		rightWheelSpeed = -tempLeftSpeed;
 		leftWheelSpeed *= CollisionSlowdownMultiplier;
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
