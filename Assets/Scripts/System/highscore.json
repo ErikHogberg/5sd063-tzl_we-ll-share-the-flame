@@ -1,10 +1,68 @@
 {
     "ScoreList": [
-        0,
-        0
-    ],
-    "NameList": [
-        "AAA",
-        "AAA"
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        },
+        {
+            "Player": "AAA",
+            "Score": 1
+        },
+        {
+            "Player": "fds",
+            "Score": 2
+        },
+        {
+            "Player": "fds",
+            "Score": 50
+        },
+        {
+            "Player": "AAA",
+            "Score": 100
+        },
+        {
+            "Player": "AAA",
+            "Score": 150
+        },
+        {
+            "Player": "AAA",
+            "Score": 200
+        },
+        {
+            "Player": "AAA",
+            "Score": 250
+        },
+        {
+            "Player": "AAA",
+            "Score": 434
+        },
+        {
+            "Player": "abc",
+            "Score": 1000
+        }
     ]
 }

@@ -10,13 +10,25 @@ using UnityEngine.UI;
 namespace Assets.Scripts {
 
 	[Serializable]
+	public class ScoreEntry {
+		public string Player;
+		public int Score;
+
+		public ScoreEntry (string player, int score) {
+			Player = player;
+			Score = score;
+		}
+	}
+
+	[Serializable]
 	public class Highscore {
-		public List<int> ScoreList;
-		public List<string> NameList;
+		public List<ScoreEntry> ScoreList;
+		// public List<string> NameList;
 
 		public Highscore() {
-			ScoreList = new List<int>();
-			NameList = new List<string>();
+			ScoreList = new List<ScoreEntry>();
+			// NameList = new List<string>();
+			Debug.Log("New highscore list");
 		}
 
 		public static Highscore Load(TextAsset SaveFile) {
@@ -28,8 +40,12 @@ namespace Assets.Scripts {
 		}
 
 		public void Save(TextAsset SaveFile) {
-			
+
 			File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
+		}
+
+		public void Sort() {
+			ScoreList.Sort(delegate (ScoreEntry e1, ScoreEntry e2) { return e1.Score.CompareTo(e2.Score); });
 		}
 
 	}
@@ -38,8 +54,8 @@ namespace Assets.Scripts {
 
 		// Game-wide score
 		private static float score = 0f;
-		public static float Score {
-			get { return score; }
+		public static int Score {
+			get { return Mathf.FloorToInt(score); }
 		}
 		public static float ScoreMultiplier = 1;
 
@@ -70,6 +86,10 @@ namespace Assets.Scripts {
 		public static void AddScore(float points, float multiplierIncrease) {
 			ScoreMultiplier += multiplierIncrease;
 			score += ScoreMultiplierPanel.AddPoints(points);
+		}
+
+		public static void ResetScore() {
+			score = 0f;
 		}
 
 	}
