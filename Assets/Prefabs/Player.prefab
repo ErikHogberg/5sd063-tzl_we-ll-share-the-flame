@@ -450,7 +450,7 @@ MonoBehaviour:
   DriftEndSpeedThreshold: 8
   DriftDampingAdd: 0
   DriftDampingMul: 0
-  DriftTurnScale: 1
+  DriftTurnScale: 0.1
   DriftSpeedAddScale: 0.1
   DriftDamping: 1
   leftWheelSpeed: 0
