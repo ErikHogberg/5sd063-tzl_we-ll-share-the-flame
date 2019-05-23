@@ -45,8 +45,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private bool drifting = false;
 	[Tooltip("How fast the wheelchair has to turn before losing traction")]
 	public float DriftAngleThreshold = 1.0f;
+	[Tooltip("How fast the wheelchair has to move before potentially losing traction")]
+	public float DriftStartSpeedThreshold = 5.0f;
 	[Tooltip("How slow the wheelchair has to move before gaining traction")]
-	public float DriftSpeedThreshold = 5.0f;
+	public float DriftEndSpeedThreshold = 5.0f;
 	// public float DriftDuration = 1.0f;
 	[Tooltip("How quickly the drift direction follows the wheelchair facing")]
 	public float DriftDampingAdd = 1.0f;
@@ -109,8 +111,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float BoostAcceleration = 1f;
 	[Tooltip("Max speed when boosting")]
 	public float BoostMaxSpeed = 20f;
-	private float boostEndSpeedLeft;
-	private float boostEndSpeedRight;
+	private float boostEndSpeed;
 
 	// Zipline
 	private bool ziplining = false;
@@ -143,6 +144,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		collisionTimer.Stop();
 
 		if (UseMouse) {
+			// Cursor.lockState = CursorLockMode.Locked;
 			Cursor.lockState = CursorLockMode.Locked;
 			// Cursor.visible = false;
 		}
@@ -150,6 +152,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	void Update() {
+
 		var keyboard = Keyboard.current;
 
 		string infoText = "";
@@ -218,8 +221,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (boostTimer.IsRunning()) {
 			if (boostTimer.Update()) {
-				boostEndSpeedLeft = leftWheelSpeed;
-				boostEndSpeedRight = rightWheelSpeed;
+				boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
 				boostSlowdownTimer.Restart(BoostSlowdownTime);
 			}
 
@@ -231,25 +233,50 @@ public class WheelchairMoveScript : MonoBehaviour {
 			return;
 		}
 
+		float boostSlowdownProgress = 0f;
+		if (boostSlowdownTimer.IsRunning()) {
+			boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+		}
+
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
-				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed * Time.deltaTime;
-				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed * Time.deltaTime;
+				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
+				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
 				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
 				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 
-				float boostSlowdownProgress = 0f;
-				if (boostSlowdownTimer.IsRunning()) {
-					boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
-				}
+
 
 				if (FlipKeys) {
-					leftWheelSpeed = Mathf.Min(y, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
-					rightWheelSpeed = Mathf.Min(x, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
+					leftWheelSpeed = x;
+					rightWheelSpeed = y;
+
+
+					// if (x == 0f) {
+					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
+					// } else {
+					// 	leftWheelSpeed = Mathf.Min(Mathf.Abs(x), TopSpeed) * (x / Mathf.Abs(x)) + boostEndSpeed * boostSlowdownProgress;
+					// }
+					// if (y == 0f) {
+					// 	rightWheelSpeed = boostEndSpeed * boostSlowdownProgress;
+					// } else {
+					// 	rightWheelSpeed = Mathf.Min(Mathf.Abs(y), TopSpeed) * (y / Mathf.Abs(y)) + boostEndSpeed * boostSlowdownProgress;
+					// }
 				} else {
-					leftWheelSpeed = Mathf.Min(y, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
-					rightWheelSpeed = Mathf.Min(x, TopSpeed) + boostEndSpeedLeft * boostSlowdownProgress;
+					leftWheelSpeed = y;
+					rightWheelSpeed = x;
+
+					// if (y == 0f) {
+					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
+					// } else {
+					// 	leftWheelSpeed = Mathf.Min(Mathf.Abs(y), TopSpeed) * (y / Mathf.Abs(y)) + boostEndSpeed * boostSlowdownProgress;
+					// }
+					// if (x == 0f) {
+					// 	rightWheelSpeed = boostEndSpeed * boostSlowdownProgress;
+					// } else {
+					// 	rightWheelSpeed = Mathf.Min(Mathf.Abs(x), TopSpeed) * (x / Mathf.Abs(x)) + boostEndSpeed * boostSlowdownProgress;
+					// }
 				}
 			}
 
@@ -321,16 +348,22 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// */
 		}
 
-		float angle = Mathf.MoveTowards(leftWheelSpeed - rightWheelSpeed, 0, ForwardCorrectionSpeed);
+		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
+		angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+
 		//angle %= Mathf.PI * 2.0f;
+
 		float speed = leftWheelSpeed + rightWheelSpeed;
 
 		// turn
 		infoText += angle + "\n";
 		if (Mathf.Abs(angle) < DriftAngleThreshold
-		|| (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
+		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
+		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
+		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
 		) {
+			// NOTE: Not drifring
 
 			if (drifting) {
 				drifting = false;
@@ -339,6 +372,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				//float wheelchairAngle = 0.0f;
 				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
 				transform.Rotate(transform.up, wheelchairAngle * axis.y * Time.deltaTime * 60f);
+
+				driftSpeed = 0;
 
 				LeftWheelSparks.Stop();
 				RightWheelSparks.Stop();
@@ -352,6 +387,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 			DirectionArrow.SetActive(false);
 
 		} else {
+			// NOTE: Drifring
+
 
 			if (!drifting) {
 				drifting = true;
@@ -367,9 +404,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			}
 
-			// driftAngle = (Mathf.Abs(angle) - DriftAngleThreshold) * DriftScale * (angle / Mathf.Abs(angle));
+			float driftSign = 1f;//angle / Mathf.Abs(angle);
+			if (angle < 0f)
+			{
+				driftSign = -1;
+			}
+			driftAngle = (Mathf.Abs(angle) - DriftAngleThreshold) * DriftTurnScale * driftSign;
 			// TODO: reduce drift turn scale as movement speed increases
-			driftAngle += angle * DriftTurnScale;
+			// driftAngle += angle * DriftTurnScale * DriftTurnScale;
 
 			//WheelChair.transform.Rotate(transform.up, angle);
 			WheelChair.transform.localRotation = Quaternion.AngleAxis(
@@ -392,9 +434,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			float trajectorySpeedChange = speed;
-			//*
+			/*
 			if (Mathf.Abs(angle) > Mathf.PI / 2.0f + DriftAngleThreshold) {
-				//trajectorySpeedChange *= -1.0f;
+				trajectorySpeedChange *= -1.0f;
 
 			}
 			// */
@@ -429,7 +471,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
 			transform.position += transform.forward * driftSpeed * Time.deltaTime;
 		} else {
-			transform.position += transform.forward * speed * Time.deltaTime;
+			transform.position += transform.forward * (Mathf.Min(speed, TopSpeed) + boostEndSpeed * boostSlowdownProgress) * Time.deltaTime;
 		}
 
 
