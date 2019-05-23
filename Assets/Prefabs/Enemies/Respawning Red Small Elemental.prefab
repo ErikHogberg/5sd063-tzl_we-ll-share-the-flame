@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7803461737436955008}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -24.820223, y: 1.24, z: 6.7179585}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_Children:
   - {fileID: 3526598905215898061}
   m_Father: {fileID: 0}
@@ -133,6 +133,26 @@ PrefabInstance:
       propertyPath: Respawner
       value: 
       objectReference: {fileID: 7803461737436955014}
+    - target: {fileID: 6682084134872180375, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2.7560296
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682084134872180375, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Height
+      value: 6.4412766
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682084134872180375, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.1348486
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682084134872180375, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.017994983
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06ea8aaa553fec7429a9f1676188983f, type: 3}
 --- !u!1 &3526598905215898062 stripped
