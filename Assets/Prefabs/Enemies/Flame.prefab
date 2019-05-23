@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2767164046427916501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.48, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 6682084134872180374}
   m_RootOrder: 1
@@ -4769,7 +4769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4c2d6bc3c8403468682059f8274233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreWorth: 10
+  ScoreWorth: 50
   Respawner: {fileID: 0}
 --- !u!1 &8995777281326891557
 GameObject:
@@ -4798,7 +4798,7 @@ Transform:
   m_GameObject: {fileID: 8995777281326891557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.48000002, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 6682084134872180374}
   m_RootOrder: 0
