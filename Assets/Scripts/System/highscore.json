@@ -1,0 +1,44 @@
+{
+    "ScoreList": [
+        {
+            "Player": "abc",
+            "Score": 1000
+        },
+        {
+            "Player": "AAA",
+            "Score": 434
+        },
+        {
+            "Player": "AAA",
+            "Score": 250
+        },
+        {
+            "Player": "AAA",
+            "Score": 200
+        },
+        {
+            "Player": "AAA",
+            "Score": 150
+        },
+        {
+            "Player": "AAA",
+            "Score": 100
+        },
+        {
+            "Player": "fds",
+            "Score": 50
+        },
+        {
+            "Player": "fds",
+            "Score": 2
+        },
+        {
+            "Player": "AAA",
+            "Score": 1
+        },
+        {
+            "Player": "AAA",
+            "Score": 0
+        }
+    ]
+}
