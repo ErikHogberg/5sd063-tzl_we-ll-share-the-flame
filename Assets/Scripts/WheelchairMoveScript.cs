@@ -103,6 +103,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("The curve of the jumping arc (needs to be set to \"ping pong\" to mirror the graph when overflowing)")]
 	public AnimationCurve JumpArc;
 	private bool skipUp = false;
+	private bool setJumpSpeed = false;
+	private float nextJumpSpeed = 1f;
+	private bool setJumpTime = false;
+	private float nextJumpTime = 1f;
 
 	// Boost
 	[Tooltip("How Long the player boosts once triggered")]
@@ -158,7 +162,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// Cursor.visible = false;
 		}
 
-		
+
 
 	}
 
@@ -203,11 +207,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.position = pos;
 				useTempJumpHeight = false;
 				skipUp = false;
+				setJumpSpeed = false;
+				setJumpTime = false;
 			} else {
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
 
-				float jumpProgress = 1f - jumpTimer.TimeLeft() / JumpTime;
+				float jumpProgress = 1f - jumpTimer.TimeLeft() / nextJumpTime;
 				if (skipUp) {
 					jumpProgress = 0.5f + jumpProgress * 0.5f;
 				}
@@ -382,7 +388,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
 		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
 		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
-		
+
 		) {
 			// NOTE: Not drifring
 
@@ -426,8 +432,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			float driftSign = 1f;//angle / Mathf.Abs(angle);
-			if (angle < 0f)
-			{
+			if (angle < 0f) {
 				driftSign = -1;
 			}
 			driftAngle = (Mathf.Abs(angle) - DriftAngleThreshold) * DriftTurnScale * driftSign;
@@ -503,7 +508,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	}
 
-	private void SpinWheels () {
+	private void SpinWheels() {
 		LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 	}
@@ -536,10 +541,23 @@ public class WheelchairMoveScript : MonoBehaviour {
 				useTempJumpHeight = true;
 				tempJumpHeight = rampScript.JumpHeight;
 				skipUp = rampScript.SkipUp;
+				setJumpSpeed = rampScript.SetSpeed;
+				nextJumpSpeed = rampScript.Speed;
+				setJumpTime = rampScript.SetTime;
+				nextJumpTime = rampScript.Time;
 			}
 
-			jumpTimer.Restart(JumpTime);
-			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+			if (!setJumpTime)
+			{
+				nextJumpTime = JumpTime;
+			}
+			jumpTimer.Restart(nextJumpTime);
+			if (setJumpSpeed) {
+				jumpSpeed = nextJumpSpeed;
+			} else {
+				jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+			}
+			
 			return;
 		}
 
@@ -587,13 +605,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 		Boost(BoostTime);
 	}
 
-	public void StartBoostParticles () {
+	public void StartBoostParticles() {
 		foreach (ParticleSystem particles in BoostFoamParticles) {
 			particles.Play();
 		}
 	}
-	
-	public void StopBoostParticles () {
+
+	public void StopBoostParticles() {
 		foreach (ParticleSystem particles in BoostFoamParticles) {
 			particles.Stop();
 		}
