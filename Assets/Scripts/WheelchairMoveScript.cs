@@ -172,6 +172,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		string infoText = "";
 
+		boostSlowdownTimer.Update();
+
 		if (collisionTimer.IsRunning()) {
 			collisionTimer.Update();
 			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
@@ -246,12 +248,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 		}
 
-		if (Mouse.current.rightButton.wasPressedThisFrame && !boostTimer.IsRunning()) {
+		if (Mouse.current.rightButton.isPressed) {// && !boostTimer.IsRunning()) {
 			// boostTimer.Restart(BoostTime);
 			Boost();
 		}
 
-		boostSlowdownTimer.Update();
 
 		if (boostTimer.IsRunning()) {
 			if (boostTimer.Update()) {
