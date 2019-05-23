@@ -160,6 +160,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (collisionTimer.IsRunning()) {
 			collisionTimer.Update();
 			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+
+			// float turnAngle = rightWheelSpeed - leftWheelSpeed;
+			float turnAngle = leftWheelSpeed - rightWheelSpeed;
+			turnAngle *= TurningSpeed;
+			turnAngle = Mathf.MoveTowards(turnAngle, 0, ForwardCorrectionSpeed);
+			transform.Rotate(transform.up, turnAngle * Time.deltaTime * 60);
+
+			SpinWheels();
+
 			return;
 		}
 
@@ -474,15 +483,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.position += transform.forward * (Mathf.Min(speed, TopSpeed) + boostEndSpeed * boostSlowdownProgress) * Time.deltaTime;
 		}
 
-
-		// moving wheels
-		LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		SpinWheels();
 
 		if (InfoPane != null) {
 			InfoPane.text = infoText;
 		}
 
+	}
+
+	private void SpinWheels () {
+		LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 	}
 
 	private void OnTriggerEnter(Collider other) {
