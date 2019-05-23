@@ -374,6 +374,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//angle %= Mathf.PI * 2.0f;
 
 		float speed = leftWheelSpeed + rightWheelSpeed;
+		float fastestWheelSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
 
 		// turn
 		infoText += angle + "\n";
@@ -381,6 +382,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
 		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
 		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
+		
 		) {
 			// NOTE: Not drifring
 
@@ -414,7 +416,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				// NOTE: On drift start
 
 				driftSpeed = speed;
-				driftAngle = 0f;
+				// driftAngle = 0f;
 
 				LeftWheelSparks.Play();
 				RightWheelSparks.Play();
