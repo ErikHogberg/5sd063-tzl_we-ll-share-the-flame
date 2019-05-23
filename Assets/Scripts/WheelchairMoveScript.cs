@@ -184,6 +184,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			SpinWheels();
 
+			if (boostTimer.IsRunning()) {
+				if (boostTimer.Update()) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
+				}
+			}
+
 			return;
 		}
 
