@@ -2,6 +2,7 @@
 using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
@@ -15,6 +16,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public ParticleSystem RightWheelSparks;
 	private TrailRenderer leftWheelTrail;
 	private TrailRenderer rightWheelTrail;
+	public GameObject LeftBoostFoam;
+	public GameObject RightBoostFoam;
+	private ParticleSystem[] BoostFoamParticles;
 
 	[Tooltip("How fast the wheels spin compared to the movement speed")]
 	public float WheelAnimationSpeed = 1.0f;
@@ -131,6 +135,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		leftWheelTrail = LeftWheelSparks.GetComponentInChildren<TrailRenderer>();
 		rightWheelTrail = RightWheelSparks.GetComponentInChildren<TrailRenderer>();
 
+		BoostFoamParticles = LeftBoostFoam.GetComponentsInChildren<ParticleSystem>();
+		BoostFoamParticles = BoostFoamParticles.Concat(RightBoostFoam.GetComponentsInChildren<ParticleSystem>()).ToArray();
+
+		StopBoostParticles();
+
 		jumpTimer = new Timer(JumpTime);
 		jumpTimer.Stop();
 
@@ -148,6 +157,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Cursor.lockState = CursorLockMode.Locked;
 			// Cursor.visible = false;
 		}
+
+		
 
 	}
 
@@ -221,7 +232,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 		}
 
-		if (keyboard.bKey.wasPressedThisFrame && !boostTimer.IsRunning()) {
+		if (Mouse.current.rightButton.wasPressedThisFrame && !boostTimer.IsRunning()) {
 			// boostTimer.Restart(BoostTime);
 			Boost();
 		}
@@ -232,6 +243,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (boostTimer.Update()) {
 				boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
 				boostSlowdownTimer.Restart(BoostSlowdownTime);
+				StopBoostParticles();
 			}
 
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
@@ -260,7 +272,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 				if (FlipKeys) {
 					leftWheelSpeed = x;
 					rightWheelSpeed = y;
-
 
 					// if (x == 0f) {
 					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
@@ -329,7 +340,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// damping
 			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
 			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
-
 
 
 			// add to speed if pressed
@@ -511,6 +521,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			boostTimer.Stop();
+			StopBoostParticles();
 
 			RampScript rampScript = other.GetComponent<RampScript>();
 
@@ -562,6 +573,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public void Boost(float boostTime) {
 		boostTimer.Restart(boostTime);
+		StartBoostParticles();
 	}
 
 	public void Boost(float boostTime, Quaternion facing) {
@@ -571,6 +583,24 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public void Boost() {
 		Boost(BoostTime);
+	}
+
+	public void StartBoostParticles () {
+		foreach (ParticleSystem particles in BoostFoamParticles) {
+			particles.Play();
+		}
+	}
+	
+	public void StopBoostParticles () {
+		foreach (ParticleSystem particles in BoostFoamParticles) {
+			particles.Stop();
+		}
+	}
+
+	public void PauseBoostParticles() {
+		foreach (ParticleSystem particles in BoostFoamParticles) {
+			particles.Pause();
+		}
 	}
 
 }

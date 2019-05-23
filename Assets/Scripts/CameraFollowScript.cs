@@ -78,7 +78,7 @@ public class CameraFollowScript : MonoBehaviour {
 			AnchorUpdater.UpdateAnchors();
 		}
 
-		if (Mouse.current.rightButton.isPressed) {
+		if (Mouse.current.middleButton.isPressed) {
 
 			//Mouse.current.position.x.ReadValue()
 
