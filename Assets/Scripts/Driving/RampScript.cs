@@ -13,4 +13,10 @@ public class RampScript : MonoBehaviour {
     public float JumpHeight = 0f;
     public bool SkipUp = false;
 
+	public bool SetSpeed = false;
+	public float Speed = 1f;
+
+	public bool SetTime = false;
+	public float Time = 1f;
+
 }

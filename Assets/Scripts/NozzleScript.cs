@@ -329,7 +329,7 @@ public class NozzleScript : MonoBehaviour {
 
 
 
-		if (wiimoteFiring) {
+		if (wiimoteFiring || firing) {
 			if (wiimoteWasFiring) {
 
 			} else {
