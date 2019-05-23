@@ -683,6 +683,7 @@ Transform:
   - {fileID: 203201558}
   - {fileID: 75599177}
   - {fileID: 1681917916}
+  - {fileID: 5365143902831520301}
   m_Father: {fileID: 1862889416}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4464,11 +4465,86 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4883142327949061640}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5182509688254711610
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 341485293}
+    m_Modifications:
+    - target: {fileID: 981548247603571990, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_Name
+      value: Wobbling Big Tree H
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 26.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 17.849998
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b61c228fac53aad4babeea73de8bf4ca, type: 3}
 --- !u!224 &5324954501511746873 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7948844766513798602, guid: 45dd3f7148ed56948a413145ec0f9f7b,
     type: 3}
   m_PrefabInstance: {fileID: 2858081362676451571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5365143902831520301 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 981548247603571991, guid: b61c228fac53aad4babeea73de8bf4ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 5182509688254711610}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5691908881577343949
 PrefabInstance:
