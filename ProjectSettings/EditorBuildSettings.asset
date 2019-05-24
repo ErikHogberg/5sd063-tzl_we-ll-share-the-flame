@@ -11,7 +11,22 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Simon/Beta.unity
     guid: 734f9ce74646655408570b3fe44aa0e8
+  - enabled: 0
+    path: Assets/Scenes/Kim/MENU TEST KIMSTATIONARY.unity
+    guid: d6ad0cb2883801c40b9642771c1103c4
+  - enabled: 0
+    path: Assets/Scenes/Erik/Erik MENU TEST.unity
+    guid: b3695d79a2001f841a8372fbc59b709f
+  - enabled: 1
+    path: Assets/Scenes/Erik/Beta/MENU TEST KIMSTATIONARY 1.unity
+    guid: c3c60ee378a741841a87af09090f69ab
+  - enabled: 1
+    path: Assets/Scenes/kevkevkev/Simons kevins new sitie.unity
+    guid: 1bf2ba063953bde49b644d7adc38bb1d
+  - enabled: 1
+    path: Assets/Scenes/Erik/Beta/Erik MENU TEST 1.unity
+    guid: fde375dc5c4ef4345b149bfcb8e610e3
   m_configObjects: {}

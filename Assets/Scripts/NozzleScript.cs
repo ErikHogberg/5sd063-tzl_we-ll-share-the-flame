@@ -69,9 +69,10 @@ public class NozzleScript : MonoBehaviour {
 	private int ledState = 0;
 
 	private bool dLeftWasPressed = false;
+	private bool dRightWasPressed = false;
 	private bool aWasPressed = false;
 	private bool irToggle = false;
-	public Vector2 IrOuterDeadzone = new Vector2(1f, 1f);
+	public Vector2 IrOuterDeadzone = new Vector2(0f, 0f);
 	// TODO: IR (reverse-)deadzone
 
 	public bool UseAccelerometer = false;
@@ -263,12 +264,26 @@ public class NozzleScript : MonoBehaviour {
 
 			} else {
 				irToggle = !irToggle;
+				Debug.Log("ir set to " + irToggle);
 
 				dLeftWasPressed = true;
 			}
 
 		} else {
 			dLeftWasPressed = false;
+		}
+
+		if (wiimote.Button.d_right){ // || keyboard.kKey.wasPressedThisFrame) {
+			if (dRightWasPressed) {
+
+			} else {
+				Debug.Log("ir setup");
+				wiimote.SetupIRCamera(SensorBarMode);
+
+				dRightWasPressed = true;
+			}
+		} else if (dRightWasPressed) {
+			dRightWasPressed = false;
 		}
 
 		if (irToggle) {
@@ -283,7 +298,7 @@ public class NozzleScript : MonoBehaviour {
 					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + SensorBarAngleOffset.y,
 					 0f
 				);
-				// Debug.Log("orientation set from sensor bar");
+				Debug.Log ("orientation set from sensor bar");
 			}
 
 			// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);
@@ -294,7 +309,7 @@ public class NozzleScript : MonoBehaviour {
 
 		bool wiimoteFiring = wiimote.Button.b;
 
-		if (wiimote.Button.a) {
+		if (wiimote.Button.a || Mouse.current.middleButton.wasPressedThisFrame) {
 			if (!aWasPressed) {
 				SwitchParticles(wiimoteFiring);
 			}
@@ -311,12 +326,10 @@ public class NozzleScript : MonoBehaviour {
 		if (wiimote.Button.d_down || keyboard.jKey.wasPressedThisFrame) {
 			wiimote.MotionPlus.SetZeroValues();
 		}
-		if (wiimote.Button.d_right || keyboard.kKey.wasPressedThisFrame) {
-			wiimote.SetupIRCamera(SensorBarMode);
-		}
 
 
-		if (wiimoteFiring) {
+
+		if (wiimoteFiring || firing) {
 			if (wiimoteWasFiring) {
 
 			} else {

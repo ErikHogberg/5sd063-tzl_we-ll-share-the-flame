@@ -68,8 +68,8 @@ Material:
     - _OcclusionStrength: 1
     - _OffsetY: 0
     - _Parallax: 0.02
-    - _ScaleX: 1
-    - _ScaleY: 1
+    - _ScaleX: 3
+    - _ScaleY: 3
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
