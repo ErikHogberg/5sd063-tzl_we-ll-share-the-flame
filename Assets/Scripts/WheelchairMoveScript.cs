@@ -108,8 +108,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private bool setJumpTime = false;
 	private float nextJumpTime = 1f;
 	public AnimationCurve StuntCurve;
+	public float StuntAngle = 360f;
+	private float nextStuntAngle;
 	public Vector3 StuntAxis = new Vector3(1f, 0f, 0f);
+	private Vector3 nextStuntAxis = new Vector3(1f, 0f, 0f);
 	public bool StuntPingPong = false;
+	private bool nextStuntPingPong = false;
+
 	private Quaternion preJumpRotation;
 
 	// Boost
@@ -133,6 +138,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Start() {
 
 		Globals.Player = this;
+
+		nextJumpTime = JumpTime;
+		nextStuntAngle = StuntAngle;
+		nextStuntAxis = StuntAxis;
+		nextStuntPingPong = StuntPingPong;
 
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
@@ -229,6 +239,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 				setJumpSpeed = false;
 				setJumpTime = false;
 				transform.localRotation = preJumpRotation;
+				nextStuntAngle = StuntAngle;
+				nextStuntAxis = StuntAxis;
+				nextStuntPingPong = StuntPingPong;
 
 			} else {
 				transform.localRotation = preJumpRotation;
@@ -255,11 +268,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				transform.position = pos;
 				float progressLoop = 1f;
-				if (StuntPingPong) {
+				if (nextStuntPingPong) {
 					progressLoop = 2f;
 				}
 				transform.localRotation = preJumpRotation
-				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * 360f, StuntAxis);
+				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
 
 				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
 				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
@@ -577,6 +590,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 				if (rampScript.AlignPlayer) {
 					transform.rotation = other.transform.rotation;
 				}
+
+				nextStuntAngle = rampScript.StuntAngle;
+				nextStuntAxis = rampScript.StuntAxis;
+				nextStuntPingPong = rampScript.StuntPingPong;
+				
 			}
 
 			if (!setJumpTime) {
