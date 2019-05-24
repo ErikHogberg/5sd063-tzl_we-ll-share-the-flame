@@ -9,6 +9,7 @@ public class HighscorePanelScript : MonoBehaviour {
 	private Highscore HighscoreList;
 	public TextAsset SaveFile;
 	public InputField NameInput;
+	// public Text NameInputText;
 	public Button SubmitButton;
 
 	void Start() {
@@ -25,17 +26,17 @@ public class HighscorePanelScript : MonoBehaviour {
 
 	public void SubmitScore() {
 		int score = Globals.Score;
-		// if (score > 0) {
-		HighscoreList.ScoreList.Add(new ScoreEntry(NameInput.textComponent.text, score));
-		// HighscoreList.NameList.Add(NameInput.text);
-		// }
-		Globals.ResetScore();
-		HighscoreList.Sort();
+		if (score > 0) {
+			HighscoreList.ScoreList.Add(new ScoreEntry(NameInput.textComponent.text, score));
+			// HighscoreList.NameList.Add(NameInput.text);
+			Globals.ResetScore();
+			HighscoreList.Sort();
 
-		UpdateList();
+			UpdateList();
 
-		Debug.Log("Submitted score");
-		SaveHighScore();
+			Debug.Log("Submitted score");
+			SaveHighScore();
+		}
 	}
 
 	public void UpdateList() {
@@ -60,7 +61,7 @@ public class HighscorePanelScript : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
-		SaveHighScore();
+		// SaveHighScore();
 	}
 
 }

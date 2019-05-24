@@ -157,9 +157,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		collisionTimer.Stop();
 
 		if (UseMouse) {
-			// Cursor.lockState = CursorLockMode.Locked;
 			Cursor.lockState = CursorLockMode.Locked;
-			// Cursor.visible = false;
+			Cursor.visible = false;
 		}
 
 
@@ -176,7 +175,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (collisionTimer.IsRunning()) {
 			collisionTimer.Update();
-			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+			float boostSlowdownProgress = 0f;
+			if (boostSlowdownTimer.IsRunning()) {
+				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+			}
+			transform.position += transform.forward
+			 * (leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * Time.deltaTime;
 
 			// float turnAngle = rightWheelSpeed - leftWheelSpeed;
 			float turnAngle = leftWheelSpeed - rightWheelSpeed;
@@ -249,7 +254,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		if (Mouse.current.rightButton.isPressed) {// && !boostTimer.IsRunning()) {
-			// boostTimer.Restart(BoostTime);
+												  // boostTimer.Restart(BoostTime);
 			Boost();
 		}
 
@@ -269,10 +274,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			return;
 		}
 
-		float boostSlowdownProgress = 0f;
-		if (boostSlowdownTimer.IsRunning()) {
-			boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
-		}
+
 
 		if (UseMouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
@@ -506,6 +508,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
 			transform.position += transform.forward * driftSpeed * Time.deltaTime;
 		} else {
+			float boostSlowdownProgress = 0f;
+			if (boostSlowdownTimer.IsRunning()) {
+				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+			}
 			transform.position += transform.forward * (Mathf.Min(speed, TopSpeed) + boostEndSpeed * boostSlowdownProgress) * Time.deltaTime;
 		}
 
@@ -556,8 +562,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				nextJumpTime = rampScript.Time;
 			}
 
-			if (!setJumpTime)
-			{
+			if (!setJumpTime) {
 				nextJumpTime = JumpTime;
 			}
 			jumpTimer.Restart(nextJumpTime);
@@ -566,7 +571,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			} else {
 				jumpSpeed = leftWheelSpeed + rightWheelSpeed;
 			}
-			
+
 			return;
 		}
 
