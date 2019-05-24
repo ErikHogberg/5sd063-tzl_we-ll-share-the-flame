@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -125,11 +125,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 763975396}
     m_Modifications:
-    - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: m_Name
-      value: Simon Test Fire Spirit (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 6682084134872180374, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -184,6 +179,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Name
+      value: Simon Test Fire Spirit (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06ea8aaa553fec7429a9f1676188983f, type: 3}
@@ -3886,6 +3886,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7684509676280730872, guid: 72d41bd96626e1445982e8a5e76e3f2c,
+        type: 3}
+      propertyPath: AlignPlayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d41bd96626e1445982e8a5e76e3f2c, type: 3}
 --- !u!1001 &4681715791256947765
@@ -4553,11 +4558,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 341485293}
     m_Modifications:
-    - target: {fileID: 5691908883390932331, guid: 7caec65c72dedb24b856ff66e79ee4f7,
-        type: 3}
-      propertyPath: m_Name
-      value: Wobbling street light
-      objectReference: {fileID: 0}
     - target: {fileID: 5691908883390932330, guid: 7caec65c72dedb24b856ff66e79ee4f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4612,6 +4612,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5691908883390932331, guid: 7caec65c72dedb24b856ff66e79ee4f7,
+        type: 3}
+      propertyPath: m_Name
+      value: Wobbling street light
       objectReference: {fileID: 0}
     - target: {fileID: 5691908883390932325, guid: 7caec65c72dedb24b856ff66e79ee4f7,
         type: 3}

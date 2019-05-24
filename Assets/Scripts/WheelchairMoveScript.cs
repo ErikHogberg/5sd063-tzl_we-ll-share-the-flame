@@ -560,6 +560,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 				nextJumpSpeed = rampScript.Speed;
 				setJumpTime = rampScript.SetTime;
 				nextJumpTime = rampScript.Time;
+				if (rampScript.AlignPlayer)
+				{
+					transform.rotation = other.transform.rotation;
+				}
 			}
 
 			if (!setJumpTime) {
