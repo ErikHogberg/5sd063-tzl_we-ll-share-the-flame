@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +40,12 @@ namespace Assets.Scripts {
 
 		public void Save(TextAsset SaveFile) {
 
-			File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
+			// TODO: save in build
+			// File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
+			// File.WriteAllText(Application.dataPath + "/Resources/" + SaveFile.name,ToJson());
+			File.WriteAllText(Application.dataPath + "/Resources/highscore.json",ToJson());
+			// File.WriteAllText(Application.persistentDataPath + "/Resources/highscore.json",ToJson());
+			// Debug.Log("saved to: " + Application.dataPath + "/Resources/" + SaveFile.name);
 		}
 
 		public void Sort() {
@@ -54,7 +58,7 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		private static float score = 100f;
+		private static float score = 0f;
 		public static int Score {
 			get { return Mathf.FloorToInt(score); }
 		}
