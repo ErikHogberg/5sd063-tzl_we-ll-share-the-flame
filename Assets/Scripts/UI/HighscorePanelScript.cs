@@ -13,7 +13,8 @@ public class HighscorePanelScript : MonoBehaviour {
 	public Button SubmitButton;
 
 	void Start() {
-		HighscoreList = Highscore.Load(SaveFile);
+		// HighscoreList = Highscore.Load(SaveFile);
+		HighscoreList = Globals.HighscoreList;
 		if (HighscoreList == null) {
 			HighscoreList = new Highscore();
 		}
@@ -56,7 +57,7 @@ public class HighscorePanelScript : MonoBehaviour {
 	}
 
 	public void SaveHighScore() {
-		HighscoreList.Save(SaveFile);
+		// HighscoreList.Save(SaveFile);
 		Debug.Log("Saved score");
 	}
 

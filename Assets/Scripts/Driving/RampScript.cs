@@ -18,5 +18,6 @@ public class RampScript : MonoBehaviour {
 
 	public bool SetTime = false;
 	public float Time = 1f;
+    public bool AlignPlayer = false;
 
 }
