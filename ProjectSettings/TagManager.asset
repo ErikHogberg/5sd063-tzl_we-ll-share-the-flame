@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Building
+  - Ramp
+  - Ignore Collision
+  - Zipline
   layers:
   - Default
   - TransparentFX
@@ -14,7 +18,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Enemies
   - 
   - 
   - 
@@ -38,6 +42,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Back
+    uniqueID: 2413630629
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Front
+    uniqueID: 3730137519
     locked: 0

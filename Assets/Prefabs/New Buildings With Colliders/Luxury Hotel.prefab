@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!65 &2737777527198779296
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547698556700954935}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5101284, y: 4.300002, z: 2.1930637}
+  m_Center: {x: -2.1949348, y: -1.1160238e-14, z: -1.3034687}
+--- !u!65 &4568470119310188180
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547698556700954935}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.900003, y: 3.277488, z: 4.800002}
+  m_Center: {x: 0, y: -0.5112571, z: 3.3974093e-15}
+--- !u!65 &6551407800319295385
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547698556700954935}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.567488, y: 4.300002, z: 2.0635147}
+  m_Center: {x: 2.166252, y: -1.05849235e-14, z: -1.3682433}
+--- !u!1 &5190977838505359169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7312967105133612279}
+  m_Layer: 0
+  m_Name: Luxury Hotel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7312967105133612279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190977838505359169}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1547698556700986647}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1547698556700858263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7312967105133612279}
+    m_Modifications:
+    - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_Name
+      value: LuxuryHotel
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -20.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35836440a169cc14291f6275ab0b93f3, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+--- !u!1 &1547698556700954935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1547698556700858263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1547698556700986647 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1547698556700858263}
+  m_PrefabAsset: {fileID: 0}
