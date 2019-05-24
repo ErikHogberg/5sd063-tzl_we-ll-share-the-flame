@@ -72,7 +72,7 @@ public class NozzleScript : MonoBehaviour {
 	private bool dRightWasPressed = false;
 	private bool aWasPressed = false;
 	private bool irToggle = false;
-	public Vector2 IrOuterDeadzone = new Vector2(1f, 1f);
+	public Vector2 IrOuterDeadzone = new Vector2(0f, 0f);
 	// TODO: IR (reverse-)deadzone
 
 	public bool UseAccelerometer = false;
@@ -298,7 +298,7 @@ public class NozzleScript : MonoBehaviour {
 					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + SensorBarAngleOffset.y,
 					 0f
 				);
-				Debug.Log("orientation set from sensor bar");
+				Debug.Log ("orientation set from sensor bar");
 			}
 
 			// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);
@@ -309,7 +309,7 @@ public class NozzleScript : MonoBehaviour {
 
 		bool wiimoteFiring = wiimote.Button.b;
 
-		if (wiimote.Button.a) {
+		if (wiimote.Button.a || Mouse.current.middleButton.wasPressedThisFrame) {
 			if (!aWasPressed) {
 				SwitchParticles(wiimoteFiring);
 			}
@@ -329,7 +329,7 @@ public class NozzleScript : MonoBehaviour {
 
 
 
-		if (wiimoteFiring) {
+		if (wiimoteFiring || firing) {
 			if (wiimoteWasFiring) {
 
 			} else {

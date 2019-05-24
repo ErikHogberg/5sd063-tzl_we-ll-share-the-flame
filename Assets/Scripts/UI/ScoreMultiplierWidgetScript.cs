@@ -60,7 +60,7 @@ public class ScoreMultiplierWidgetScript : MonoBehaviour {
 		TimerBar.transform.localScale = scale;
 
 		NotificationText.text = outText;
-		MultiplierText.text = Globals.ScoreMultiplier.ToString();
+		MultiplierText.text = "x" + Globals.ScoreMultiplier.ToString("F1");
 	}
 
 	public float AddPoints(float points) {

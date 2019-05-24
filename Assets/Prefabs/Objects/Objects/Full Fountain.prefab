@@ -52,10 +52,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852787757136823690}
     m_Modifications:
-    - target: {fileID: 100000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
-      propertyPath: m_Name
-      value: fullFountain
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.85
@@ -112,6 +108,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
+      propertyPath: m_Name
+      value: fullFountain
+      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -137,11 +137,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852787757136823690}
     m_Modifications:
-    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: m_Name
-      value: Water Jet
-      objectReference: {fileID: 0}
     - target: {fileID: 9193838673014712479, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -211,6 +206,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: m_Name
+      value: Water Jet
       objectReference: {fileID: 0}
     - target: {fileID: 9193838671529983798, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
