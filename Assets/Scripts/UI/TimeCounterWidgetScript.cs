@@ -17,6 +17,10 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 	public GameObject GameOverPanel;
 
+	public bool RestartOnEnd = false;
+	public string NextScene;
+
+
 	void Start() {
 
 		text = GetComponent<Text>();
@@ -32,9 +36,8 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 		if (Keyboard.current.pKey.wasPressedThisFrame) {
 			timer.Stop();
 			//Cursor.lockState = CursorLockMode.None;
-			Globals.FadePanel.StartLevelTransition(SceneManager.GetActiveScene().name);
+			EndLevel();
 
-			GameOverPanel.SetActive(true);
 		}
 
 		if (timer.Update()) {
@@ -44,8 +47,7 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 			// TODO: do something when time runs out, change scene? trigger game over?
 			//Cursor.lockState = CursorLockMode.Confined;
 			//Cursor.visible = true;
-			Globals.FadePanel.StartLevelTransition(SceneManager.GetActiveScene().name);
-			GameOverPanel.SetActive(true);
+			EndLevel();
 
 		} else if (timer.IsRunning()) {
 
@@ -59,5 +61,15 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 		}
 
+	}
+
+	private void EndLevel() {
+		if (RestartOnEnd) {
+			Globals.FadePanel.StartLevelTransition(SceneManager.GetActiveScene().name);
+		} else {
+			Globals.FadePanel.StartLevelTransition(NextScene);
+		}
+
+		GameOverPanel.SetActive(true);
 	}
 }

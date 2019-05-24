@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class RampScript : MonoBehaviour {
 
-    // TODO: use ramp information in this script to alter jump trajectory from wheelchair script
     // TODO: min/max/set movement speed
-    // TODO: set jump height
     // IDEA: set sump target location (as game object)
+    // TODO: custom jump time
 
     public bool RelativeHeight = false;
     public float TargetHeight = 0f;
     public float JumpHeight = 0f;
-    // TODO: skip first half bool, starting timer at 50%
+    public bool SkipUp = false;
+
+	public bool SetSpeed = false;
+	public float Speed = 1f;
+
+	public bool SetTime = false;
+	public float Time = 1f;
+    public bool AlignPlayer = false;
 
 }
