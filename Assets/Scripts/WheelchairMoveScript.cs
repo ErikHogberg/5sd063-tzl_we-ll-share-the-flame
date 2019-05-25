@@ -557,7 +557,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 
-		if (!EnableCollision || other.tag == "Ignore Collision") {
+		if (!EnableCollision || other.tag == "Ignore Collision" || ziplining) {
 			return;
 		}
 
@@ -569,8 +569,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				return;
 			}
 
-			boostTimer.Stop();
-			StopBoostParticles();
+			CancelBoost();
 
 			RampScript rampScript = other.GetComponent<RampScript>();
 
@@ -594,7 +593,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				nextStuntAngle = rampScript.StuntAngle;
 				nextStuntAxis = rampScript.StuntAxis;
 				nextStuntPingPong = rampScript.StuntPingPong;
-				
+
 			}
 
 			if (!setJumpTime) {
@@ -615,10 +614,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Debug.Log("hit zipline " + other.name + "!");
 			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
 			if (zipline != null) {
-				Debug.Log("Found zipline script");
+				CancelBoost();
+
+				transform.position = zipline.transform.position;
 				ziplining = true;
 				ziplineTarget = zipline.End.transform.position;
 				ziplineSpeed = zipline.Speed;
+				transform.rotation = zipline.End.transform.rotation;
+			} else {
+				Debug.LogError("Zipline script not found!");
 			}
 			return;
 		}
@@ -653,6 +657,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public void Boost() {
 		Boost(BoostTime);
+	}
+
+	public void CancelBoost() {
+		boostTimer.Stop();
+		StopBoostParticles();
 	}
 
 	public void StartBoostParticles() {
