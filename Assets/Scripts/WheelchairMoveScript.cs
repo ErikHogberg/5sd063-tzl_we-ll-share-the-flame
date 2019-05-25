@@ -107,6 +107,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private float nextJumpSpeed = 1f;
 	private bool setJumpTime = false;
 	private float nextJumpTime = 1f;
+	public AnimationCurve StuntCurve;
+	public float StuntAngle = 360f;
+	private float nextStuntAngle;
+	public Vector3 StuntAxis = new Vector3(1f, 0f, 0f);
+	private Vector3 nextStuntAxis = new Vector3(1f, 0f, 0f);
+	public bool StuntPingPong = false;
+	private bool nextStuntPingPong = false;
+
+	private Quaternion preJumpRotation;
 
 	// Boost
 	[Tooltip("How Long the player boosts once triggered")]
@@ -129,6 +138,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Start() {
 
 		Globals.Player = this;
+
+		nextJumpTime = JumpTime;
+		nextStuntAngle = StuntAngle;
+		nextStuntAxis = StuntAxis;
+		nextStuntPingPong = StuntPingPong;
 
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
@@ -224,7 +238,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 				skipUp = false;
 				setJumpSpeed = false;
 				setJumpTime = false;
+				transform.localRotation = preJumpRotation;
+				nextStuntAngle = StuntAngle;
+				nextStuntAxis = StuntAxis;
+				nextStuntPingPong = StuntPingPong;
+
 			} else {
+				transform.localRotation = preJumpRotation;
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
 
@@ -247,6 +267,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 				}
 
 				transform.position = pos;
+				float progressLoop = 1f;
+				if (nextStuntPingPong) {
+					progressLoop = 2f;
+				}
+				transform.localRotation = preJumpRotation
+				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
+
 				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
 				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
 				return;
@@ -560,16 +587,21 @@ public class WheelchairMoveScript : MonoBehaviour {
 				nextJumpSpeed = rampScript.Speed;
 				setJumpTime = rampScript.SetTime;
 				nextJumpTime = rampScript.Time;
-				if (rampScript.AlignPlayer)
-				{
+				if (rampScript.AlignPlayer) {
 					transform.rotation = other.transform.rotation;
 				}
+
+				nextStuntAngle = rampScript.StuntAngle;
+				nextStuntAxis = rampScript.StuntAxis;
+				nextStuntPingPong = rampScript.StuntPingPong;
+				
 			}
 
 			if (!setJumpTime) {
 				nextJumpTime = JumpTime;
 			}
 			jumpTimer.Restart(nextJumpTime);
+			preJumpRotation = transform.localRotation;
 			if (setJumpSpeed) {
 				jumpSpeed = nextJumpSpeed;
 			} else {
