@@ -115,7 +115,7 @@ public class NozzleScript : MonoBehaviour {
 			wiimoteFiring = WiimoteUpdate();
 		}
 
-		if (keyboard.mKey.wasPressedThisFrame) {
+		if (Mouse.current.middleButton.wasPressedThisFrame) {
 			SwitchParticles(firing);
 		}
 
@@ -309,7 +309,7 @@ public class NozzleScript : MonoBehaviour {
 
 		bool wiimoteFiring = wiimote.Button.b;
 
-		if (wiimote.Button.a || Mouse.current.middleButton.wasPressedThisFrame) {
+		if (wiimote.Button.a) {
 			if (!aWasPressed) {
 				SwitchParticles(wiimoteFiring);
 			}
