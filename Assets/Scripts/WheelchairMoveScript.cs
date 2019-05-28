@@ -322,7 +322,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (boostTimer.IsRunning()) {
 			if (boostTimer.Update()) {
-				boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+				float x = 0f;
+				float y = 0f;
+				if (UseMouse) {
+					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+				}
+				if (FlipKeys) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+				} else {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+				}
 				boostSlowdownTimer.Restart(BoostSlowdownTime);
 				StopBoostParticles();
 			} else {
@@ -337,7 +347,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 					BoostAmmo = 0f;
 
 					boostTimer.Stop();
-					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+					float x = 0f;
+					float y = 0f;
+					if (UseMouse) {
+						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+					}
+					if (FlipKeys) {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+					} else {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+					}
 					boostSlowdownTimer.Restart(BoostSlowdownTime);
 					StopBoostParticles();
 				}
@@ -700,8 +720,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	public void Boost(float boostTime) {
-		if (BoostAmmo < BoostAmmoDisableTreshold && !boostTimer.IsRunning())
-		{
+		if (BoostAmmo < BoostAmmoDisableTreshold && !boostTimer.IsRunning()) {
 			return;
 		}
 		boostTimer.Restart(boostTime);
