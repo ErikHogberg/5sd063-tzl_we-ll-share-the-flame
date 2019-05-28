@@ -115,7 +115,7 @@ public class NozzleScript : MonoBehaviour {
 			wiimoteFiring = WiimoteUpdate();
 		}
 
-		if (keyboard.mKey.wasPressedThisFrame) {
+		if (Mouse.current.middleButton.wasPressedThisFrame) {
 			SwitchParticles(firing);
 		}
 
@@ -253,11 +253,7 @@ public class NozzleScript : MonoBehaviour {
 		} while (ret > 0);
 
 		// TODO: use wiimote.Accel.GetCalibratedAccelData() to reduce wmp drift
-
-		// TODO: re-aling using sensor bar
-		// IDEA: get roll from sensor bar, measure angle between dots?
-
-		// IDEA: add init process where drift is sampled while still, subtract average drift every frame.
+		
 
 		if (wiimote.Button.d_left) {
 			if (dLeftWasPressed) {
@@ -309,7 +305,7 @@ public class NozzleScript : MonoBehaviour {
 
 		bool wiimoteFiring = wiimote.Button.b;
 
-		if (wiimote.Button.a || Mouse.current.middleButton.wasPressedThisFrame) {
+		if (wiimote.Button.a) {
 			if (!aWasPressed) {
 				SwitchParticles(wiimoteFiring);
 			}
