@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MultiplierText: {fileID: 32356405828711451}
+  MultiplierBackground: {fileID: 940431596919110423}
   NotificationText: {fileID: 2600451760261955789}
   TimerBar: {fileID: 5604422761983202905}
   NotificationTime: 3
@@ -119,6 +120,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  MaterialSettings:
+  - TextBackground: {fileID: 2100000, guid: fbf9ae25e5e7e794db746cb66531eb75, type: 2}
+    MultiplierStartThreshold: 0
+  - TextBackground: {fileID: 2100000, guid: 34f757bfd2d44884cb64c98ca2548419, type: 2}
+    MultiplierStartThreshold: 1
+  - TextBackground: {fileID: 2100000, guid: edded6eee32ca9944b8ce9e32a084c54, type: 2}
+    MultiplierStartThreshold: 3
 --- !u!1 &32356405828711429
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +233,7 @@ GameObject:
   - component: {fileID: 7170732442241286093}
   - component: {fileID: 1874480740756370648}
   m_Layer: 5
-  m_Name: Notification Text (1)
+  m_Name: Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +444,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0278528677039e84eabd5a0ba0e13a73, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1

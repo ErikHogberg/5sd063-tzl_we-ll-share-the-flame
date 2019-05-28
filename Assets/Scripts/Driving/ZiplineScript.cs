@@ -21,7 +21,8 @@ public class ZiplineScript : MonoBehaviour
 
         // stretch line to end
         Vector3 scale = Line.transform.localScale;
-        scale.z = Vector3.Distance(transform.position, End.transform.position);
+		scale.z *= Vector3.Distance(transform.position, End.transform.position);
+        // TODO: set world scale instead 
         Line.transform.localScale = scale;
     }
 
