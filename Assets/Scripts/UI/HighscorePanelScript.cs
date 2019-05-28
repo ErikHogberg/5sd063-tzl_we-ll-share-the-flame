@@ -50,7 +50,7 @@ public class HighscorePanelScript : MonoBehaviour {
 		foreach (ScoreEntry scoreEntry in HighscoreList.ScoreList) {
 
 			scoreList +=
-			scoreEntry.Player + ": " + scoreEntry.Score + "\n";
+			scoreEntry.Player + " - " + scoreEntry.Score + "\n";
 		}
 
 		GetComponent<Text>().text = scoreList;
