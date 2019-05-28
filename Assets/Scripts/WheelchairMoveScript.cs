@@ -138,6 +138,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float BoostMaxSpeed = 20f;
 	private float boostEndSpeed;
 
+	[Tooltip("How fast (% per sec) the boost canister is drained when used")]
+	public float BoostAmmoDrainRate = .1f;
+	[Tooltip("How fast (% per sec) the boost canister is refilled when not used")]
+	public float BoostAmmoUpkeep = .1f;
+	[Tooltip("How much (in %) the boost canister needs to be filled to start boosting")]
+	public float BoostAmmoDisableTreshold = .25f;
+
 	// Zipline
 	private bool ziplining = false;
 	private Vector3 ziplineTarget;
