@@ -270,8 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 0
+  TargetHeightRelativity: 1
   TargetHeight: 9
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 1
   SetSpeed: 0
@@ -401,11 +402,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5781311979369640245, guid: c13350caf30ef2649a58195c3d2452df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5781311978718021982, guid: c13350caf30ef2649a58195c3d2452df,
         type: 3}
       propertyPath: m_IsTrigger
@@ -415,6 +411,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5781311979369640245, guid: c13350caf30ef2649a58195c3d2452df,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c13350caf30ef2649a58195c3d2452df, type: 3}
@@ -448,8 +449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 0
+  TargetHeightRelativity: 1
   TargetHeight: 15
+  JumpHeightRelativity: 0
   JumpHeight: 8
   SkipUp: 0
   SetSpeed: 0
@@ -472,8 +474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
+  TargetHeightRelativity: 1
   TargetHeight: 0
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 0
   SetSpeed: 0
@@ -1109,8 +1112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 0
+  TargetHeightRelativity: 1
   TargetHeight: 9
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 1
   SetSpeed: 0
@@ -1361,11 +1365,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5781311978718021968, guid: c13350caf30ef2649a58195c3d2452df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5781311978718021982, guid: c13350caf30ef2649a58195c3d2452df,
         type: 3}
       propertyPath: m_IsTrigger
@@ -1375,6 +1374,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5781311978718021968, guid: c13350caf30ef2649a58195c3d2452df,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c13350caf30ef2649a58195c3d2452df, type: 3}
@@ -1422,8 +1426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
-  TargetHeight: -9
+  TargetHeightRelativity: 2
+  TargetHeight: 0
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 1
   SetSpeed: 0
@@ -1677,12 +1682,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
         type: 3}
-      propertyPath: CameraTurnSpeed
-      value: 200
+      propertyPath: CameraTurnSpeedScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7838698095267681235, guid: 6df0d2c81435eff47a9ba09b161c812d,
         type: 3}
-      propertyPath: CameraTurnSpeedScale
+      propertyPath: CameraTurnSpeed
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7838698095267681234, guid: 6df0d2c81435eff47a9ba09b161c812d,
@@ -1876,8 +1881,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
+  TargetHeightRelativity: 1
   TargetHeight: 0
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 0
   SetSpeed: 0
@@ -1967,11 +1973,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5781311979369640245, guid: c13350caf30ef2649a58195c3d2452df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5781311978718021982, guid: c13350caf30ef2649a58195c3d2452df,
         type: 3}
       propertyPath: m_IsTrigger
@@ -1981,6 +1982,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5781311979369640245, guid: c13350caf30ef2649a58195c3d2452df,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c13350caf30ef2649a58195c3d2452df, type: 3}
@@ -2014,8 +2020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
+  TargetHeightRelativity: 1
   TargetHeight: -9
+  JumpHeightRelativity: 0
   JumpHeight: 5
   SkipUp: 0
   SetSpeed: 0
@@ -2038,8 +2045,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
+  TargetHeightRelativity: 1
   TargetHeight: 0
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 0
   SetSpeed: 0
@@ -2074,8 +2082,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
+  TargetHeightRelativity: 1
   TargetHeight: 9
+  JumpHeightRelativity: 0
   JumpHeight: 15
   SkipUp: 0
   SetSpeed: 0
@@ -2130,8 +2139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfca1bae71f0cd1439e4bfbb721739db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativeHeight: 1
-  TargetHeight: -9
+  TargetHeightRelativity: 2
+  TargetHeight: 0
+  JumpHeightRelativity: 0
   JumpHeight: 0
   SkipUp: 1
   SetSpeed: 0

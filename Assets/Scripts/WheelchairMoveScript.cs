@@ -738,21 +738,22 @@ public class WheelchairMoveScript : MonoBehaviour {
 				jumpTargetY = initialPlayerY + TargetHeight;
 				break;
 		}
-		jumpTargetY /= transform.lossyScale.y;
+		// jumpTargetY /= transform.lossyScale.y;
 
 		useTempJumpHeight = true;
 		switch (JumpHeightRelativity) {
 			case JumpTargetSetting.Absolute:
-				tempJumpHeight = JumpHeight;
+				tempJumpHeight = JumpHeight - playerY;
 				break;
 			case JumpTargetSetting.Relative:
-				tempJumpHeight = playerY + JumpHeight;
+				tempJumpHeight = JumpHeight;
 				break;
 			case JumpTargetSetting.Reset:
-				tempJumpHeight = initialPlayerY + JumpHeight;
+				tempJumpHeight = initialPlayerY - playerY + JumpHeight;
 				break;
 		}
 		// tempJumpHeight /= transform.lossyScale.y;
+		Debug.Log("jump height result: " + tempJumpHeight + ", jump height: " + JumpHeight);
 
 		skipUp = SkipNextUp;
 		setJumpSpeed = SetSpeed;
