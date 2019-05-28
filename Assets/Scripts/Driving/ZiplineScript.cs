@@ -8,6 +8,8 @@ public class ZiplineScript : MonoBehaviour
     public GameObject End;
     public GameObject Line;
     public float Speed = 1f;
+    public JumpTargetSetting TargetHeightRelativity= JumpTargetSetting.Reset;
+    public float TargetHeight = 0f;
 
 
     private void Start() {
