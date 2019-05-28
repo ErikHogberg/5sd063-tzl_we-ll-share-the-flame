@@ -24,10 +24,19 @@ namespace Assets.Scripts {
 		public List<ScoreEntry> ScoreList;
 		// public List<string> NameList;
 
+
 		public Highscore() {
 			ScoreList = new List<ScoreEntry>();
 			// NameList = new List<string>();
 			Debug.Log("New highscore list");
+		}
+
+		public static Highscore Load() {
+			if (File.Exists(Globals.SavePath)) {
+				return JsonUtility.FromJson<Highscore>(File.ReadAllText(Globals.SavePath));
+			} else {
+				return new Highscore();
+			}
 		}
 
 		public static Highscore Load(TextAsset SaveFile) {
@@ -38,13 +47,14 @@ namespace Assets.Scripts {
 			return JsonUtility.ToJson(this, pretty);
 		}
 
-		public void Save(TextAsset SaveFile) {
+		public void Save() {
 
 			// TODO: save in build
 			// File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
 			// File.WriteAllText(Application.dataPath + "/Resources/" + SaveFile.name,ToJson());
 
-			File.WriteAllText(Application.dataPath + "/Resources/highscore.json", ToJson());
+			File.WriteAllText(Globals.SavePath, ToJson());
+			Debug.Log("saved to: " + Globals.SavePath);
 
 			// File.WriteAllText(Application.persistentDataPath + "/Resources/highscore.json",ToJson());
 			// Debug.Log("saved to: " + Application.dataPath + "/Resources/" + SaveFile.name);
@@ -65,7 +75,9 @@ namespace Assets.Scripts {
 			get { return Mathf.FloorToInt(score); }
 		}
 		public static float ScoreMultiplier = 1;
-		public static Highscore HighscoreList = new Highscore();
+		public static string SavePath = Application.dataPath + "/highscore.json";
+		public static Highscore HighscoreList = Highscore.Load();//new Highscore();
+
 
 		// The current player
 		public static WheelchairMoveScript Player;
