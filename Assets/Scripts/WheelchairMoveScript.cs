@@ -138,6 +138,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float BoostMaxSpeed = 20f;
 	private float boostEndSpeed;
 
+	[Tooltip("Ammo amount, in %")]
+	public float BoostAmmo = 1f;
 	[Tooltip("How fast (% per sec) the boost canister is drained when used")]
 	public float BoostAmmoDrainRate = .1f;
 	[Tooltip("How fast (% per sec) the boost canister is refilled when not used")]
@@ -323,14 +325,30 @@ public class WheelchairMoveScript : MonoBehaviour {
 				boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
 				boostSlowdownTimer.Restart(BoostSlowdownTime);
 				StopBoostParticles();
-			}
+			} else {
+				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
-			LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-			RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-			return;
+				BoostAmmo -= BoostAmmoDrainRate * Time.deltaTime;
+				if (BoostAmmo < 0f) {
+					BoostAmmo = 0f;
+
+					boostTimer.Stop();
+					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
+				}
+
+				return;
+			}
+		} else {
+			BoostAmmo += BoostAmmoUpkeep * Time.deltaTime;
+			if (BoostAmmo > 1f) {
+				BoostAmmo = 1f;
+			}
 		}
 
 
@@ -682,6 +700,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	public void Boost(float boostTime) {
+		if (BoostAmmo < BoostAmmoDisableTreshold && !boostTimer.IsRunning())
+		{
+			return;
+		}
 		boostTimer.Restart(boostTime);
 		StartBoostParticles();
 	}
@@ -726,7 +748,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
-	){
+	) {
 		// NOTE: ignores jump if already in air
 		if (jumpTimer.IsRunning()) {
 			return;
