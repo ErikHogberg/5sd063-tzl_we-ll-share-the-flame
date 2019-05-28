@@ -11,10 +11,21 @@ using UnityEngine.UI;
 public class ScoreMultiplierWidgetScript : MonoBehaviour {
 
 	public Text MultiplierText;
+	public Image MultiplierBackground;
 	public Text NotificationText;
 	public Image TimerBar;
 	public float NotificationTime;
 	public AnimationCurve TimerCurve;
+
+	private float ScoreMultiplierBuffer;
+
+	[Serializable]
+	public class MultiplierMaterialSettings {
+		public Material TextBackground;
+		public float MultiplierStartThreshold;
+	}
+
+	public List<MultiplierMaterialSettings> MaterialSettings;
 
 	private class ScoreNotification {
 		public Timer Timer;
@@ -59,13 +70,31 @@ public class ScoreMultiplierWidgetScript : MonoBehaviour {
 		scale.x = TimerCurve.Evaluate(timerBarProgress / NotificationTime);
 		TimerBar.transform.localScale = scale;
 
+		// TODO: set material
+
+		Material material = null;
+		float scoreThreshold = -1f;
+		bool bufferInSameThreshold = false;
+		foreach (MultiplierMaterialSettings item in MaterialSettings) {
+			if (item.MultiplierStartThreshold > scoreThreshold && item.MultiplierStartThreshold < Globals.ScoreMultiplier) {
+				material = item.TextBackground;
+				scoreThreshold = item.MultiplierStartThreshold;
+			}
+		}
+
+		if (!bufferInSameThreshold && material != null) {
+			MultiplierBackground.material = material;
+		}
+
+		ScoreMultiplierBuffer = Globals.ScoreMultiplier;
+
 		NotificationText.text = outText;
 		MultiplierText.text = "x" + Globals.ScoreMultiplier.ToString("F1");
 	}
 
 	public float AddPoints(float points) {
 		notifications.Add(new ScoreNotification(
-			NotificationTime, 
+			NotificationTime,
 			"+" + Globals.ScoreMultiplier.ToString("F1")
 			+ "x" + points.ToString("F0") + Environment.NewLine
 			));
