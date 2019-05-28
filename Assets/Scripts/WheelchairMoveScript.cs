@@ -226,6 +226,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 				}
 			}
 
+			// TODO: allow turning
+			// IDEA: refactor turning code into methods
+
 			return;
 		}
 
@@ -237,7 +240,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				// jumpTargetY = playerY;
 				// playerY = transform.position.y;
 				// skipUp = true;
-				jumpTimer.Restart();
+				// jumpTimer.Restart();
+				StartJump();
 			}
 			return;
 		}
@@ -275,9 +279,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				float arcHeight;
 				if (useTempJumpHeight) {
-					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+					arcHeight = Mathf.Max(tempJumpHeight, (jumpTargetY - playerY) / transform.lossyScale.y);
 				} else {
-					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+					arcHeight = Mathf.Max(JumpHeight, (jumpTargetY - playerY) / transform.lossyScale.y);
 				}
 
 				if (jumpProgress < 0.5f) {
@@ -601,7 +605,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 					rampScript.SkipUp,
 					rampScript.SetSpeed, rampScript.Speed,
 					rampScript.SetTime, rampScript.Time,
-					rampScript.AlignPlayer, rampScript.transform.localRotation,
+					rampScript.AlignPlayer, rampScript.transform.rotation,
 					rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
 				);
 			} else {
@@ -641,8 +645,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 					zipline.TargetHeightRelativity, zipline.TargetHeight,
 					JumpTargetSetting.Relative, 1,
 					false,
-					false, 1,
-					false, 1,
+					true, zipline.EndJumpSpeed,
+					true, zipline.EndJumpTime,
 					true, zipline.End.transform.rotation,
 					// TODO: bool to use default stunt settings
 					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
@@ -655,9 +659,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
-		// Turn 180 degrees when hitting a wall
-		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
-		// IDEA: Stop and teleport backwards instead
 
 		if (jumpTimer.IsRunning()) {
 			transform.Rotate(Vector3.up, 180f);
@@ -717,7 +718,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
-	){
+	) {
 		// NOTE: ignores jump if already in air
 		if (jumpTimer.IsRunning()) {
 			return;
@@ -736,6 +737,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				jumpTargetY = initialPlayerY + TargetHeight;
 				break;
 		}
+		jumpTargetY /= transform.lossyScale.y;
 
 		useTempJumpHeight = true;
 		switch (JumpHeightRelativity) {
@@ -749,6 +751,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				tempJumpHeight = initialPlayerY + JumpHeight;
 				break;
 		}
+		tempJumpHeight /= transform.lossyScale.y;
 
 		skipUp = SkipNextUp;
 		setJumpSpeed = SetSpeed;
