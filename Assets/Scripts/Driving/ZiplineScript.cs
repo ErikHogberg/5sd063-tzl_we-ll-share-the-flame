@@ -8,13 +8,21 @@ public class ZiplineScript : MonoBehaviour
     public GameObject End;
     public GameObject Line;
     public float Speed = 1f;
+    public JumpTargetSetting TargetHeightRelativity= JumpTargetSetting.Reset;
+    public float TargetHeight = 0f;
+
 
     private void Start() {
         
-        // TODO: stretch cube between start and end
-        // Line.transform.position = transform.position;
-        // Line.transform.rotation = Quaternion.FromToRotation(transform.position, End.transform.position);
+        // move line pivot to start
+        Line.transform.position = transform.position;
+        // rotate line towards end
+        Line.transform.LookAt(End.transform);
 
+        // stretch line to end
+        Vector3 scale = Line.transform.localScale;
+        scale.z = Vector3.Distance(transform.position, End.transform.position);
+        Line.transform.localScale = scale;
     }
 
 }

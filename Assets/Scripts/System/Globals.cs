@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,7 @@ namespace Assets.Scripts {
 		public string Player;
 		public int Score;
 
-		public ScoreEntry (string player, int score) {
+		public ScoreEntry(string player, int score) {
 			Player = player;
 			Score = score;
 		}
@@ -41,11 +40,18 @@ namespace Assets.Scripts {
 
 		public void Save(TextAsset SaveFile) {
 
-			File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
+			// TODO: save in build
+			// File.WriteAllText(AssetDatabase.GetAssetPath(SaveFile), ToJson());
+			// File.WriteAllText(Application.dataPath + "/Resources/" + SaveFile.name,ToJson());
+
+			File.WriteAllText(Application.dataPath + "/Resources/highscore.json", ToJson());
+
+			// File.WriteAllText(Application.persistentDataPath + "/Resources/highscore.json",ToJson());
+			// Debug.Log("saved to: " + Application.dataPath + "/Resources/" + SaveFile.name);
 		}
 
 		public void Sort() {
-			ScoreList = ScoreList.OrderByDescending(x =>  x.Score).Take(10).ToList();
+			ScoreList = ScoreList.OrderByDescending(x => x.Score).Take(10).ToList();
 			// .Sort(delegate (ScoreEntry e1, ScoreEntry e2) { return e1.Score.CompareTo(e2.Score); });
 		}
 
@@ -54,11 +60,12 @@ namespace Assets.Scripts {
 	public static class Globals {
 
 		// Game-wide score
-		private static float score = 100f;
+		private static float score = 0f;
 		public static int Score {
 			get { return Mathf.FloorToInt(score); }
 		}
 		public static float ScoreMultiplier = 1;
+		public static Highscore HighscoreList = new Highscore();
 
 		// The current player
 		public static WheelchairMoveScript Player;
@@ -86,7 +93,12 @@ namespace Assets.Scripts {
 
 		public static void AddScore(float points, float multiplierIncrease) {
 			ScoreMultiplier += multiplierIncrease;
-			score += ScoreMultiplierPanel.AddPoints(points);
+			if (ScoreMultiplierPanel != null) {
+				score += ScoreMultiplierPanel.AddPoints(points);
+			} else {
+				score += points;
+				Debug.Log("No Score multiplier bar widget!");
+			}
 		}
 
 		public static void ResetScore() {

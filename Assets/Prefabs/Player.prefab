@@ -439,8 +439,8 @@ MonoBehaviour:
   FlipKeys: 1
   UseMouse: 1
   MouseAdjust: {x: 1, y: -1}
-  Speed: 2
-  TurningSpeed: 0.2
+  Speed: 12
+  TurningSpeed: 0.1
   Acceleration: 1
   Damping: 10
   ForwardCorrectionSpeed: 0.1
@@ -461,44 +461,62 @@ MonoBehaviour:
   CollisionSlowdownMultiplier: 1
   CollisionTime: 0.5
   JumpTime: 1
-  JumpHeight: 5
+  JumpHeight: 15
   JumpArc:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 4.030624
-      outSlope: 4.030624
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.049155124
-    - serializedVersion: 3
-      time: 0.5
-      value: 1.0021089
-      inSlope: -0.08195584
-      outSlope: -0.08195584
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.15207374
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.002357483
-      inSlope: -3.9422905
-      outSlope: -3.9422905
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.052227378
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
-    m_PostInfinity: 2
+    m_PostInfinity: 0
     m_RotationOrder: 4
-  BoostTime: 2.5
+  StuntCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -1.5937732
+      outSlope: -1.5937732
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.035195727
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -1.3294816
+      outSlope: -1.3294816
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.120631516
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 0
+    m_RotationOrder: 4
+  StuntAngle: -20
+  StuntAxis: {x: 1, y: 0, z: 0}
+  StuntPingPong: 1
+  BoostTime: 0.5
   BoostSlowdownTime: 1
-  BoostAcceleration: 1
-  BoostMaxSpeed: 20
+  BoostAcceleration: 100
+  BoostMaxSpeed: 50
 --- !u!65 &6929900565973988701
 BoxCollider:
   m_ObjectHideFlags: 0
