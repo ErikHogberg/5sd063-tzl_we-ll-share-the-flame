@@ -279,9 +279,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				float arcHeight;
 				if (useTempJumpHeight) {
-					arcHeight = Mathf.Max(tempJumpHeight, (jumpTargetY - playerY) / transform.lossyScale.y);
+					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+					// Debug.Log("temp: " + tempJumpHeight + ", lower threshold: " + (jumpTargetY - playerY));
 				} else {
-					arcHeight = Mathf.Max(JumpHeight, (jumpTargetY - playerY) / transform.lossyScale.y);
+					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
 				}
 
 				if (jumpProgress < 0.5f) {
@@ -718,7 +719,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
-	) {
+	){
 		// NOTE: ignores jump if already in air
 		if (jumpTimer.IsRunning()) {
 			return;
@@ -751,7 +752,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				tempJumpHeight = initialPlayerY + JumpHeight;
 				break;
 		}
-		tempJumpHeight /= transform.lossyScale.y;
+		// tempJumpHeight /= transform.lossyScale.y;
 
 		skipUp = SkipNextUp;
 		setJumpSpeed = SetSpeed;
