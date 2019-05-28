@@ -159,7 +159,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
 
-		initialPlayerY  = transform.position.y;
+		initialPlayerY = transform.position.y;
 		playerY = initialPlayerY;
 		jumpTargetY = playerY;
 
@@ -236,7 +236,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				ziplining = false;
 				// jumpTargetY = playerY;
 				// playerY = transform.position.y;
-				skipUp = true;
+				// skipUp = true;
 				jumpTimer.Restart();
 			}
 			return;
@@ -595,56 +595,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 			RampScript rampScript = other.GetComponent<RampScript>();
 
 			if (rampScript != null) {
-				switch (rampScript.TargetHeightRelativity) {
-					case JumpTargetSetting.Absolute:
-						jumpTargetY = rampScript.TargetHeight;
-						break;
-					case JumpTargetSetting.Relative:
-						jumpTargetY = playerY + rampScript.TargetHeight;
-						break;
-					case JumpTargetSetting.Reset:
-						jumpTargetY = initialPlayerY + rampScript.TargetHeight;
-						break;
-				}
-
-				useTempJumpHeight = true;
-				switch (rampScript.JumpHeightRelativity) {
-					case JumpTargetSetting.Absolute:
-						tempJumpHeight = rampScript.JumpHeight;
-						break;
-					case JumpTargetSetting.Relative:
-						tempJumpHeight = playerY + rampScript.JumpHeight;
-						break;
-					case JumpTargetSetting.Reset:
-						tempJumpHeight = initialPlayerY + rampScript.JumpHeight;
-						break;
-				}
-
-				skipUp = rampScript.SkipUp;
-				setJumpSpeed = rampScript.SetSpeed;
-				nextJumpSpeed = rampScript.Speed;
-				setJumpTime = rampScript.SetTime;
-				nextJumpTime = rampScript.Time;
-
-				if (rampScript.AlignPlayer) {
-					transform.rotation = other.transform.rotation;
-				}
-
-				nextStuntAngle = rampScript.StuntAngle;
-				nextStuntAxis = rampScript.StuntAxis;
-				nextStuntPingPong = rampScript.StuntPingPong;
-
-			}
-
-			if (!setJumpTime) {
-				nextJumpTime = JumpTime;
-			}
-			jumpTimer.Restart(nextJumpTime);
-			preJumpRotation = transform.localRotation;
-			if (setJumpSpeed) {
-				jumpSpeed = nextJumpSpeed;
+				StartJump(
+					rampScript.TargetHeightRelativity, rampScript.TargetHeight,
+					rampScript.JumpHeightRelativity, rampScript.JumpHeight,
+					rampScript.SkipUp,
+					rampScript.SetSpeed, rampScript.Speed,
+					rampScript.SetTime, rampScript.Time,
+					rampScript.AlignPlayer, rampScript.transform.localRotation,
+					rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
+				);
 			} else {
-				jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+				StartJump();
 			}
 
 			return;
@@ -659,7 +620,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.position = zipline.transform.position;
 				ziplining = true;
 				ziplineTarget = zipline.End.transform.position;
-				preJumpRotation = zipline.End.transform.rotation;
+				// preJumpRotation = zipline.End.transform.rotation;
 
 				ziplineSpeed = zipline.Speed;
 				transform.rotation = zipline.End.transform.rotation;
@@ -675,6 +636,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 						jumpTargetY = initialPlayerY + zipline.TargetHeight;
 						break;
 				}
+
+				SetupJump(
+					zipline.TargetHeightRelativity, zipline.TargetHeight,
+					JumpTargetSetting.Relative, 1,
+					false,
+					false, 1,
+					false, 1,
+					true, zipline.End.transform.rotation,
+					// TODO: bool to use default stunt settings
+					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
+				);
+
 			} else {
 				Debug.LogError("Zipline script not found!");
 			}
@@ -733,6 +706,98 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public void PauseBoostParticles() {
 		foreach (ParticleSystem particles in BoostFoamParticles) {
 			particles.Pause();
+		}
+	}
+
+	public void SetupJump(
+		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
+		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
+		bool SkipNextUp,
+		bool SetSpeed, float Speed,
+		bool SetTime, float Time,
+		bool AlignPlayer, Quaternion Rotation,
+		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
+	){
+		// NOTE: ignores jump if already in air
+		if (jumpTimer.IsRunning()) {
+			return;
+		}
+
+		CancelBoost();
+
+		switch (TargetHeightRelativity) {
+			case JumpTargetSetting.Absolute:
+				jumpTargetY = TargetHeight;
+				break;
+			case JumpTargetSetting.Relative:
+				jumpTargetY = playerY + TargetHeight;
+				break;
+			case JumpTargetSetting.Reset:
+				jumpTargetY = initialPlayerY + TargetHeight;
+				break;
+		}
+
+		useTempJumpHeight = true;
+		switch (JumpHeightRelativity) {
+			case JumpTargetSetting.Absolute:
+				tempJumpHeight = JumpHeight;
+				break;
+			case JumpTargetSetting.Relative:
+				tempJumpHeight = playerY + JumpHeight;
+				break;
+			case JumpTargetSetting.Reset:
+				tempJumpHeight = initialPlayerY + JumpHeight;
+				break;
+		}
+
+		skipUp = SkipNextUp;
+		setJumpSpeed = SetSpeed;
+		nextJumpSpeed = Speed;
+		setJumpTime = SetTime;
+		nextJumpTime = Time;
+
+		if (AlignPlayer) {
+			transform.rotation = Rotation;
+		}
+
+		nextStuntAngle = tempStuntAngle;
+		nextStuntAxis = tempStuntAxis;
+		nextStuntPingPong = tempStuntPingPong;
+	}
+
+	public void StartJump(
+		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
+		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
+		bool SkipNextUp,
+		bool SetSpeed, float Speed,
+		bool SetTime, float Time,
+		bool AlignPlayer, Quaternion Rotation,
+		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
+	) {
+
+		SetupJump(
+			TargetHeightRelativity, TargetHeight,
+			JumpHeightRelativity, JumpHeight,
+			SkipNextUp,
+			SetSpeed, Speed,
+			SetTime, Time,
+			AlignPlayer, Rotation,
+			tempStuntAngle, tempStuntAxis, tempStuntPingPong
+		);
+
+		StartJump();
+	}
+
+	public void StartJump() {
+		if (!setJumpTime) {
+			nextJumpTime = JumpTime;
+		}
+		jumpTimer.Restart(nextJumpTime);
+		preJumpRotation = transform.localRotation;
+		if (setJumpSpeed) {
+			jumpSpeed = nextJumpSpeed;
+		} else {
+			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
 		}
 	}
 
