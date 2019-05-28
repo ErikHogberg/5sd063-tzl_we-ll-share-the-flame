@@ -234,8 +234,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
 			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
 				ziplining = false;
-				jumpTargetY = playerY;
-				playerY = transform.position.y;
+				// jumpTargetY = playerY;
+				// playerY = transform.position.y;
+				skipUp = true;
 				jumpTimer.Restart();
 			}
 			return;
@@ -250,11 +251,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 				playerY = jumpTargetY;
 				pos.y = playerY;
 				transform.position = pos;
+
 				useTempJumpHeight = false;
 				skipUp = false;
 				setJumpSpeed = false;
 				setJumpTime = false;
+
 				transform.localRotation = preJumpRotation;
+
 				nextStuntAngle = StuntAngle;
 				nextStuntAxis = StuntAxis;
 				nextStuntPingPong = StuntPingPong;
@@ -655,8 +659,22 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.position = zipline.transform.position;
 				ziplining = true;
 				ziplineTarget = zipline.End.transform.position;
+				preJumpRotation = zipline.End.transform.rotation;
+
 				ziplineSpeed = zipline.Speed;
 				transform.rotation = zipline.End.transform.rotation;
+
+				switch (zipline.TargetHeightRelativity) {
+					case JumpTargetSetting.Absolute:
+						jumpTargetY = zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Relative:
+						jumpTargetY = playerY + zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Reset:
+						jumpTargetY = initialPlayerY + zipline.TargetHeight;
+						break;
+				}
 			} else {
 				Debug.LogError("Zipline script not found!");
 			}
