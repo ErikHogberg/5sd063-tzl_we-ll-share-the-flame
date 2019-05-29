@@ -51,9 +51,8 @@ MonoBehaviour:
   WaterJet: {fileID: 6197879766139212088}
   Foam: {fileID: 6576014808754426352}
   particleModeUseWater: 0
-  AmmoCapacity: 100
-  AmmoAmount: 100
-  AmmoConsumptionRate: 0.1
+  AmmoAmount: 1
+  AmmoConsumptionRate: 0
   turnSpeedX: 10
   turnSpeedY: 10
   MaxFoamSpread: 1
