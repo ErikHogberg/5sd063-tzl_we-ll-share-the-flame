@@ -88,11 +88,13 @@ namespace Assets.Scripts {
 		// UI
 		public static NotificationWidgetScript NotificationPanel;
 		public static FadeScript FadePanel;
+		public static TimeCounterWidgetScript TimerPanel;
 		// public static Image GameOverPanel;
 
 		public static ScoreMultiplierWidgetScript ScoreMultiplierPanel;
 
-		public static GameObject PersitentMusic;
+		// TODO: make separate script for assigning music when starting a scene
+		public static AudioSource PersitentMusic;
 
 		public static void GameOver() {
 			// if (GameOverPanel != null) {
