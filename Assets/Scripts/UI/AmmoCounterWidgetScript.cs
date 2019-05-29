@@ -9,7 +9,7 @@ public class AmmoCounterWidgetScript : MonoBehaviour {
 
 	private RectTransform dims;
 
-	public float amount = 100;
+	// public float amount = 1f;
 
 	void Start() {
 		dims = GetComponent<RectTransform>();
@@ -19,7 +19,7 @@ public class AmmoCounterWidgetScript : MonoBehaviour {
 	void Update() {
 
 		Vector3 scale = transform.localScale;
-		scale.y = Globals.Nozzle.AmmoAmount / Globals.Nozzle.AmmoCapacity;
+		scale.y = Globals.Nozzle.AmmoAmount / 1f;
 		transform.localScale = scale;
 
 	}
