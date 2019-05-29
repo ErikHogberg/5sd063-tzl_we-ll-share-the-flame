@@ -156,6 +156,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("UI text to output debug info to (optional)")]
 	public Text InfoPane;
 
+
 	void Start() {
 
 		Globals.Player = this;
@@ -277,6 +278,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				nextStuntPingPong = StuntPingPong;
 
 			} else {
+
 				transform.localRotation = preJumpRotation;
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
@@ -371,115 +373,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 		}
 
-
-
-		if (UseMouse) {
-			if (!keyboard.leftShiftKey.isPressed) {
-
-				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
-				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
-				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
-
-
-
-				if (FlipKeys) {
-					leftWheelSpeed = x;
-					rightWheelSpeed = y;
-
-					// if (x == 0f) {
-					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	leftWheelSpeed = Mathf.Min(Mathf.Abs(x), TopSpeed) * (x / Mathf.Abs(x)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-					// if (y == 0f) {
-					// 	rightWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	rightWheelSpeed = Mathf.Min(Mathf.Abs(y), TopSpeed) * (y / Mathf.Abs(y)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-				} else {
-					leftWheelSpeed = y;
-					rightWheelSpeed = x;
-
-					// if (y == 0f) {
-					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	leftWheelSpeed = Mathf.Min(Mathf.Abs(y), TopSpeed) * (y / Mathf.Abs(y)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-					// if (x == 0f) {
-					// 	rightWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	rightWheelSpeed = Mathf.Min(Mathf.Abs(x), TopSpeed) * (x / Mathf.Abs(x)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-				}
-			}
-
-			// TODO: stabilize forward movement
-			// TODO: make sure stabilization doesn't interfere with turning
-
-		} else {
-
-			float leftWheelDir = 0.0f;
-			float rightWheelDir = 0.0f;
-
-			// TODO: migrate to event based system
-			if (keyboard.wKey.isPressed) {
-				if (FlipKeys) {
-					rightWheelDir = Acceleration;
-				} else {
-					leftWheelDir = Acceleration;
-				}
-			} else if (keyboard.sKey.isPressed) {
-				if (FlipKeys) {
-					rightWheelDir = -Acceleration;
-				} else {
-					leftWheelDir = -Acceleration;
-				}
-			}
-
-			if (keyboard.eKey.isPressed) {
-				if (FlipKeys) {
-					leftWheelDir = Acceleration;
-				} else {
-					rightWheelDir = Acceleration;
-				}
-			} else if (keyboard.dKey.isPressed) {
-				if (FlipKeys) {
-					leftWheelDir = -Acceleration;
-				} else {
-					rightWheelDir = -Acceleration;
-				}
-			}
-
-			// damping
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
-
-
-			// add to speed if pressed
-			//leftWheelSpeed += leftWheelDir * Speed * Time.deltaTime;
-			//rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
-
-			if (keyboard.spaceKey.isPressed) {
-				leftWheelSpeed = 0.0f;
-				rightWheelSpeed = 0.0f;
-
-				// TODO: drift when stopping too fast
-			}
-
-			/*
-			// stabilize forward movement
-			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
-				if (leftWheelDir > rightWheelDir) {
-					rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, leftWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
-				} else if (rightWheelDir > leftWheelDir) {
-					leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, rightWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
-				}
-			}
-			// */
-		}
+		UpdateWheels();
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
@@ -496,7 +390,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
 		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
 		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
-
 		) {
 			// NOTE: Not drifring
 
@@ -522,9 +415,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 			DirectionArrow.SetActive(false);
 
 		} else {
+
 			// NOTE: Drifring
-
-
 			if (!drifting) {
 				drifting = true;
 				// NOTE: On drift start
@@ -719,6 +611,76 @@ public class WheelchairMoveScript : MonoBehaviour {
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
+	private void UpdateWheels() {
+		Keyboard keyboard = Keyboard.current;
+
+		if (UseMouse) {
+			if (!keyboard.leftShiftKey.isPressed) {
+
+				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
+				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+
+				if (FlipKeys) {
+					leftWheelSpeed = x;
+					rightWheelSpeed = y;
+				} else {
+					leftWheelSpeed = y;
+					rightWheelSpeed = x;
+				}
+			}
+
+		} else {
+
+			float leftWheelDir = 0.0f;
+			float rightWheelDir = 0.0f;
+
+			if (keyboard.wKey.isPressed) {
+				if (FlipKeys) {
+					rightWheelDir = Acceleration;
+				} else {
+					leftWheelDir = Acceleration;
+				}
+			} else if (keyboard.sKey.isPressed) {
+				if (FlipKeys) {
+					rightWheelDir = -Acceleration;
+				} else {
+					leftWheelDir = -Acceleration;
+				}
+			}
+
+			if (keyboard.eKey.isPressed) {
+				if (FlipKeys) {
+					leftWheelDir = Acceleration;
+				} else {
+					rightWheelDir = Acceleration;
+				}
+			} else if (keyboard.dKey.isPressed) {
+				if (FlipKeys) {
+					leftWheelDir = -Acceleration;
+				} else {
+					rightWheelDir = -Acceleration;
+				}
+			}
+
+			// damping
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
+
+			// add to speed if pressed
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
+
+			if (keyboard.spaceKey.isPressed) {
+				leftWheelSpeed = 0.0f;
+				rightWheelSpeed = 0.0f;
+			}
+
+		}
+	}
+
+	#region Boost
 	public void Boost(float boostTime) {
 		if (BoostAmmo < BoostAmmoDisableTreshold && !boostTimer.IsRunning()) {
 			return;
@@ -758,7 +720,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 			particles.Pause();
 		}
 	}
+	#endregion
 
+	#region Jump
 	public void SetupJump(
 		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
 		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
@@ -853,5 +817,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
 		}
 	}
+	#endregion
 
 }
