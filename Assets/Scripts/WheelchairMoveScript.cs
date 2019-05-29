@@ -138,6 +138,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float BoostMaxSpeed = 20f;
 	private float boostEndSpeed;
 
+	[Tooltip("Ammo amount, in %")]
+	public float BoostAmmo = 1f;
+	[Tooltip("How fast (% per sec) the boost canister is drained when used")]
+	public float BoostAmmoDrainRate = .1f;
+	[Tooltip("How fast (% per sec) the boost canister is refilled when not used")]
+	public float BoostAmmoUpkeep = .1f;
+	[Tooltip("How much (in %) the boost canister needs to be filled to start boosting")]
+	public float BoostAmmoDisableTreshold = .25f;
+
 	// Zipline
 	private bool ziplining = false;
 	private Vector3 ziplineTarget;
@@ -146,6 +155,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Header("Optional objects")]
 	[Tooltip("UI text to output debug info to (optional)")]
 	public Text InfoPane;
+
 
 	void Start() {
 
@@ -159,7 +169,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//DriftTimer = new Timer(DriftDuration);
 		//DriftTimer.Stop();
 
-		initialPlayerY  = transform.position.y;
+		initialPlayerY = transform.position.y;
 		playerY = initialPlayerY;
 		jumpTargetY = playerY;
 
@@ -226,6 +236,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 				}
 			}
 
+			// TODO: allow turning
+			// IDEA: refactor turning code into methods
+
 			return;
 		}
 
@@ -236,8 +249,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 				ziplining = false;
 				// jumpTargetY = playerY;
 				// playerY = transform.position.y;
-				skipUp = true;
-				jumpTimer.Restart();
+				// skipUp = true;
+				// jumpTimer.Restart();
+				StartJump();
 			}
 			return;
 		}
@@ -264,6 +278,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				nextStuntPingPong = StuntPingPong;
 
 			} else {
+
 				transform.localRotation = preJumpRotation;
 				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
 				Vector3 pos = transform.position;
@@ -276,6 +291,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float arcHeight;
 				if (useTempJumpHeight) {
 					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+					// Debug.Log("temp: " + tempJumpHeight + ", lower threshold: " + (jumpTargetY - playerY));
 				} else {
 					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
 				}
@@ -308,128 +324,56 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (boostTimer.IsRunning()) {
 			if (boostTimer.Update()) {
-				boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+				float x = 0f;
+				float y = 0f;
+				if (UseMouse) {
+					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+				}
+				if (FlipKeys) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+				} else {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+				}
 				boostSlowdownTimer.Restart(BoostSlowdownTime);
 				StopBoostParticles();
-			}
+			} else {
+				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-			transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
-			LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-			RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-			return;
-		}
+				BoostAmmo -= BoostAmmoDrainRate * Time.deltaTime;
+				if (BoostAmmo < 0f) {
+					BoostAmmo = 0f;
 
-
-
-		if (UseMouse) {
-			if (!keyboard.leftShiftKey.isPressed) {
-
-				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
-				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
-				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
-
-
-
-				if (FlipKeys) {
-					leftWheelSpeed = x;
-					rightWheelSpeed = y;
-
-					// if (x == 0f) {
-					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	leftWheelSpeed = Mathf.Min(Mathf.Abs(x), TopSpeed) * (x / Mathf.Abs(x)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-					// if (y == 0f) {
-					// 	rightWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	rightWheelSpeed = Mathf.Min(Mathf.Abs(y), TopSpeed) * (y / Mathf.Abs(y)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-				} else {
-					leftWheelSpeed = y;
-					rightWheelSpeed = x;
-
-					// if (y == 0f) {
-					// 	leftWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	leftWheelSpeed = Mathf.Min(Mathf.Abs(y), TopSpeed) * (y / Mathf.Abs(y)) + boostEndSpeed * boostSlowdownProgress;
-					// }
-					// if (x == 0f) {
-					// 	rightWheelSpeed = boostEndSpeed * boostSlowdownProgress;
-					// } else {
-					// 	rightWheelSpeed = Mathf.Min(Mathf.Abs(x), TopSpeed) * (x / Mathf.Abs(x)) + boostEndSpeed * boostSlowdownProgress;
-					// }
+					boostTimer.Stop();
+					float x = 0f;
+					float y = 0f;
+					if (UseMouse) {
+						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+					}
+					if (FlipKeys) {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+					} else {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+					}
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
 				}
+
+				return;
 			}
-
-			// TODO: stabilize forward movement
-			// TODO: make sure stabilization doesn't interfere with turning
-
 		} else {
-
-			float leftWheelDir = 0.0f;
-			float rightWheelDir = 0.0f;
-
-			// TODO: migrate to event based system
-			if (keyboard.wKey.isPressed) {
-				if (FlipKeys) {
-					rightWheelDir = Acceleration;
-				} else {
-					leftWheelDir = Acceleration;
-				}
-			} else if (keyboard.sKey.isPressed) {
-				if (FlipKeys) {
-					rightWheelDir = -Acceleration;
-				} else {
-					leftWheelDir = -Acceleration;
-				}
+			BoostAmmo += BoostAmmoUpkeep * Time.deltaTime;
+			if (BoostAmmo > 1f) {
+				BoostAmmo = 1f;
 			}
-
-			if (keyboard.eKey.isPressed) {
-				if (FlipKeys) {
-					leftWheelDir = Acceleration;
-				} else {
-					rightWheelDir = Acceleration;
-				}
-			} else if (keyboard.dKey.isPressed) {
-				if (FlipKeys) {
-					leftWheelDir = -Acceleration;
-				} else {
-					rightWheelDir = -Acceleration;
-				}
-			}
-
-			// damping
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
-
-
-			// add to speed if pressed
-			//leftWheelSpeed += leftWheelDir * Speed * Time.deltaTime;
-			//rightWheelSpeed += rightWheelDir * Speed * Time.deltaTime;
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
-
-			if (keyboard.spaceKey.isPressed) {
-				leftWheelSpeed = 0.0f;
-				rightWheelSpeed = 0.0f;
-
-				// TODO: drift when stopping too fast
-			}
-
-			/*
-			// stabilize forward movement
-			if (leftWheelDir > 0.0f && rightWheelDir > 0.0f) {
-				if (leftWheelDir > rightWheelDir) {
-					rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, leftWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
-				} else if (rightWheelDir > leftWheelDir) {
-					leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, rightWheelSpeed, ForwardCorrectionSpeed * Time.deltaTime);
-				}
-			}
-			// */
 		}
+
+		UpdateWheels();
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
@@ -446,7 +390,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
 		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
 		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
-
 		) {
 			// NOTE: Not drifring
 
@@ -472,9 +415,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 			DirectionArrow.SetActive(false);
 
 		} else {
+
 			// NOTE: Drifring
-
-
 			if (!drifting) {
 				drifting = true;
 				// NOTE: On drift start
@@ -595,56 +537,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 			RampScript rampScript = other.GetComponent<RampScript>();
 
 			if (rampScript != null) {
-				switch (rampScript.TargetHeightRelativity) {
-					case JumpTargetSetting.Absolute:
-						jumpTargetY = rampScript.TargetHeight;
-						break;
-					case JumpTargetSetting.Relative:
-						jumpTargetY = playerY + rampScript.TargetHeight;
-						break;
-					case JumpTargetSetting.Reset:
-						jumpTargetY = initialPlayerY + rampScript.TargetHeight;
-						break;
-				}
-
-				useTempJumpHeight = true;
-				switch (rampScript.JumpHeightRelativity) {
-					case JumpTargetSetting.Absolute:
-						tempJumpHeight = rampScript.JumpHeight;
-						break;
-					case JumpTargetSetting.Relative:
-						tempJumpHeight = playerY + rampScript.JumpHeight;
-						break;
-					case JumpTargetSetting.Reset:
-						tempJumpHeight = initialPlayerY + rampScript.JumpHeight;
-						break;
-				}
-
-				skipUp = rampScript.SkipUp;
-				setJumpSpeed = rampScript.SetSpeed;
-				nextJumpSpeed = rampScript.Speed;
-				setJumpTime = rampScript.SetTime;
-				nextJumpTime = rampScript.Time;
-
-				if (rampScript.AlignPlayer) {
-					transform.rotation = other.transform.rotation;
-				}
-
-				nextStuntAngle = rampScript.StuntAngle;
-				nextStuntAxis = rampScript.StuntAxis;
-				nextStuntPingPong = rampScript.StuntPingPong;
-
-			}
-
-			if (!setJumpTime) {
-				nextJumpTime = JumpTime;
-			}
-			jumpTimer.Restart(nextJumpTime);
-			preJumpRotation = transform.localRotation;
-			if (setJumpSpeed) {
-				jumpSpeed = nextJumpSpeed;
+				StartJump(
+					rampScript.TargetHeightRelativity, rampScript.TargetHeight,
+					rampScript.JumpHeightRelativity, rampScript.JumpHeight,
+					rampScript.SkipUp,
+					rampScript.SetSpeed, rampScript.Speed,
+					rampScript.SetTime, rampScript.Time,
+					rampScript.AlignPlayer, rampScript.transform.rotation,
+					rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
+				);
 			} else {
-				jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+				StartJump();
 			}
 
 			return;
@@ -659,7 +562,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.position = zipline.transform.position;
 				ziplining = true;
 				ziplineTarget = zipline.End.transform.position;
-				preJumpRotation = zipline.End.transform.rotation;
+				// preJumpRotation = zipline.End.transform.rotation;
 
 				ziplineSpeed = zipline.Speed;
 				transform.rotation = zipline.End.transform.rotation;
@@ -675,6 +578,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 						jumpTargetY = initialPlayerY + zipline.TargetHeight;
 						break;
 				}
+
+				SetupJump(
+					zipline.TargetHeightRelativity, zipline.TargetHeight,
+					JumpTargetSetting.Relative, 1,
+					false,
+					true, zipline.EndJumpSpeed,
+					true, zipline.EndJumpTime,
+					true, zipline.End.transform.rotation,
+					// TODO: bool to use default stunt settings
+					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
+				);
+
 			} else {
 				Debug.LogError("Zipline script not found!");
 			}
@@ -682,9 +597,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
-		// Turn 180 degrees when hitting a wall
-		// IDEA: turn 90 (or 135?) degrees left or right depending on which direction wall was hit
-		// IDEA: Stop and teleport backwards instead
 
 		if (jumpTimer.IsRunning()) {
 			transform.Rotate(Vector3.up, 180f);
@@ -699,7 +611,80 @@ public class WheelchairMoveScript : MonoBehaviour {
 		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
+	private void UpdateWheels() {
+		Keyboard keyboard = Keyboard.current;
+
+		if (UseMouse) {
+			if (!keyboard.leftShiftKey.isPressed) {
+
+				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
+				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+
+				if (FlipKeys) {
+					leftWheelSpeed = x;
+					rightWheelSpeed = y;
+				} else {
+					leftWheelSpeed = y;
+					rightWheelSpeed = x;
+				}
+			}
+
+		} else {
+
+			float leftWheelDir = 0.0f;
+			float rightWheelDir = 0.0f;
+
+			if (keyboard.wKey.isPressed) {
+				if (FlipKeys) {
+					rightWheelDir = Acceleration;
+				} else {
+					leftWheelDir = Acceleration;
+				}
+			} else if (keyboard.sKey.isPressed) {
+				if (FlipKeys) {
+					rightWheelDir = -Acceleration;
+				} else {
+					leftWheelDir = -Acceleration;
+				}
+			}
+
+			if (keyboard.eKey.isPressed) {
+				if (FlipKeys) {
+					leftWheelDir = Acceleration;
+				} else {
+					rightWheelDir = Acceleration;
+				}
+			} else if (keyboard.dKey.isPressed) {
+				if (FlipKeys) {
+					leftWheelDir = -Acceleration;
+				} else {
+					rightWheelDir = -Acceleration;
+				}
+			}
+
+			// damping
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
+
+			// add to speed if pressed
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
+
+			if (keyboard.spaceKey.isPressed) {
+				leftWheelSpeed = 0.0f;
+				rightWheelSpeed = 0.0f;
+			}
+
+		}
+	}
+
+	#region Boost
 	public void Boost(float boostTime) {
+		if (BoostAmmo < BoostAmmoDisableTreshold && !boostTimer.IsRunning()) {
+			return;
+		}
 		boostTimer.Restart(boostTime);
 		StartBoostParticles();
 	}
@@ -735,5 +720,103 @@ public class WheelchairMoveScript : MonoBehaviour {
 			particles.Pause();
 		}
 	}
+	#endregion
+
+	#region Jump
+	public void SetupJump(
+		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
+		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
+		bool SkipNextUp,
+		bool SetSpeed, float Speed,
+		bool SetTime, float Time,
+		bool AlignPlayer, Quaternion Rotation,
+		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
+	) {
+		// NOTE: ignores jump if already in air
+		if (jumpTimer.IsRunning()) {
+			return;
+		}
+
+		CancelBoost();
+
+		switch (TargetHeightRelativity) {
+			case JumpTargetSetting.Absolute:
+				jumpTargetY = TargetHeight;
+				break;
+			case JumpTargetSetting.Relative:
+				jumpTargetY = playerY + TargetHeight;
+				break;
+			case JumpTargetSetting.Reset:
+				jumpTargetY = initialPlayerY + TargetHeight;
+				break;
+		}
+		// jumpTargetY /= transform.lossyScale.y;
+
+		useTempJumpHeight = true;
+		switch (JumpHeightRelativity) {
+			case JumpTargetSetting.Absolute:
+				tempJumpHeight = JumpHeight - playerY;
+				break;
+			case JumpTargetSetting.Relative:
+				tempJumpHeight = JumpHeight;
+				break;
+			case JumpTargetSetting.Reset:
+				tempJumpHeight = initialPlayerY - playerY + JumpHeight;
+				break;
+		}
+		// tempJumpHeight /= transform.lossyScale.y;
+		Debug.Log("jump height result: " + tempJumpHeight + ", jump height: " + JumpHeight);
+
+		skipUp = SkipNextUp;
+		setJumpSpeed = SetSpeed;
+		nextJumpSpeed = Speed;
+		setJumpTime = SetTime;
+		nextJumpTime = Time;
+
+		if (AlignPlayer) {
+			transform.rotation = Rotation;
+		}
+
+		nextStuntAngle = tempStuntAngle;
+		nextStuntAxis = tempStuntAxis;
+		nextStuntPingPong = tempStuntPingPong;
+	}
+
+	public void StartJump(
+		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
+		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
+		bool SkipNextUp,
+		bool SetSpeed, float Speed,
+		bool SetTime, float Time,
+		bool AlignPlayer, Quaternion Rotation,
+		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
+	) {
+
+		SetupJump(
+			TargetHeightRelativity, TargetHeight,
+			JumpHeightRelativity, JumpHeight,
+			SkipNextUp,
+			SetSpeed, Speed,
+			SetTime, Time,
+			AlignPlayer, Rotation,
+			tempStuntAngle, tempStuntAxis, tempStuntPingPong
+		);
+
+		StartJump();
+	}
+
+	public void StartJump() {
+		if (!setJumpTime) {
+			nextJumpTime = JumpTime;
+		}
+		jumpTimer.Restart(nextJumpTime);
+		preJumpRotation = transform.localRotation;
+		if (setJumpSpeed) {
+			jumpSpeed = nextJumpSpeed;
+		} else {
+			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+		}
+	}
+	#endregion
 
 }

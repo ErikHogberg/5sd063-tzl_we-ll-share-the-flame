@@ -50,14 +50,14 @@ public class HighscorePanelScript : MonoBehaviour {
 		foreach (ScoreEntry scoreEntry in HighscoreList.ScoreList) {
 
 			scoreList +=
-			scoreEntry.Player + ": " + scoreEntry.Score + "\n";
+			scoreEntry.Player + " - " + scoreEntry.Score + "\n";
 		}
 
 		GetComponent<Text>().text = scoreList;
 	}
 
 	public void SaveHighScore() {
-		// HighscoreList.Save(SaveFile);
+		HighscoreList.Save();
 		Debug.Log("Saved score");
 	}
 
