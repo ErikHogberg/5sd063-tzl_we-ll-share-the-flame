@@ -15,11 +15,9 @@ public class NozzleScript : MonoBehaviour {
 	private ParticleSystem[] foamParticles;
 	public bool particleModeUseWater = false;
 
-	[Tooltip("Max foam capacity")]
-	public float AmmoCapacity = 100;
 	[Tooltip("Amount of foam in tank")]
-	public float AmmoAmount = 100;
-	public float AmmoConsumptionRate = 0.1f;
+	public float AmmoAmount = 1f;
+	public float AmmoConsumptionRate = 0f;
 
 	public float turnSpeedX = 4.0f;
 	public float turnSpeedY = 2.0f;

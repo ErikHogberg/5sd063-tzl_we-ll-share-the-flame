@@ -57,7 +57,7 @@ public class HighscorePanelScript : MonoBehaviour {
 	}
 
 	public void SaveHighScore() {
-		// HighscoreList.Save(SaveFile);
+		HighscoreList.Save();
 		Debug.Log("Saved score");
 	}
 

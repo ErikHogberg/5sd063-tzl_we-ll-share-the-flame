@@ -27,9 +27,19 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 		GameOverPanel.SetActive(false);
 
 		timer = new Timer(time);
+		// timer.Stop();
+
+		Globals.TimerPanel = this;
 
 	}
 
+	public void StartCountdown() {
+		timer.Restart(time);
+	}
+
+	public void StopCountdown() {
+		timer.Stop();
+	}
 
 	void Update() {
 

@@ -202,6 +202,8 @@ MonoBehaviour:
   End: {fileID: 7283390495437890510}
   Line: {fileID: 7283390497040943271}
   Speed: 0.1
+  TargetHeightRelativity: 2
+  TargetHeight: 0
 --- !u!1 &7283390496061935267
 GameObject:
   m_ObjectHideFlags: 0
