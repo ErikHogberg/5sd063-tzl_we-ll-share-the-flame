@@ -54,14 +54,27 @@ public class CameraRaycast : MonoBehaviour {
 	}
 
 	private void SetAlpha(float alpha) {
-		Material material = objectToHide.GetComponent<MeshRenderer>().material;
-		// if (alpha < 1f) {
-		// TODO: change render mode to transparent		
-		Color color = material.color;
-		color.a = alpha;
-		material.color = color;
-		// } else {
-		// TODO: change render mode to opaque		
-		// }
+
+		BuildingChangeMaterialScript materialScript = objectToHide.GetComponent<BuildingChangeMaterialScript>();
+
+		if (materialScript != null) {
+
+			if (alpha < 1f) {
+				materialScript.SwitchToSecondMaterial();
+				Material material = objectToHide.GetComponent<MeshRenderer>().material;
+
+				Color color = material.color;
+				color.a = alpha;
+				material.color = color;
+			} else {
+				materialScript.SwitchToFirstMaterial();
+			}
+		} else {
+			if (alpha < 1f) {
+				objectToHide.SetActive(false);
+			} else {
+				objectToHide.SetActive(true);
+			}
+		}
 	}
 }
