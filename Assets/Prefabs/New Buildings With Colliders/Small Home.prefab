@@ -57,6 +57,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.000002, y: 1.641803, z: 2.650001}
   m_Center: {x: 0, y: -0.47909972, z: -3.094131e-16}
+--- !u!114 &3273468440823015643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133754620315900287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 181bb80a3df64cc45a1c93c31a1b638a, type: 2}
 --- !u!1001 &4133754620315869151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,6 +77,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7277837151869420460}
     m_Modifications:
+    - target: {fileID: 100000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
+      propertyPath: m_Name
+      value: SmallHome
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.46
@@ -119,14 +140,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
-      propertyPath: m_Name
-      value: SmallHome
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
-      propertyPath: m_TagString
-      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 7842b5b7873aedd48a63965f4672da7d, type: 3}
       propertyPath: m_Materials.Array.data[0]
