@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// Source: https://answers.unity.com/questions/694371/how-to-search-gameobject-in-scene-by-tag-name.html
+using UnityEngine;
 using System.Collections;
 using UnityEditor;
 

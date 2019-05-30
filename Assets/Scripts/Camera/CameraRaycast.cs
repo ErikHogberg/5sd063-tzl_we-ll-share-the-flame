@@ -24,8 +24,7 @@ public class CameraRaycast : MonoBehaviour {
 		RaycastHit hit;
 		Ray checkRay = new Ray(transform.position, heading);
 
-		// FIXME: buildings with multiple colliders get "unhid" when another collider is raycasted while the building is already "hidden"
-		// FIXME: buildings are not "unhid" if another building is hidden while the previous building is still hidden, because objectToHide is reassigned (make list of hidden objects instead?)
+		// FIXME: only one building can be hid at a time, because objectToHide is reassigned (make list of hidden objects instead?)
 
 		if (Physics.Raycast(checkRay, out hit, distance)) {
 			if (hit.collider.CompareTag("Building")) {
@@ -71,9 +70,9 @@ public class CameraRaycast : MonoBehaviour {
 			}
 		} else {
 			if (alpha < 1f) {
-				objectToHide.SetActive(false);
+				objectToHide.GetComponent<MeshRenderer>().enabled = false;
 			} else {
-				objectToHide.SetActive(true);
+				objectToHide.GetComponent<MeshRenderer>().enabled = true;
 			}
 		}
 	}
