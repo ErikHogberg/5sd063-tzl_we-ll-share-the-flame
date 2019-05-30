@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.Experimental.Input;
 
 public class StartZoneScript : MonoBehaviour {
 
@@ -10,19 +11,31 @@ public class StartZoneScript : MonoBehaviour {
 	private void Update() {
 		if (notInit) {
 			Globals.TimerPanel.StopCountdown();
+			Globals.Player.DisableMovement = true;
+
 			notInit = false;
 		}
+
+		Keyboard keyboard = Keyboard.current;
+
+		if (keyboard.spaceKey.wasPressedThisFrame) {
+			Globals.Player.DisableMovement = false;
+		}
+
+		// TODO: wiimote calibration process
+		// IDEA: disable foam/water until timer starts
+
+		// TODO: assign wiimote to global in nozzle script (or other script?), if not assigned yet, check if this makes calibration persistent
+		// TODO: button to recalibrate
+
 	}
 
 	private void OnTriggerExit(Collider other) {
 		if (other.CompareTag("Player")) {
 			Globals.TimerPanel.StartCountdown();
-    
-            // TODO: wiimote calibration process
-            // TODO: disable wheel movement until calibration is done
-            // IDEA: disable foam/water until timer starts
-	
-    		gameObject.SetActive(false);
+
+
+			gameObject.SetActive(false);
 		}
 
 

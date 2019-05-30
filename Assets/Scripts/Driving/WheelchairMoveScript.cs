@@ -21,13 +21,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject RightBoostFoam;
 	private ParticleSystem[] BoostFoamParticles;
 
-	[Tooltip("How fast the wheels spin compared to the movement speed")]
-	public float WheelAnimationSpeed = 1.0f;
-
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
 
+	[Tooltip("How fast the wheels spin compared to the movement speed")]
+	public float WheelAnimationSpeed = 1.0f;
+
 	[Header("Movement")]
+	[Tooltip("Disables all movement, stops the script from updating")]
+	public bool DisableMovement = false;
 	[Tooltip("Flips keys and trackballs")]
 	public bool FlipKeys = false;
 	[Tooltip("Enable trackballs, disables keys")]
@@ -203,6 +205,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	void Update() {
+
+		if (DisableMovement) {
+			return;
+		}
 
 		var keyboard = Keyboard.current;
 
