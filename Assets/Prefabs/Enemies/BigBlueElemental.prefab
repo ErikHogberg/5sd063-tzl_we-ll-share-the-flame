@@ -205,10 +205,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2.7873743
-  m_Height: 6.5145345
+  m_Radius: 1.6987243
+  m_Height: 4.2355504
   m_Direction: 1
-  m_Center: {x: 0.03378272, y: 0.33727574, z: 0.01799488}
+  m_Center: {x: 0.03378272, y: 0.21445584, z: -0.058190584}
 --- !u!114 &6682084134872180368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,12 +323,12 @@ PrefabInstance:
     - target: {fileID: 2982497546960791026, guid: e4cd63e2f26b90649b99e6e7c22562dd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.04
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4983103858272117570, guid: e4cd63e2f26b90649b99e6e7c22562dd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.21
+      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 4983103858272117570, guid: e4cd63e2f26b90649b99e6e7c22562dd,
         type: 3}
