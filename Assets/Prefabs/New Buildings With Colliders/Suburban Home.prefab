@@ -13,6 +13,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.0938787, y: 2.18907, z: 3.1000025}
   m_Center: {x: -0.003345714, y: -0.13972534, z: -4.020569e-16}
+--- !u!114 &4562710231163276130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401727846383558852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 0edcde4b18444624c9e5016c44bbd88c, type: 2}
 --- !u!1 &9020378657010005949
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,6 +64,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2911994216755811768}
     m_Modifications:
+    - target: {fileID: 100000, guid: ed3c44a2637437a488d84cc957a2c51c, type: 3}
+      propertyPath: m_Name
+      value: suburbanHome
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ed3c44a2637437a488d84cc957a2c51c, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed3c44a2637437a488d84cc957a2c51c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.015
@@ -106,10 +127,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: ed3c44a2637437a488d84cc957a2c51c, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: ed3c44a2637437a488d84cc957a2c51c, type: 3}
-      propertyPath: m_Name
-      value: suburbanHome
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: ed3c44a2637437a488d84cc957a2c51c, type: 3}
       propertyPath: m_Materials.Array.data[0]

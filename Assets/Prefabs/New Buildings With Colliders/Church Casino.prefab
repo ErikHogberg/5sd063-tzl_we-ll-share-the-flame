@@ -57,6 +57,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.100003, y: 1.6033533, z: 3.5500011}
   m_Center: {x: 0, y: -0.37332407, z: 3.2209313e-15}
+--- !u!114 &2631593848704983058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585689997278932774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 9757a5f83fb947c4db84698e2899878f, type: 2}
 --- !u!1001 &4585689997278898566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,6 +77,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2526761702969095789}
     m_Modifications:
+    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
+      propertyPath: m_Name
+      value: WhiteChurchCasino
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.3
@@ -119,14 +140,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
       propertyPath: m_LocalScale.x
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
-      propertyPath: m_Name
-      value: WhiteChurchCasino
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
-      propertyPath: m_TagString
-      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 728cb992532a08c4e9bc24f639f10ab9, type: 3}
       propertyPath: m_Materials.Array.data[0]

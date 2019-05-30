@@ -13,6 +13,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.6000001, y: 6.1500015, z: 2.5500007}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6752851487334113923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430406016262247428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 04e30722bcabc344b8c63a1d1e20f00c, type: 2}
 --- !u!1 &7610662079912337267
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +71,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.6000001, y: 6.1000013, z: 3.4500008}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5360024805652993165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8749284910416401948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 0944bb2f85aee224e9d1c8575196c688, type: 2}
 --- !u!1001 &1430406016262279844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,6 +91,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1610209476665308411}
     m_Modifications:
+    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
+      propertyPath: m_Name
+      value: TrainstationPt2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.1
@@ -121,14 +155,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
-      propertyPath: m_Name
-      value: TrainstationPt2
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
-      propertyPath: m_TagString
-      value: Building
-      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 8288fc4c68b11174e9a3c4d78e9f4037, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -154,6 +180,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1610209476665308411}
     m_Modifications:
+    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
+      propertyPath: m_Name
+      value: TrainstationPt1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.1
@@ -209,14 +243,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
       propertyPath: m_LocalScale.z
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
-      propertyPath: m_Name
-      value: TrainstationPt1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
-      propertyPath: m_TagString
-      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 070131783ea3fe7469ad6f839b414998, type: 3}
       propertyPath: m_Materials.Array.data[0]
