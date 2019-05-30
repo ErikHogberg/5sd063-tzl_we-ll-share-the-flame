@@ -56,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: m_Name
-      value: Simon Test Fire Spirit
+      value: Test Fire Spirit
       objectReference: {fileID: 0}
     - target: {fileID: 6682084134872180374, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
