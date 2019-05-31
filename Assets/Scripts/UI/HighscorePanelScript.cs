@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public class HighscorePanelScript : MonoBehaviour {
@@ -23,12 +24,27 @@ public class HighscorePanelScript : MonoBehaviour {
 
 		UpdateList();
 
+		NameInput.Select();
+		NameInput.ActivateInputField();
+
+		NameInput.onEndEdit.AddListener(SubmitScore);
+
+	}
+
+	private void Update() {
+		Keyboard keyboard = Keyboard.current;
+
+		// if (NameInput.isFocused && keyboard.enterKey.wasPressedThisFrame) {
+		// 	Debug.Log("text field enter");
+		// 	SubmitScore();
+		// }
+
 	}
 
 	public void SubmitScore() {
 		int score = Globals.Score;
 		if (score > 0) {
-			HighscoreList.ScoreList.Add(new ScoreEntry(NameInput.textComponent.text, score));
+			HighscoreList.ScoreList.Add(new ScoreEntry(NameInput.text, score));
 			// HighscoreList.NameList.Add(NameInput.text);
 			Globals.ResetScore();
 			HighscoreList.Sort();
@@ -38,6 +54,10 @@ public class HighscorePanelScript : MonoBehaviour {
 			Debug.Log("Submitted score");
 			SaveHighScore();
 		}
+	}
+
+	public void SubmitScore(string _) {
+		SubmitScore();
 	}
 
 	public void UpdateList() {

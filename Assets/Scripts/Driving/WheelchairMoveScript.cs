@@ -537,15 +537,25 @@ public class WheelchairMoveScript : MonoBehaviour {
 			RampScript rampScript = other.GetComponent<RampScript>();
 
 			if (rampScript != null) {
-				StartJump(
-					rampScript.TargetHeightRelativity, rampScript.TargetHeight,
-					rampScript.JumpHeightRelativity, rampScript.JumpHeight,
-					rampScript.SkipUp,
-					rampScript.SetSpeed, rampScript.Speed,
-					rampScript.SetTime, rampScript.Time,
-					rampScript.AlignPlayer, rampScript.transform.rotation,
-					rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
-				);
+				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
+				if (rampScript.AlignPlayer &&
+				  (
+					   (Speed > 0f && facingDifference > 90f)
+				  	|| (Speed < 0f && facingDifference < 90f)
+				  )
+				) {
+					StartJump();
+				} else {
+					StartJump(
+						rampScript.TargetHeightRelativity, rampScript.TargetHeight,
+						rampScript.JumpHeightRelativity, rampScript.JumpHeight,
+						rampScript.SkipUp,
+						rampScript.SetSpeed, rampScript.Speed,
+						rampScript.SetTime, rampScript.Time,
+						rampScript.AlignPlayer, rampScript.transform.rotation,
+						rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
+					);
+				}
 			} else {
 				StartJump();
 			}
