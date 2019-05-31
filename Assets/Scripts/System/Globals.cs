@@ -83,6 +83,7 @@ namespace Assets.Scripts {
 		public static WheelchairMoveScript Player;
 		public static NozzleScript Nozzle;
 		public static CameraFollowScript CameraScript;
+		public static StartZoneScript StartZone;
 
 
 		// UI

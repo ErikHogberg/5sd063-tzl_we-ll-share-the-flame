@@ -8,6 +8,10 @@ public class StartZoneScript : MonoBehaviour {
 
 	private bool notInit = true;
 
+	private void Start() {
+		Globals.StartZone = this;
+	}
+
 	private void Update() {
 		if (notInit) {
 			Globals.TimerPanel.StopCountdown();

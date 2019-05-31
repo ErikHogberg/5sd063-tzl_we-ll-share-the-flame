@@ -13,6 +13,9 @@ public class NozzleScript : MonoBehaviour {
 	public GameObject Foam;
 	private ParticleSystem[] waterJetParticles;
 	private ParticleSystem[] foamParticles;
+
+	public bool DisableFiring = false;
+
 	public bool particleModeUseWater = false;
 
 	[Tooltip("Amount of foam in tank")]
@@ -118,7 +121,7 @@ public class NozzleScript : MonoBehaviour {
 		}
 
 		//if (Mouse.current.leftButton.isPressed) {
-		if ((firing || wiimoteFiring) && AmmoAmount > 0f) {
+		if ( !DisableFiring && (firing || wiimoteFiring) && AmmoAmount > 0f) {
 			if (!wasFiring) {
 				if (particleModeUseWater) {
 					foreach (ParticleSystem particles in waterJetParticles) {
