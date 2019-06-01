@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6626672927047071370}
   m_Layer: 9
   m_Name: Fire elemental test
-  m_TagString: Untagged
+  m_TagString: Ignore Collision
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d1ec7bbdee888419f0e06507e23cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8591458103642632796}
 --- !u!1 &6682084134872180373
 GameObject:
   m_ObjectHideFlags: 0
