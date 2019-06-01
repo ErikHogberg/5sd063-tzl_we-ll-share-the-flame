@@ -385,7 +385,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
-		angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+
+		if ((leftWheelSpeed > 0f && leftWheelSpeed > 0f) || (leftWheelSpeed < 0f && leftWheelSpeed < 0f)) {
+			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+		}
+
 
 		//angle %= Mathf.PI * 2.0f;
 
