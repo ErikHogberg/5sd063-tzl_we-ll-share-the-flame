@@ -72,7 +72,7 @@ public class NozzleScript : MonoBehaviour {
 	private bool dLeftWasPressed = false;
 	private bool dRightWasPressed = false;
 	private bool aWasPressed = false;
-	private bool irToggle = false;
+	// private bool irToggle = false;
 	public Vector2 IrOuterDeadzone = new Vector2(0f, 0f);
 	// TODO: IR (reverse-)deadzone
 
@@ -260,8 +260,8 @@ public class NozzleScript : MonoBehaviour {
 			if (dLeftWasPressed) {
 
 			} else {
-				irToggle = !irToggle;
-				Debug.Log("ir set to " + irToggle);
+				Globals.irToggle = !Globals.irToggle;
+				Debug.Log("ir set to " + Globals.irToggle);
 
 				dLeftWasPressed = true;
 			}
@@ -283,7 +283,7 @@ public class NozzleScript : MonoBehaviour {
 			dRightWasPressed = false;
 		}
 
-		if (irToggle) {
+		if (Globals.irToggle) {
 			// left 0, down 0
 			float[] pointer = wiimote.Ir.GetPointingPosition();
 			// Debug.Log("ir loop");

@@ -85,6 +85,9 @@ namespace Assets.Scripts {
 		public static CameraFollowScript CameraScript;
 		public static StartZoneScript StartZone;
 
+		// Wiimote
+		public static bool irToggle = false;
+
 
 		// UI
 		public static NotificationWidgetScript NotificationPanel;
