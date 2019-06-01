@@ -555,8 +555,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 					StartJump();
 				} else {
 					float speed = rampScript.Speed;
-					if (!rampScript.AlignPlayer && leftWheelSpeed + rightWheelSpeed < 0f)
-					{
+					if (!rampScript.AlignPlayer && leftWheelSpeed + rightWheelSpeed < 0f) {
 						speed *= -1f;
 					}
 

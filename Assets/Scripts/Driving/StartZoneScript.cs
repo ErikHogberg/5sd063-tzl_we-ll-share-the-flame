@@ -15,7 +15,7 @@ public class StartZoneScript : MonoBehaviour {
 	private void Update() {
 		if (notInit) {
 			Globals.TimerPanel.StopCountdown();
-			Globals.Player.DisableMovement = true;
+			// Globals.Player.DisableMovement = true;
 
 			notInit = false;
 		}

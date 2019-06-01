@@ -25,6 +25,7 @@ public class WiimoteCalibrationPanelScript : MonoBehaviour {
 
 	void Start() {
 		irDotSize = IrDot.anchorMax - IrDot.anchorMin;
+		Globals.Player.DisableMovement = true;
 	}
 
 	void Update() {
