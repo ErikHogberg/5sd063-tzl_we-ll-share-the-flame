@@ -22,9 +22,7 @@ public class StartZoneScript : MonoBehaviour {
 
 		Keyboard keyboard = Keyboard.current;
 
-		if (keyboard.spaceKey.wasPressedThisFrame) {
-			Globals.Player.DisableMovement = false;
-		}
+
 
 		// TODO: wiimote calibration process
 		// IDEA: disable foam/water until timer starts
@@ -38,6 +36,7 @@ public class StartZoneScript : MonoBehaviour {
 		if (other.CompareTag("Player")) {
 			Globals.TimerPanel.StartCountdown();
 
+			Globals.Nozzle.DisableFiring = false;
 
 			gameObject.SetActive(false);
 		}

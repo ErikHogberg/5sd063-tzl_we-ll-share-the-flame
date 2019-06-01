@@ -94,10 +94,19 @@ public class NozzleScript : MonoBehaviour {
 
 		// var action = new InputAction(binding: "*/{primaryAction}");
 		//  var action = new InputAction(binding: "shooter/{shoot}");
-		InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
-		action.performed += _ => { firing = true; };
-		action.cancelled += _ => { firing = false; };
-		action.Enable();
+
+		{
+			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
+			action.performed += _ => { firing = true; };
+			action.cancelled += _ => { firing = false; };
+			action.Enable();
+		}
+
+		{
+			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("switch foam");
+			action.performed += _ => { SwitchParticles(firing); };
+			action.Enable();
+		}
 
 		ledTimer = new Timer(0.1f);
 
@@ -116,12 +125,8 @@ public class NozzleScript : MonoBehaviour {
 			wiimoteFiring = WiimoteUpdate();
 		}
 
-		if (Mouse.current.middleButton.wasPressedThisFrame) {
-			SwitchParticles(firing);
-		}
-
 		//if (Mouse.current.leftButton.isPressed) {
-		if ( !DisableFiring && (firing || wiimoteFiring) && AmmoAmount > 0f) {
+		if (!DisableFiring && (firing || wiimoteFiring) && AmmoAmount > 0f) {
 			if (!wasFiring) {
 				if (particleModeUseWater) {
 					foreach (ParticleSystem particles in waterJetParticles) {
@@ -254,14 +259,13 @@ public class NozzleScript : MonoBehaviour {
 		} while (ret > 0);
 
 		// TODO: use wiimote.Accel.GetCalibratedAccelData() to reduce wmp drift
-		
+
 
 		if (wiimote.Button.d_left) {
 			if (dLeftWasPressed) {
 
 			} else {
-				Globals.irToggle = !Globals.irToggle;
-				Debug.Log("ir set to " + Globals.irToggle);
+				Globals.ToggleIr();
 
 				dLeftWasPressed = true;
 			}
@@ -270,7 +274,7 @@ public class NozzleScript : MonoBehaviour {
 			dLeftWasPressed = false;
 		}
 
-		if (wiimote.Button.d_right){ // || keyboard.kKey.wasPressedThisFrame) {
+		if (wiimote.Button.d_right) { // || keyboard.kKey.wasPressedThisFrame) {
 			if (dRightWasPressed) {
 
 			} else {
@@ -295,7 +299,7 @@ public class NozzleScript : MonoBehaviour {
 					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + SensorBarAngleOffset.y,
 					 0f
 				);
-				Debug.Log ("orientation set from sensor bar");
+				Debug.Log("orientation set from sensor bar");
 			}
 
 			// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);

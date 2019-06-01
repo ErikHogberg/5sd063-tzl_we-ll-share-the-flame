@@ -322,8 +322,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 		}
 
-		if (Mouse.current.rightButton.isPressed) {// && !boostTimer.IsRunning()) {
-												  // boostTimer.Restart(BoostTime);
+		// if (Mouse.current.rightButton.isPressed) {
+		if (keyboard.digit2Key.isPressed) {
+			// && !boostTimer.IsRunning()) {
+			// boostTimer.Restart(BoostTime);
 			Boost();
 		}
 
@@ -545,18 +547,24 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (rampScript != null) {
 				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
 				if (rampScript.AlignPlayer &&
-				  (
-					   (Speed > 0f && facingDifference > 90f)
-				  	|| (Speed < 0f && facingDifference < 90f)
+				  (rampScript.JumpNormallyIfWrongWay &&
+					   ((Speed > 0f && facingDifference > 90f)
+				  	|| (Speed < 0f && facingDifference < 90f))
 				  )
 				) {
 					StartJump();
 				} else {
+					float speed = rampScript.Speed;
+					if (!rampScript.AlignPlayer && leftWheelSpeed + rightWheelSpeed < 0f)
+					{
+						speed *= -1f;
+					}
+
 					StartJump(
 						rampScript.TargetHeightRelativity, rampScript.TargetHeight,
 						rampScript.JumpHeightRelativity, rampScript.JumpHeight,
 						rampScript.SkipUp,
-						rampScript.SetSpeed, rampScript.Speed,
+						rampScript.SetSpeed, speed,
 						rampScript.SetTime, rampScript.Time,
 						rampScript.AlignPlayer, rampScript.transform.rotation,
 						rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
@@ -743,7 +751,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
 		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
 		bool SkipNextUp,
-		bool SetSpeed, float Speed,
+		bool SetSpeed, float newSpeed,
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
@@ -785,7 +793,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		skipUp = SkipNextUp;
 		setJumpSpeed = SetSpeed;
-		nextJumpSpeed = Speed;
+		nextJumpSpeed = newSpeed;
 		setJumpTime = SetTime;
 		nextJumpTime = Time;
 
@@ -802,7 +810,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
 		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
 		bool SkipNextUp,
-		bool SetSpeed, float Speed,
+		bool SetSpeed, float newSpeed,
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
@@ -812,7 +820,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			TargetHeightRelativity, TargetHeight,
 			JumpHeightRelativity, JumpHeight,
 			SkipNextUp,
-			SetSpeed, Speed,
+			SetSpeed, newSpeed,
 			SetTime, Time,
 			AlignPlayer, Rotation,
 			tempStuntAngle, tempStuntAxis, tempStuntPingPong

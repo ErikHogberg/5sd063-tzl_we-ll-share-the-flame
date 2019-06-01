@@ -123,5 +123,10 @@ namespace Assets.Scripts {
 			score = 0f;
 		}
 
+		public static void ToggleIr(){
+			irToggle = !irToggle;
+			Debug.Log("ir set to " + irToggle);
+		}
+
 	}
 }
