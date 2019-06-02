@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!136 &7122968713696386875
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256768321619268594}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.1883316
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.00000047683713, z: -0.14038}
 --- !u!65 &8044353186808288691
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9,7 +23,7 @@ BoxCollider:
   m_GameObject: {fileID: 1256768321619268594}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.95, y: 0.9500002, z: 0.45000014}
   m_Center: {x: 0, y: 0, z: 0}
@@ -52,6 +66,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852787757136823690}
     m_Modifications:
+    - target: {fileID: 100000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
+      propertyPath: m_Name
+      value: fullFountain
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.85
@@ -108,10 +130,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
-      propertyPath: m_Name
-      value: fullFountain
-      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 7049c8437bfa8c240b17426422c2d95c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -137,6 +155,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852787757136823690}
     m_Modifications:
+    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: m_Name
+      value: Water Jet
+      objectReference: {fileID: 0}
     - target: {fileID: 9193838673014712479, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -206,11 +229,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673014712476, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: m_Name
-      value: Water Jet
       objectReference: {fileID: 0}
     - target: {fileID: 9193838671529983798, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}

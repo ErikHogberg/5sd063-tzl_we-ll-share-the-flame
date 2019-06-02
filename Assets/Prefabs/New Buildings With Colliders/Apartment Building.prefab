@@ -13,6 +13,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.3, y: 2.2969902, z: 3.5000007}
   m_Center: {x: 0, y: -0.1265039, z: 8.2607545e-16}
+--- !u!114 &5149599349298847029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2706052763785526355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 129ebba40ec041048830ef6af7830f29, type: 2}
 --- !u!1 &6709639613374138459
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,6 +64,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6097466414977395295}
     m_Modifications:
+    - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
+      propertyPath: m_Name
+      value: appartmentBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.75
@@ -106,14 +127,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
-      propertyPath: m_Name
-      value: appartmentBuilding
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
-      propertyPath: m_TagString
-      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
       propertyPath: m_Materials.Array.data[0]
