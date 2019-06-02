@@ -78,11 +78,16 @@ namespace Assets.Scripts {
 		public static string SavePath = Application.dataPath + "/highscore.json";
 		public static Highscore HighscoreList = Highscore.Load();//new Highscore();
 
+		public static CollectiblePanelScript CollectiblePanel;
 
 		// The current player
 		public static WheelchairMoveScript Player;
 		public static NozzleScript Nozzle;
 		public static CameraFollowScript CameraScript;
+		public static StartZoneScript StartZone;
+
+		// Wiimote
+		public static bool irToggle = false;
 
 
 		// UI
@@ -117,6 +122,11 @@ namespace Assets.Scripts {
 
 		public static void ResetScore() {
 			score = 0f;
+		}
+
+		public static void ToggleIr(){
+			irToggle = !irToggle;
+			Debug.Log("ir set to " + irToggle);
 		}
 
 	}
