@@ -20,7 +20,6 @@ public class BoostSound : MonoBehaviour
 
     void Update()
     {
-		// Check if we are boosting
 		if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (playing == false)
@@ -34,17 +33,24 @@ public class BoostSound : MonoBehaviour
 			AS_Boost.loop = false;
 			AS_Boost.clip = SFX_Boost_End;
 			AS_Boost.Play();
-			AS_Boost.clip = SFX_Boost_Start;
 			playing = false;
 		}
-    }
+		//if (Input.GetKeyDown(KeyCode.T)) {
+		//	StopCoroutine("playBoostSFX");
+		//	AS_Boost.Stop();
+		//	AS_Boost.loop = false;
+		//	AS_Boost.clip = SFX_Boost_End;
+		//	AS_Boost.Play();
+		//	playing = false;
+		//}
+	}
 
     IEnumerator playBoostSFX()
     {
         playing = true;
-        
-        // Play the sound
-        AS_Boost.Play();
+		AS_Boost.clip = SFX_Boost_Start;
+		// Play the sound
+		AS_Boost.Play();
         yield return new WaitForSeconds(AS_Boost.clip.length);
 		AS_Boost.clip = SFX_Boost_Mid;
 		AS_Boost.loop = true;
