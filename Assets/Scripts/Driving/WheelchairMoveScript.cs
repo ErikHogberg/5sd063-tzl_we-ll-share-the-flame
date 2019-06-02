@@ -9,6 +9,14 @@ using UnityEngine.UI;
 
 public class WheelchairMoveScript : MonoBehaviour {
 
+	//Mick start
+	[Header("Sound FX")]
+	public AudioSource AS_Boost;
+	public AudioClip SFX_Boost_Start;
+	public AudioClip SFX_Boost_Mid;
+	public AudioClip SFX_Boost_End;
+	//Mick end
+
 	[Header("Required Objects")]
 	public GameObject WheelChair;
 	public GameObject LeftWheel;
@@ -749,6 +757,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	public void StartBoostParticles() {
+
 		foreach (ParticleSystem particles in BoostFoamParticles) {
 			particles.Play();
 		}

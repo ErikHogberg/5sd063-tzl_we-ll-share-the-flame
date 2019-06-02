@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MAIN CITY.unity
     guid: b05eb3be919b03e45b4c7f955cebe33a
+  - enabled: 0
+    path: Assets/Scenes/Mick/Mick MAIN CITY.unity
+    guid: b8f098f8d1085b24d83cbfb6116aa801
   m_configObjects: {}
