@@ -518,7 +518,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			float truncatedSpeed = 0f;
 			if (speed < 0f) {
-				truncatedSpeed = Mathf.Max(speed, TopSpeed);
+				truncatedSpeed = Mathf.Max(speed, -TopSpeed);
 			} else {
 				truncatedSpeed = Mathf.Min(speed, TopSpeed);
 			}
@@ -545,6 +545,49 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// NOTE: ziplining through buildings is allowed
 		if (!EnableCollision || other.tag == "Ignore Collision" || ziplining) {
+			return;
+		}
+
+		if (other.tag == "Zipline") {
+			Debug.Log("hit zipline " + other.name + "!");
+			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
+			if (zipline != null) {
+				CancelBoost();
+
+				transform.position = zipline.transform.position;
+				ziplining = true;
+				ziplineTarget = zipline.End.transform.position;
+				// preJumpRotation = zipline.End.transform.rotation;
+
+				ziplineSpeed = zipline.Speed;
+				transform.rotation = zipline.End.transform.rotation;
+
+				switch (zipline.TargetHeightRelativity) {
+					case JumpTargetSetting.Absolute:
+						jumpTargetY = zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Relative:
+						jumpTargetY = playerY + zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Reset:
+						jumpTargetY = initialPlayerY + zipline.TargetHeight;
+						break;
+				}
+
+				SetupJump(
+					zipline.TargetHeightRelativity, zipline.TargetHeight,
+					JumpTargetSetting.Relative, 1,
+					false,
+					true, zipline.EndJumpSpeed,
+					true, zipline.EndJumpTime,
+					true, zipline.End.transform.rotation,
+					// TODO: bool to use default stunt settings
+					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
+				);
+
+			} else {
+				Debug.LogError("Zipline script not found!");
+			}
 			return;
 		}
 
@@ -589,49 +632,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 				StartJump();
 			}
 
-			return;
-		}
-
-		if (other.tag == "Zipline") {
-			Debug.Log("hit zipline " + other.name + "!");
-			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
-			if (zipline != null) {
-				CancelBoost();
-
-				transform.position = zipline.transform.position;
-				ziplining = true;
-				ziplineTarget = zipline.End.transform.position;
-				// preJumpRotation = zipline.End.transform.rotation;
-
-				ziplineSpeed = zipline.Speed;
-				transform.rotation = zipline.End.transform.rotation;
-
-				switch (zipline.TargetHeightRelativity) {
-					case JumpTargetSetting.Absolute:
-						jumpTargetY = zipline.TargetHeight;
-						break;
-					case JumpTargetSetting.Relative:
-						jumpTargetY = playerY + zipline.TargetHeight;
-						break;
-					case JumpTargetSetting.Reset:
-						jumpTargetY = initialPlayerY + zipline.TargetHeight;
-						break;
-				}
-
-				SetupJump(
-					zipline.TargetHeightRelativity, zipline.TargetHeight,
-					JumpTargetSetting.Relative, 1,
-					false,
-					true, zipline.EndJumpSpeed,
-					true, zipline.EndJumpTime,
-					true, zipline.End.transform.rotation,
-					// TODO: bool to use default stunt settings
-					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
-				);
-
-			} else {
-				Debug.LogError("Zipline script not found!");
-			}
 			return;
 		}
 
