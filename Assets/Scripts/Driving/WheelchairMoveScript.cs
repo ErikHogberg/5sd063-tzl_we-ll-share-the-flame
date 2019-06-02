@@ -574,6 +574,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 						break;
 				}
 
+				playerY = ziplineTarget.y;
+
 				SetupJump(
 					zipline.TargetHeightRelativity, zipline.TargetHeight,
 					JumpTargetSetting.Relative, 1,
