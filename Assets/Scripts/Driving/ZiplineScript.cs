@@ -12,6 +12,7 @@ public class ZiplineScript : MonoBehaviour
 	public float EndJumpTime = 1f;
     public JumpTargetSetting TargetHeightRelativity= JumpTargetSetting.Reset;
     public float TargetHeight = 0f;
+    public bool SkipUp = false;
 
 
     private void Start() {

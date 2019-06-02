@@ -579,7 +579,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				SetupJump(
 					zipline.TargetHeightRelativity, zipline.TargetHeight,
 					JumpTargetSetting.Relative, 1,
-					false,
+					zipline.SkipUp,
 					true, zipline.EndJumpSpeed,
 					true, zipline.EndJumpTime,
 					true, zipline.End.transform.rotation,
