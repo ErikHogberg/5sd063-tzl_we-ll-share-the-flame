@@ -587,40 +587,145 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6197879766533424796, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766533424796, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766533424796, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 5
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879766753485189, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: simulationSpeed
-      value: 1.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.1
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765110710637, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765728065518, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 6
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197879765905503108, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4042585769026940330, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
