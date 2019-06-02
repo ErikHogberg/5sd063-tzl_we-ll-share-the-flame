@@ -11,10 +11,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	//Mick start
 	[Header("Sound FX")]
-	public AudioSource AS_Boost;
-	public AudioClip SFX_Boost_Start;
-	public AudioClip SFX_Boost_Mid;
-	public AudioClip SFX_Boost_End;
+	public AudioSource AS_Boing;
+	public AudioClip SFX_Boing;
 	//Mick end
 
 	[Header("Required Objects")]
@@ -169,6 +167,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 
 	void Start() {
+
+		//Mick start
+		AS_Boing.clip = SFX_Boing;
+		//Mick end
 
 		Globals.Player = this;
 
@@ -646,6 +648,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
+
+		//Mick Start
+		AS_Boing.Play();
+		//Mick End
+
 		if (collidedThisFrame) {
 			Debug.Log("ignored wall: " + other.name);
 			return;
