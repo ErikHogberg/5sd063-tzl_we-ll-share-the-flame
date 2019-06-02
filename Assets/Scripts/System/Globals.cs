@@ -78,6 +78,7 @@ namespace Assets.Scripts {
 		public static string SavePath = Application.dataPath + "/highscore.json";
 		public static Highscore HighscoreList = Highscore.Load();//new Highscore();
 
+		public static CollectiblePanelScript CollectiblePanel;
 
 		// The current player
 		public static WheelchairMoveScript Player;
