@@ -30,6 +30,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Header("Movement")]
 	[Tooltip("Disables all movement, stops the script from updating")]
 	public bool DisableMovement = false;
+	private bool collidedThisFrame = false;
 	[Tooltip("Flips keys and trackballs")]
 	public bool FlipKeys = false;
 	[Tooltip("Enable trackballs, disables keys")]
@@ -209,6 +210,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (DisableMovement) {
 			return;
 		}
+
+		collidedThisFrame = false;
 
 		var keyboard = Keyboard.current;
 
@@ -624,6 +627,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
+		if (collidedThisFrame)
+		{
+			Debug.Log("ignored wall: " + other.name);
+			return;
+		}
+
+		collidedThisFrame = true;
 
 		if (jumpTimer.IsRunning()) {
 			transform.Rotate(Vector3.up, 180f);
