@@ -21,13 +21,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject RightBoostFoam;
 	private ParticleSystem[] BoostFoamParticles;
 
-	[Tooltip("How fast the wheels spin compared to the movement speed")]
-	public float WheelAnimationSpeed = 1.0f;
-
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
 
+	[Tooltip("How fast the wheels spin compared to the movement speed")]
+	public float WheelAnimationSpeed = 1.0f;
+
 	[Header("Movement")]
+	[Tooltip("Disables all movement, stops the script from updating")]
+	public bool DisableMovement = false;
+	private bool collidedThisFrame = false;
 	[Tooltip("Flips keys and trackballs")]
 	public bool FlipKeys = false;
 	[Tooltip("Enable trackballs, disables keys")]
@@ -204,6 +207,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	void Update() {
 
+		if (DisableMovement) {
+			return;
+		}
+
+		collidedThisFrame = false;
+
 		var keyboard = Keyboard.current;
 
 		string infoText = "";
@@ -310,14 +319,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.localRotation = preJumpRotation
 				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
 
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
+				SpinWheels();
 				return;
 			}
 		}
 
-		if (Mouse.current.rightButton.isPressed) {// && !boostTimer.IsRunning()) {
-												  // boostTimer.Restart(BoostTime);
+		// if (Mouse.current.rightButton.isPressed) {
+		if (keyboard.digit2Key.isPressed) {
+			// && !boostTimer.IsRunning()) {
+			// boostTimer.Restart(BoostTime);
 			Boost();
 		}
 
@@ -377,12 +387,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
-		angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+
+		if ((leftWheelSpeed > 0f && rightWheelSpeed > 0f) || (leftWheelSpeed < 0f && rightWheelSpeed < 0f)) {
+			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+		}
+
 
 		//angle %= Mathf.PI * 2.0f;
 
 		float speed = leftWheelSpeed + rightWheelSpeed;
-		float fastestWheelSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+		// float fastestWheelSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
 
 		// turn
 		infoText += angle + "\n";
@@ -501,7 +515,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (boostSlowdownTimer.IsRunning()) {
 				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
 			}
-			transform.position += transform.forward * (Mathf.Min(speed, TopSpeed) + boostEndSpeed * boostSlowdownProgress) * Time.deltaTime;
+
+			float truncatedSpeed = 0f;
+			if (speed < 0f) {
+				truncatedSpeed = Mathf.Max(speed, -TopSpeed);
+			} else {
+				truncatedSpeed = Mathf.Min(speed, TopSpeed);
+			}
+
+			transform.position += transform.forward
+			* (truncatedSpeed + boostEndSpeed * boostSlowdownProgress)
+			 * Time.deltaTime;
 		}
 
 		SpinWheels();
@@ -521,45 +545,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// NOTE: ziplining through buildings is allowed
 		if (!EnableCollision || other.tag == "Ignore Collision" || ziplining) {
-			return;
-		}
-
-		if (other.tag == "Ramp") {
-			Debug.Log("hit ramp " + other.name + "!");
-
-			// NOTE: ignores jump if already in air
-			if (jumpTimer.IsRunning()) {
-				return;
-			}
-
-			CancelBoost();
-
-			RampScript rampScript = other.GetComponent<RampScript>();
-
-			if (rampScript != null) {
-				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
-				if (rampScript.AlignPlayer &&
-				  (
-					   (Speed > 0f && facingDifference > 90f)
-				  	|| (Speed < 0f && facingDifference < 90f)
-				  )
-				) {
-					StartJump();
-				} else {
-					StartJump(
-						rampScript.TargetHeightRelativity, rampScript.TargetHeight,
-						rampScript.JumpHeightRelativity, rampScript.JumpHeight,
-						rampScript.SkipUp,
-						rampScript.SetSpeed, rampScript.Speed,
-						rampScript.SetTime, rampScript.Time,
-						rampScript.AlignPlayer, rampScript.transform.rotation,
-						rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
-					);
-				}
-			} else {
-				StartJump();
-			}
-
 			return;
 		}
 
@@ -606,7 +591,57 @@ public class WheelchairMoveScript : MonoBehaviour {
 			return;
 		}
 
+		if (other.tag == "Ramp") {
+			Debug.Log("hit ramp " + other.name + "!");
+
+			// NOTE: ignores jump if already in air
+			if (jumpTimer.IsRunning()) {
+				return;
+			}
+
+			CancelBoost();
+
+			RampScript rampScript = other.GetComponent<RampScript>();
+
+			if (rampScript != null) {
+				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
+				if (rampScript.AlignPlayer &&
+				  (rampScript.JumpNormallyIfWrongWay &&
+					   ((Speed > 0f && facingDifference > 90f)
+				  	|| (Speed < 0f && facingDifference < 90f))
+				  )
+				) {
+					StartJump();
+				} else {
+					float speed = rampScript.Speed;
+					if (!rampScript.AlignPlayer && leftWheelSpeed + rightWheelSpeed < 0f) {
+						speed *= -1f;
+					}
+
+					StartJump(
+						rampScript.TargetHeightRelativity, rampScript.TargetHeight,
+						rampScript.JumpHeightRelativity, rampScript.JumpHeight,
+						rampScript.SkipUp,
+						rampScript.SetSpeed, speed,
+						rampScript.SetTime, rampScript.Time,
+						rampScript.AlignPlayer, rampScript.transform.rotation,
+						rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
+					);
+				}
+			} else {
+				StartJump();
+			}
+
+			return;
+		}
+
 		Debug.Log("hit wall: " + other.name);
+		if (collidedThisFrame) {
+			Debug.Log("ignored wall: " + other.name);
+			return;
+		}
+
+		collidedThisFrame = true;
 
 		if (jumpTimer.IsRunning()) {
 			transform.Rotate(Vector3.up, 180f);
@@ -737,7 +772,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
 		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
 		bool SkipNextUp,
-		bool SetSpeed, float Speed,
+		bool SetSpeed, float newSpeed,
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
@@ -779,7 +814,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		skipUp = SkipNextUp;
 		setJumpSpeed = SetSpeed;
-		nextJumpSpeed = Speed;
+		nextJumpSpeed = newSpeed;
 		setJumpTime = SetTime;
 		nextJumpTime = Time;
 
@@ -796,7 +831,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
 		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
 		bool SkipNextUp,
-		bool SetSpeed, float Speed,
+		bool SetSpeed, float newSpeed,
 		bool SetTime, float Time,
 		bool AlignPlayer, Quaternion Rotation,
 		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
@@ -806,7 +841,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			TargetHeightRelativity, TargetHeight,
 			JumpHeightRelativity, JumpHeight,
 			SkipNextUp,
-			SetSpeed, Speed,
+			SetSpeed, newSpeed,
 			SetTime, Time,
 			AlignPlayer, Rotation,
 			tempStuntAngle, tempStuntAxis, tempStuntPingPong
