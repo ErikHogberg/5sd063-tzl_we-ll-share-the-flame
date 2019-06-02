@@ -83,6 +83,7 @@ public class HighscorePanelScript : MonoBehaviour {
 
 	private void OnDestroy() {
 		// SaveHighScore();
+		SubmitScore();
 	}
 
 }
