@@ -30,9 +30,9 @@ public class CollectiblePanelScript : MonoBehaviour {
 	void Update() {
 		if (dirtyData) {
 
-			ElementalText.text = "Extinguished: \t\t\t" + elementals + "/" + totalElementals;
-			CatText.text = "Saved from trees: \t" + cats + "/" + totalCats;
-			GraffitiText.text = "Cleaned: \t\t\t\t\t" + graffiti + "/" + totalGraffiti;
+			ElementalText.text = "" + elementals + "/" + totalElementals;
+			CatText.text = "" + cats + "/" + totalCats;
+			GraffitiText.text = "" + graffiti + "/" + totalGraffiti;
 
 			dirtyData = false;
 		}
