@@ -319,8 +319,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.localRotation = preJumpRotation
 				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
 
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
+				SpinWheels();
 				return;
 			}
 		}
@@ -389,7 +388,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
 
-		if ((leftWheelSpeed > 0f && leftWheelSpeed > 0f) || (leftWheelSpeed < 0f && leftWheelSpeed < 0f)) {
+		if ((leftWheelSpeed > 0f && rightWheelSpeed > 0f) || (leftWheelSpeed < 0f && rightWheelSpeed < 0f)) {
 			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
 		}
 
@@ -397,7 +396,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		//angle %= Mathf.PI * 2.0f;
 
 		float speed = leftWheelSpeed + rightWheelSpeed;
-		float fastestWheelSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+		// float fastestWheelSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
 
 		// turn
 		infoText += angle + "\n";
@@ -516,7 +515,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (boostSlowdownTimer.IsRunning()) {
 				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
 			}
-			transform.position += transform.forward * (Mathf.Min(speed, TopSpeed) + boostEndSpeed * boostSlowdownProgress) * Time.deltaTime;
+
+			float truncatedSpeed = 0f;
+			if (speed < 0f) {
+				truncatedSpeed = Mathf.Max(speed, TopSpeed);
+			} else {
+				truncatedSpeed = Mathf.Min(speed, TopSpeed);
+			}
+
+			transform.position += transform.forward
+			* (truncatedSpeed + boostEndSpeed * boostSlowdownProgress)
+			 * Time.deltaTime;
 		}
 
 		SpinWheels();
@@ -627,8 +636,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
-		if (collidedThisFrame)
-		{
+		if (collidedThisFrame) {
 			Debug.Log("ignored wall: " + other.name);
 			return;
 		}
