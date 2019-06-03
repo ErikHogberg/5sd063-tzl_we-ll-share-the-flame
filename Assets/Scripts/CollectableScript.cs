@@ -13,7 +13,7 @@ public enum CollectibleType {
 public class CollectableScript : MonoBehaviour {
 
 	public CollectibleType Type;
-	
+
 	private bool notInit = true;
 
 	void Start() {
@@ -21,9 +21,8 @@ public class CollectableScript : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (notInit)
-		{
-			
+		if (notInit) {
+
 
 			Globals.CollectiblePanel.AddTotalCollectibles(Type);
 
@@ -32,7 +31,9 @@ public class CollectableScript : MonoBehaviour {
 	}
 
 	private void OnDisable() {
-		Globals.CollectiblePanel.AddCollectibles(Type);
+		if (Globals.TimerPanel.IsRunning()) {
+			Globals.CollectiblePanel.AddCollectibles(Type);
+		}
 	}
 
 }
