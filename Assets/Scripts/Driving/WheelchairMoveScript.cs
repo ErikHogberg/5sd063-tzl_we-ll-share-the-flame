@@ -396,8 +396,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
 			}
 
-			UpdateWheels();
-			Turn();
+			// UpdateWheels();
+			// Turn();
 
 			/*
 			if (drifting) {
@@ -422,8 +422,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 			// */
 
+			// transform.position += transform.forward
+			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			//  * Time.deltaTime;
 			transform.position += transform.forward
-			 * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * (leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed)
 			 * Time.deltaTime;
 
 			/*
@@ -712,15 +715,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.Rotate(Vector3.up, 180f);
 		} else {
 			collisionTimer.Restart(CollisionTime);
-			// float tempLeftSpeed = leftWheelSpeed;
-			// leftWheelSpeed = -rightWheelSpeed;
-			// rightWheelSpeed = -tempLeftSpeed;
-			knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
-			knockbackSpeed *= CollisionSlowdownMultiplier;
+			float tempLeftSpeed = leftWheelSpeed;
+			leftWheelSpeed = -rightWheelSpeed;
+			rightWheelSpeed = -tempLeftSpeed;
+			// knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
+			// knockbackSpeed *= CollisionSlowdownMultiplier;
 		}
 
-		// leftWheelSpeed *= CollisionSlowdownMultiplier;
-		// rightWheelSpeed *= CollisionSlowdownMultiplier;
+		leftWheelSpeed *= CollisionSlowdownMultiplier;
+		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
 	private void UpdateWheels() {
