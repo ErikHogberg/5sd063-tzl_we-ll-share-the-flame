@@ -26,6 +26,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject LeftBoostFoam;
 	public GameObject RightBoostFoam;
 	private ParticleSystem[] BoostFoamParticles;
+	public AnchorScript NozzleAnchor;
 
 	public GameObject StandingKid;
 	public GameObject StandingKidZipline;
@@ -219,7 +220,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	}
 
+	// private void FixedUpdate() {
+	// 	NozzleAnchor.UpdateAnchor();
+
+	// }
+
 	void Update() {
+
 
 		if (DisableMovement) {
 			UpdateWheels();
@@ -231,13 +238,19 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		var keyboard = Keyboard.current;
 
-		if (UpdateCollision())
+		if (UpdateCollision()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
+		}
 
-		if (UpdateZipline())
+		if (UpdateZipline()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
-		if (UpdateJump())
+		}
+		if (UpdateJump()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
+		}
 
 		// if (Mouse.current.rightButton.isPressed) {
 		if (keyboard.digit2Key.isPressed) {
@@ -246,13 +259,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Boost();
 		}
 
-		if (UpdateBoost())
+		if (UpdateBoost()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
+		}
 
 		UpdateWheels();
 		Turn();
 		MoveForward();
 		SpinWheels();
+
+		NozzleAnchor.UpdateAnchor();
+
 
 	}
 
