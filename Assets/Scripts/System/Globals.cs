@@ -80,6 +80,7 @@ namespace Assets.Scripts {
 		public static Highscore HighscoreList = Highscore.Load();//new Highscore();
 
 		public static CollectiblePanelScript CollectiblePanel;
+		public static CollectibleNotificationScript CollectibleNotificationPanel;
 
 		// The current player
 		public static WheelchairMoveScript Player;
