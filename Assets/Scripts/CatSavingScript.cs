@@ -10,7 +10,7 @@ public class CatSavingScript : MonoBehaviour {
 
 	void OnParticleCollision(GameObject other) {
 		// Debug.Log("Extinguished " + name);
-		Globals.NotificationPanel.Notify("You saved a Cat! " + ScoreWorth + " points!");
+		// Globals.NotificationPanel.Notify("You saved a Cat! " + ScoreWorth + " points!");
 
 		Globals.AddScore(ScoreWorth, MultiplierIncrease);
 

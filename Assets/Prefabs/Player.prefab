@@ -628,6 +628,8 @@ MonoBehaviour:
   RightWheelSparks: {fileID: 1462122031010046861}
   LeftBoostFoam: {fileID: 2615244639391734229}
   RightBoostFoam: {fileID: 9202373884601136818}
+  StandingKid: {fileID: 7166428450303239135}
+  StandingKidZipline: {fileID: 1429175717013470206}
   TrajectoryArrow: {fileID: 7617396280119078887}
   DirectionArrow: {fileID: 7617396280038561364}
   WheelAnimationSpeed: 2
@@ -708,6 +710,8 @@ MonoBehaviour:
     m_PostInfinity: 0
     m_RotationOrder: 4
   StuntPingPong: 1
+  JumpScoreWorth: 100
+  JumpScoreMultiplierWorth: 0.1
   BoostTime: 0.5
   BoostSlowdownTime: 1
   BoostAcceleration: 100
@@ -716,7 +720,6 @@ MonoBehaviour:
   BoostAmmoDrainRate: 0.1
   BoostAmmoUpkeep: 0.1
   BoostAmmoDisableTreshold: 0.25
-  InfoPane: {fileID: 0}
 --- !u!65 &6929900565973988701
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -960,9 +963,87 @@ Transform:
   - {fileID: 7166428450303279103}
   - {fileID: 7617396279363103498}
   - {fileID: 7617396279346736933}
+  - {fileID: 1429175717013497822}
   m_Father: {fileID: 7617396278981290752}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1429175717013372252
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7617396280682698212}
+    m_Modifications:
+    - target: {fileID: 100002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_Name
+      value: standing kid zipline v3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.279
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.869
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 03965b08b62db7d44b77f25b1ee738ec, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7, type: 3}
+--- !u!1 &1429175717013470206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1429175717013372252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1429175717013497822 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400002, guid: 5d40ff0ab3cce3b42a62e2d3eac5c6e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1429175717013372252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1462122031002916693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -970,11 +1051,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2109860095410405845}
     m_Modifications:
-    - target: {fileID: 9078392303512833953, guid: e373c667905e116449591540f5dbf2c9,
-        type: 3}
-      propertyPath: m_Name
-      value: Left Drift Sparks
-      objectReference: {fileID: 0}
     - target: {fileID: 9078392303512833952, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1035,6 +1111,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9078392303512833953, guid: e373c667905e116449591540f5dbf2c9,
+        type: 3}
+      propertyPath: m_Name
+      value: Left Drift Sparks
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e373c667905e116449591540f5dbf2c9, type: 3}
 --- !u!4 &7617396279797504245 stripped
@@ -1056,10 +1137,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 100002, guid: 63d1e0bac47e66c49b3828f100d58f73, type: 3}
-      propertyPath: m_Name
-      value: wheelchair v3
-      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 63d1e0bac47e66c49b3828f100d58f73, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2
@@ -1104,6 +1181,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 63d1e0bac47e66c49b3828f100d58f73, type: 3}
+      propertyPath: m_Name
+      value: wheelchair v3
+      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 63d1e0bac47e66c49b3828f100d58f73, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1123,11 +1204,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
-        type: 3}
-      propertyPath: m_Name
-      value: Left Wheel
-      objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1183,17 +1259,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
+        type: 3}
+      propertyPath: m_Name
+      value: Left Wheel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e8dd0c196667142998acc8905035b9, type: 3}
---- !u!4 &8890930548459897872 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2637431502204934214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4332258296034528446 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2637431502204934214}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8890930548459897872 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
     type: 3}
   m_PrefabInstance: {fileID: 2637431502204934214}
   m_PrefabAsset: {fileID: 0}
@@ -1204,10 +1285,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278960831348}
     m_Modifications:
-    - target: {fileID: 100002, guid: 8893691b1ceb2e84f971927f4d8801e4, type: 3}
-      propertyPath: m_Name
-      value: sitting kid v2
-      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 8893691b1ceb2e84f971927f4d8801e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -1252,6 +1329,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 8893691b1ceb2e84f971927f4d8801e4, type: 3}
+      propertyPath: m_Name
+      value: sitting kid v2
+      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 8893691b1ceb2e84f971927f4d8801e4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1271,11 +1352,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 1987066741549501153, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
-        type: 3}
-      propertyPath: m_Name
-      value: Left Boost Foam
-      objectReference: {fileID: 0}
     - target: {fileID: 130739222138529882, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1330,6 +1406,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1987066741549501153, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
+        type: 3}
+      propertyPath: m_Name
+      value: Left Boost Foam
       objectReference: {fileID: 0}
     - target: {fileID: 5294659302689156823, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
         type: 3}
@@ -1477,10 +1558,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396280682698212}
     m_Modifications:
-    - target: {fileID: 100002, guid: 8ca2262a3c65df44a83af110b24cbd94, type: 3}
-      propertyPath: m_Name
-      value: standing kid v2
-      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 8ca2262a3c65df44a83af110b24cbd94, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -1525,12 +1602,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 8ca2262a3c65df44a83af110b24cbd94, type: 3}
+      propertyPath: m_Name
+      value: standing kid v2
+      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 8ca2262a3c65df44a83af110b24cbd94, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 36cef33e7d6bf49459150ed7864da584, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ca2262a3c65df44a83af110b24cbd94, type: 3}
+--- !u!1 &7166428450303239135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 8ca2262a3c65df44a83af110b24cbd94,
+    type: 3}
+  m_PrefabInstance: {fileID: 7166428450303141245}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7166428450303279103 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 8ca2262a3c65df44a83af110b24cbd94,
@@ -1544,11 +1631,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 1987066741549501153, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
-        type: 3}
-      propertyPath: m_Name
-      value: Right Boost Foam
-      objectReference: {fileID: 0}
     - target: {fileID: 130739222138529882, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1603,6 +1685,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1987066741549501153, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
+        type: 3}
+      propertyPath: m_Name
+      value: Right Boost Foam
       objectReference: {fileID: 0}
     - target: {fileID: 5294659302689156823, guid: 6c9b1a5299497ba4f9cc1c14c49345da,
         type: 3}
@@ -1750,11 +1837,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2109860095410405845}
     m_Modifications:
-    - target: {fileID: 9078392303512833953, guid: e373c667905e116449591540f5dbf2c9,
-        type: 3}
-      propertyPath: m_Name
-      value: Right Drift Sparks
-      objectReference: {fileID: 0}
     - target: {fileID: 9078392303512833952, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1815,6 +1897,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9078392303512833953, guid: e373c667905e116449591540f5dbf2c9,
+        type: 3}
+      propertyPath: m_Name
+      value: Right Drift Sparks
+      objectReference: {fileID: 0}
     - target: {fileID: 3558288313393223980, guid: e373c667905e116449591540f5dbf2c9,
         type: 3}
       propertyPath: m_Autodestruct
@@ -1841,11 +1928,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617396278981290752}
     m_Modifications:
-    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
-        type: 3}
-      propertyPath: m_Name
-      value: Right Wheel
-      objectReference: {fileID: 0}
     - target: {fileID: 6915532039777590358, guid: e1e8dd0c196667142998acc8905035b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1900,6 +1982,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766902050923812088, guid: e1e8dd0c196667142998acc8905035b9,
+        type: 3}
+      propertyPath: m_Name
+      value: Right Wheel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e8dd0c196667142998acc8905035b9, type: 3}

@@ -13,6 +13,8 @@ public class ZiplineScript : MonoBehaviour
     public JumpTargetSetting TargetHeightRelativity= JumpTargetSetting.Reset;
     public float TargetHeight = 0f;
     public bool SkipUp = false;
+	public float ScoreWorth = 100f;
+	public float ScoreMultiplierIncrease = 0.1f;
 
 
     private void Start() {
@@ -28,7 +30,7 @@ public class ZiplineScript : MonoBehaviour
 		scale.z *= Vector3.Distance(transform.position, End.transform.position) / Line.transform.lossyScale.z;
         Line.transform.localScale = scale;
 
-		Line.transform.position = transform.position + new Vector3(0f,2.1f,0f);
+		Line.transform.position = transform.position + new Vector3(0f,2.5f,0f);
 
 	}
 
