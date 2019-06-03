@@ -481,7 +481,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.15
+  m_Volume: 0.3
   m_Pitch: 0.75
   Loop: 0
   Mute: 0
@@ -525,7 +525,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.75
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -754,6 +754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: TriggerModule.collisionShape0
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306478483484322903, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7617396278912120133, guid: 2231e434d04717e468a80cfc963edb60, type: 3}
