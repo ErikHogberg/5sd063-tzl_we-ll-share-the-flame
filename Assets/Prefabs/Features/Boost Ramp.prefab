@@ -72,6 +72,8 @@ MonoBehaviour:
   StuntAxis: {x: 1, y: 0, z: 0}
   StuntAngle: 360
   StuntPingPong: 0
+  ScoreWorth: 300
+  ScoreMultiplierIncrease: 0.4
 --- !u!1 &7684509676350141762
 GameObject:
   m_ObjectHideFlags: 0
