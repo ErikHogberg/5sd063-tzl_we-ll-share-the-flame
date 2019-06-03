@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4578722455611494876
 Transform:
   m_ObjectHideFlags: 0
@@ -136,6 +136,8 @@ MonoBehaviour:
   StuntAxis: {x: 0, y: 0, z: 1}
   StuntAngle: 720
   StuntPingPong: 0
+  ScoreWorth: 100
+  ScoreMultiplierIncrease: 0.1
 --- !u!65 &7909955138385062315
 BoxCollider:
   m_ObjectHideFlags: 0
