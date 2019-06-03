@@ -61,7 +61,8 @@ public class NozzleScript : MonoBehaviour {
 
 	private Vector3 wiimoteOrientation = new Vector3(0f, 90f, 0f); // Yaw, Pitch, Roll
 
-	public IRDataType SensorBarMode = IRDataType.BASIC;
+	// public IRDataType InitialSensorBarMode = IRDataType.BASIC;
+
 	// private RectTransform ir_pointer;
 	public Vector2 SensorBarAngleScale = new Vector2(10f, 10f);
 	public Vector2 SensorBarAngleOffset = new Vector2(0f, 90f);
@@ -81,6 +82,7 @@ public class NozzleScript : MonoBehaviour {
 	void Start() {
 
 		Globals.Nozzle = this;
+		// Globals.SensorBarMode = InitialSensorBarMode;
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
 		waterJetParticles = WaterJet.GetComponentsInChildren<ParticleSystem>();
@@ -279,7 +281,7 @@ public class NozzleScript : MonoBehaviour {
 
 			} else {
 				Debug.Log("ir setup");
-				wiimote.SetupIRCamera(SensorBarMode);
+				wiimote.SetupIRCamera(Globals.SensorBarMode);
 
 				dRightWasPressed = true;
 			}
