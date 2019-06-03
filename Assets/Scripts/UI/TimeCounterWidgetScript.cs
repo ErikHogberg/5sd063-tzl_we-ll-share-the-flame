@@ -82,4 +82,13 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 
 		GameOverPanel.SetActive(true);
 	}
+
+	public float TimeLeft() {
+		return timer.TimeLeft();
+	}
+
+	public bool IsRunning() {
+		return timer.IsRunning();
+	}
+
 }

@@ -1,4 +1,5 @@
 ﻿// Source: https://answers.unity.com/questions/694371/how-to-search-gameobject-in-scene-by-tag-name.html
+#if UNITY_EDITOR
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
@@ -13,3 +14,4 @@ public class SelectByTagTool : MonoBehaviour {
 		Selection.objects = objects;
 	}
 }
+#endif

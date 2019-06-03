@@ -57,6 +57,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("How many seconds before regaining control after bouncing off wall")]
 	public float CollisionTime = 0.5f;
 	private Timer collisionTimer;
+	private bool collidedThisFrame = false;
+	private float knockbackSpeed = 0f;
 
 	[Tooltip("Around which axis the wheel models turn")]
 	public Vector3 WheelRotationAxis = Vector3.down;
@@ -154,10 +156,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private Vector3 ziplineTarget;
 	private float ziplineSpeed;
 
-	[Header("Optional objects")]
-	[Tooltip("UI text to output debug info to (optional)")]
-	public Text InfoPane;
-
 
 	void Start() {
 
@@ -200,8 +198,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Cursor.visible = false;
 		}
 
-
-
 	}
 
 	void Update() {
@@ -210,117 +206,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 			return;
 		}
 
+		collidedThisFrame = false;
+
 		var keyboard = Keyboard.current;
 
-		string infoText = "";
-
-		boostSlowdownTimer.Update();
-
-		if (collisionTimer.IsRunning()) {
-			collisionTimer.Update();
-			float boostSlowdownProgress = 0f;
-			if (boostSlowdownTimer.IsRunning()) {
-				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
-			}
-			transform.position += transform.forward
-			 * (leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed)
-			 * Time.deltaTime;
-
-			// float turnAngle = rightWheelSpeed - leftWheelSpeed;
-			float turnAngle = leftWheelSpeed - rightWheelSpeed;
-			turnAngle *= TurningSpeed;
-			turnAngle = Mathf.MoveTowards(turnAngle, 0, ForwardCorrectionSpeed);
-			transform.Rotate(transform.up, turnAngle * Time.deltaTime * 60);
-
-			SpinWheels();
-
-			if (boostTimer.IsRunning()) {
-				if (boostTimer.Update()) {
-					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
-					boostSlowdownTimer.Restart(BoostSlowdownTime);
-					StopBoostParticles();
-				}
-			}
-
-			// TODO: allow turning
-			// IDEA: refactor turning code into methods
-
+		if (UpdateCollision())
 			return;
-		}
 
-		if (ziplining) {
-			float ziplineDelta = ziplineSpeed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
-			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
-				ziplining = false;
-				// jumpTargetY = playerY;
-				// playerY = transform.position.y;
-				// skipUp = true;
-				// jumpTimer.Restart();
-				StartJump();
-			}
+		if (UpdateZipline())
 			return;
-		}
-
-		if (jumpTimer.IsRunning()) {
-			if (jumpTimer.Update()) {
-
-				// TODO: reset values when jump is cancelled elsewhere
-
-				Vector3 pos = transform.position;
-				playerY = jumpTargetY;
-				pos.y = playerY;
-				transform.position = pos;
-
-				useTempJumpHeight = false;
-				skipUp = false;
-				setJumpSpeed = false;
-				setJumpTime = false;
-
-				transform.localRotation = preJumpRotation;
-
-				nextStuntAngle = StuntAngle;
-				nextStuntAxis = StuntAxis;
-				nextStuntPingPong = StuntPingPong;
-
-			} else {
-
-				transform.localRotation = preJumpRotation;
-				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
-				Vector3 pos = transform.position;
-
-				float jumpProgress = 1f - jumpTimer.TimeLeft() / nextJumpTime;
-				if (skipUp) {
-					jumpProgress = 0.5f + jumpProgress * 0.5f;
-				}
-
-				float arcHeight;
-				if (useTempJumpHeight) {
-					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
-					// Debug.Log("temp: " + tempJumpHeight + ", lower threshold: " + (jumpTargetY - playerY));
-				} else {
-					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
-				}
-
-				if (jumpProgress < 0.5f) {
-					pos.y = playerY + arcHeight * JumpArc.Evaluate(jumpProgress * 2f);
-				} else {
-					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY)) * JumpArc.Evaluate(jumpProgress * 2f);
-				}
-
-				transform.position = pos;
-				float progressLoop = 1f;
-				if (nextStuntPingPong) {
-					progressLoop = 2f;
-				}
-				transform.localRotation = preJumpRotation
-				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
-
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60f);
-				return;
-			}
-		}
+		if (UpdateJump())
+			return;
 
 		// if (Mouse.current.rightButton.isPressed) {
 		if (keyboard.digit2Key.isPressed) {
@@ -329,75 +225,52 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Boost();
 		}
 
-
-		if (boostTimer.IsRunning()) {
-			if (boostTimer.Update()) {
-				float x = 0f;
-				float y = 0f;
-				if (UseMouse) {
-					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
-				}
-				if (FlipKeys) {
-					boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
-				} else {
-					boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
-				}
-				boostSlowdownTimer.Restart(BoostSlowdownTime);
-				StopBoostParticles();
-			} else {
-				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-				transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-
-				BoostAmmo -= BoostAmmoDrainRate * Time.deltaTime;
-				if (BoostAmmo < 0f) {
-					BoostAmmo = 0f;
-
-					boostTimer.Stop();
-					float x = 0f;
-					float y = 0f;
-					if (UseMouse) {
-						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
-					}
-					if (FlipKeys) {
-						boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
-					} else {
-						boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
-					}
-					boostSlowdownTimer.Restart(BoostSlowdownTime);
-					StopBoostParticles();
-				}
-
-				return;
-			}
-		} else {
-			BoostAmmo += BoostAmmoUpkeep * Time.deltaTime;
-			if (BoostAmmo > 1f) {
-				BoostAmmo = 1f;
-			}
-		}
+		if (UpdateBoost())
+			return;
 
 		UpdateWheels();
+		Turn();
+		MoveForward();
+		SpinWheels();
 
+	}
+
+	private void MoveForward() {
+		float speed = leftWheelSpeed + rightWheelSpeed;
+
+		if (drifting) {
+			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
+			transform.position += transform.forward * driftSpeed * Time.deltaTime;
+		} else {
+			float boostSlowdownProgress = 0f;
+			if (boostSlowdownTimer.IsRunning()) {
+				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+			}
+
+			float truncatedSpeed = 0f;
+			if (speed < 0f) {
+				truncatedSpeed = Mathf.Max(speed, -TopSpeed);
+			} else {
+				truncatedSpeed = Mathf.Min(speed, TopSpeed);
+			}
+
+			transform.position += transform.forward
+			* (truncatedSpeed + boostEndSpeed * boostSlowdownProgress)
+			 * Time.deltaTime;
+		}
+	}
+
+	private void Turn() {
+
+		float speed = leftWheelSpeed + rightWheelSpeed;
 		float angle = leftWheelSpeed - rightWheelSpeed;
 		angle *= TurningSpeed;
+		//angle %= Mathf.PI * 2.0f;
 
-		if ((leftWheelSpeed > 0f && leftWheelSpeed > 0f) || (leftWheelSpeed < 0f && leftWheelSpeed < 0f)) {
+		if ((leftWheelSpeed > 0f && rightWheelSpeed > 0f) || (leftWheelSpeed < 0f && rightWheelSpeed < 0f)) {
 			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
 		}
 
-
-		//angle %= Mathf.PI * 2.0f;
-
-		float speed = leftWheelSpeed + rightWheelSpeed;
-		float fastestWheelSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
-
-		// turn
-		infoText += angle + "\n";
 		if (Mathf.Abs(angle) < DriftAngleThreshold
 		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
 		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
@@ -503,25 +376,206 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
 		// IDEA: moving while drifting will alter trajectory in turning direction.
 
-		// move forward
-		infoText += speed + "\n";
-		if (drifting) {
-			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
-			transform.position += transform.forward * driftSpeed * Time.deltaTime;
-		} else {
+	}
+
+	private bool UpdateCollision() {
+		boostSlowdownTimer.Update();
+
+		if (collisionTimer.IsRunning()) {
+			collisionTimer.Update();
 			float boostSlowdownProgress = 0f;
 			if (boostSlowdownTimer.IsRunning()) {
 				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
 			}
-			transform.position += transform.forward * (Mathf.Min(speed, TopSpeed) + boostEndSpeed * boostSlowdownProgress) * Time.deltaTime;
+
+			UpdateWheels();
+			Turn();
+
+			/*
+			if (drifting) {
+				driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
+				transform.position += transform.forward * driftSpeed * Time.deltaTime;
+			} else {
+				float boostSlowdownProgress = 0f;
+				if (boostSlowdownTimer.IsRunning()) {
+					boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+				}
+
+				float truncatedSpeed = 0f;
+				if (speed < 0f) {
+					truncatedSpeed = Mathf.Max(speed, -TopSpeed);
+				} else {
+					truncatedSpeed = Mathf.Min(speed, TopSpeed);
+				}
+
+				transform.position += transform.forward
+				* (truncatedSpeed + boostEndSpeed * boostSlowdownProgress)
+				 * Time.deltaTime;
+			}
+			// */
+
+			transform.position += transform.forward
+			 * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * Time.deltaTime;
+
+			/*
+			// float turnAngle = rightWheelSpeed - leftWheelSpeed;
+			float turnAngle = leftWheelSpeed - rightWheelSpeed;
+			turnAngle *= TurningSpeed;
+			turnAngle = Mathf.MoveTowards(turnAngle, 0, ForwardCorrectionSpeed);
+			transform.Rotate(transform.up, turnAngle * Time.deltaTime * 60);
+			// */
+
+
+			SpinWheels();
+
+			if (boostTimer.IsRunning()) {
+				if (boostTimer.Update()) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
+				}
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+	private bool UpdateBoost() {
+		if (boostTimer.IsRunning()) {
+			if (boostTimer.Update()) {
+				float x = 0f;
+				float y = 0f;
+				if (UseMouse) {
+					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+				}
+				if (FlipKeys) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+				} else {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+				}
+				boostSlowdownTimer.Restart(BoostSlowdownTime);
+				StopBoostParticles();
+			} else {
+				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+
+				BoostAmmo -= BoostAmmoDrainRate * Time.deltaTime;
+				if (BoostAmmo < 0f) {
+					BoostAmmo = 0f;
+
+					boostTimer.Stop();
+					float x = 0f;
+					float y = 0f;
+					if (UseMouse) {
+						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+					}
+					if (FlipKeys) {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+					} else {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+					}
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
+				}
+
+				return true;
+			}
+		} else {
+			BoostAmmo += BoostAmmoUpkeep * Time.deltaTime;
+			if (BoostAmmo > 1f) {
+				BoostAmmo = 1f;
+			}
 		}
 
-		SpinWheels();
+		return false;
+	}
 
-		if (InfoPane != null) {
-			InfoPane.text = infoText;
+	private bool UpdateJump() {
+		if (jumpTimer.IsRunning()) {
+			if (jumpTimer.Update()) {
+
+				// TODO: reset values when jump is cancelled elsewhere
+
+				Vector3 pos = transform.position;
+				playerY = jumpTargetY;
+				pos.y = playerY;
+				transform.position = pos;
+
+				useTempJumpHeight = false;
+				skipUp = false;
+				setJumpSpeed = false;
+				setJumpTime = false;
+
+				transform.localRotation = preJumpRotation;
+
+				nextStuntAngle = StuntAngle;
+				nextStuntAxis = StuntAxis;
+				nextStuntPingPong = StuntPingPong;
+
+			} else {
+
+				transform.localRotation = preJumpRotation;
+				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
+				Vector3 pos = transform.position;
+
+				float jumpProgress = 1f - jumpTimer.TimeLeft() / nextJumpTime;
+				if (skipUp) {
+					jumpProgress = 0.5f + jumpProgress * 0.5f;
+				}
+
+				float arcHeight;
+				if (useTempJumpHeight) {
+					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+					// Debug.Log("temp: " + tempJumpHeight + ", lower threshold: " + (jumpTargetY - playerY));
+				} else {
+					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+				}
+
+				if (jumpProgress < 0.5f) {
+					pos.y = playerY + arcHeight * JumpArc.Evaluate(jumpProgress * 2f);
+				} else {
+					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY)) * JumpArc.Evaluate(jumpProgress * 2f);
+				}
+
+				transform.position = pos;
+				float progressLoop = 1f;
+				if (nextStuntPingPong) {
+					progressLoop = 2f;
+				}
+				transform.localRotation = preJumpRotation
+				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
+
+				SpinWheels();
+				return true;
+			}
 		}
 
+		return false;
+	}
+
+	private bool UpdateZipline() {
+		if (ziplining) {
+			float ziplineDelta = ziplineSpeed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
+			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
+				ziplining = false;
+				// jumpTargetY = playerY;
+				// playerY = transform.position.y;
+				// skipUp = true;
+				// jumpTimer.Restart();
+				StartJump();
+			}
+			return true;
+		}
+
+		return false;
 	}
 
 	private void SpinWheels() {
@@ -533,6 +587,51 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		// NOTE: ziplining through buildings is allowed
 		if (!EnableCollision || other.tag == "Ignore Collision" || ziplining) {
+			return;
+		}
+
+		if (other.tag == "Zipline") {
+			Debug.Log("hit zipline " + other.name + "!");
+			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
+			if (zipline != null) {
+				CancelBoost();
+
+				transform.position = zipline.transform.position;
+				ziplining = true;
+				ziplineTarget = zipline.End.transform.position;
+				// preJumpRotation = zipline.End.transform.rotation;
+
+				ziplineSpeed = zipline.Speed;
+				transform.rotation = zipline.End.transform.rotation;
+
+				switch (zipline.TargetHeightRelativity) {
+					case JumpTargetSetting.Absolute:
+						jumpTargetY = zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Relative:
+						jumpTargetY = playerY + zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Reset:
+						jumpTargetY = initialPlayerY + zipline.TargetHeight;
+						break;
+				}
+
+				playerY = ziplineTarget.y;
+
+				SetupJump(
+					zipline.TargetHeightRelativity, zipline.TargetHeight,
+					JumpTargetSetting.Relative, 1,
+					zipline.SkipUp,
+					true, zipline.EndJumpSpeed,
+					true, zipline.EndJumpTime,
+					true, zipline.End.transform.rotation,
+					// TODO: bool to use default stunt settings
+					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
+				);
+
+			} else {
+				Debug.LogError("Zipline script not found!");
+			}
 			return;
 		}
 
@@ -580,62 +679,27 @@ public class WheelchairMoveScript : MonoBehaviour {
 			return;
 		}
 
-		if (other.tag == "Zipline") {
-			Debug.Log("hit zipline " + other.name + "!");
-			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
-			if (zipline != null) {
-				CancelBoost();
-
-				transform.position = zipline.transform.position;
-				ziplining = true;
-				ziplineTarget = zipline.End.transform.position;
-				// preJumpRotation = zipline.End.transform.rotation;
-
-				ziplineSpeed = zipline.Speed;
-				transform.rotation = zipline.End.transform.rotation;
-
-				switch (zipline.TargetHeightRelativity) {
-					case JumpTargetSetting.Absolute:
-						jumpTargetY = zipline.TargetHeight;
-						break;
-					case JumpTargetSetting.Relative:
-						jumpTargetY = playerY + zipline.TargetHeight;
-						break;
-					case JumpTargetSetting.Reset:
-						jumpTargetY = initialPlayerY + zipline.TargetHeight;
-						break;
-				}
-
-				SetupJump(
-					zipline.TargetHeightRelativity, zipline.TargetHeight,
-					JumpTargetSetting.Relative, 1,
-					false,
-					true, zipline.EndJumpSpeed,
-					true, zipline.EndJumpTime,
-					true, zipline.End.transform.rotation,
-					// TODO: bool to use default stunt settings
-					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
-				);
-
-			} else {
-				Debug.LogError("Zipline script not found!");
-			}
+		Debug.Log("hit wall: " + other.name);
+		if (collidedThisFrame) {
+			Debug.Log("ignored wall: " + other.name);
 			return;
 		}
 
-		Debug.Log("hit wall: " + other.name);
+		collidedThisFrame = true;
 
 		if (jumpTimer.IsRunning()) {
 			transform.Rotate(Vector3.up, 180f);
 		} else {
 			collisionTimer.Restart(CollisionTime);
-			float tempLeftSpeed = leftWheelSpeed;
-			leftWheelSpeed = -rightWheelSpeed;
-			rightWheelSpeed = -tempLeftSpeed;
+			// float tempLeftSpeed = leftWheelSpeed;
+			// leftWheelSpeed = -rightWheelSpeed;
+			// rightWheelSpeed = -tempLeftSpeed;
+			knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
+			knockbackSpeed *= CollisionSlowdownMultiplier;
 		}
 
-		leftWheelSpeed *= CollisionSlowdownMultiplier;
-		rightWheelSpeed *= CollisionSlowdownMultiplier;
+		// leftWheelSpeed *= CollisionSlowdownMultiplier;
+		// rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
 	private void UpdateWheels() {
