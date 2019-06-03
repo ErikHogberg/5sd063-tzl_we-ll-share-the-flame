@@ -4540,10 +4540,20 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7567897765607471921, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6930276234000768547, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: m_Name
       value: Direction Arrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261964860452413203, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2291411879976372067, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}

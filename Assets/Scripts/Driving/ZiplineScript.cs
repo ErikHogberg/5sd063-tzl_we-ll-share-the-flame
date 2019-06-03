@@ -30,7 +30,7 @@ public class ZiplineScript : MonoBehaviour
 		scale.z *= Vector3.Distance(transform.position, End.transform.position) / Line.transform.lossyScale.z;
         Line.transform.localScale = scale;
 
-		Line.transform.position = transform.position + new Vector3(0f,2.1f,0f);
+		Line.transform.position = transform.position + new Vector3(0f,2.5f,0f);
 
 	}
 

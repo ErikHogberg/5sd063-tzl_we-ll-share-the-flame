@@ -21,6 +21,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject RightBoostFoam;
 	private ParticleSystem[] BoostFoamParticles;
 
+	public GameObject StandingKid;
+	public GameObject StandingKidZipline;
+
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
 
@@ -162,6 +165,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Start() {
 
 		Globals.Player = this;
+
+		StandingKid.SetActive(true);
+		StandingKidZipline.SetActive(false);
 
 		nextJumpTime = JumpTime;
 		nextStuntAngle = StuntAngle;
@@ -390,8 +396,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
 			}
 
-			UpdateWheels();
-			Turn();
+			// UpdateWheels();
+			// Turn();
 
 			/*
 			if (drifting) {
@@ -416,8 +422,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 			// */
 
+			// transform.position += transform.forward
+			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			//  * Time.deltaTime;
 			transform.position += transform.forward
-			 * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * (leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed)
 			 * Time.deltaTime;
 
 			/*
@@ -568,6 +577,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
 			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
 				ziplining = false;
+
+				StandingKid.SetActive(true);
+				StandingKidZipline.SetActive(false);
+				StopBoostParticles();
+
 				// jumpTargetY = playerY;
 				// playerY = transform.position.y;
 				// skipUp = true;
@@ -602,6 +616,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 				ziplining = true;
 				ziplineTarget = zipline.End.transform.position;
 				// preJumpRotation = zipline.End.transform.rotation;
+
+				StandingKid.SetActive(false);
+				StandingKidZipline.SetActive(true);
+				StartBoostParticles();
 
 				ziplineSpeed = zipline.Speed;
 				transform.rotation = zipline.End.transform.rotation;
@@ -697,15 +715,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.Rotate(Vector3.up, 180f);
 		} else {
 			collisionTimer.Restart(CollisionTime);
-			// float tempLeftSpeed = leftWheelSpeed;
-			// leftWheelSpeed = -rightWheelSpeed;
-			// rightWheelSpeed = -tempLeftSpeed;
-			knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
-			knockbackSpeed *= CollisionSlowdownMultiplier;
+			float tempLeftSpeed = leftWheelSpeed;
+			leftWheelSpeed = -rightWheelSpeed;
+			rightWheelSpeed = -tempLeftSpeed;
+			// knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
+			// knockbackSpeed *= CollisionSlowdownMultiplier;
 		}
 
-		// leftWheelSpeed *= CollisionSlowdownMultiplier;
-		// rightWheelSpeed *= CollisionSlowdownMultiplier;
+		leftWheelSpeed *= CollisionSlowdownMultiplier;
+		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
 	private void UpdateWheels() {

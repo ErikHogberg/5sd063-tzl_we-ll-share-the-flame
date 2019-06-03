@@ -119,14 +119,16 @@ namespace Assets.Scripts {
 				score += points;
 				Debug.Log("No Score multiplier bar widget!");
 			}
-			Globals.NotificationPanel.Notify(points.ToString());
+			if (NotificationPanel != null) {
+				NotificationPanel.Notify(points.ToString());
+			}
 		}
 
 		public static void ResetScore() {
 			score = 0f;
 		}
 
-		public static void ToggleIr(){
+		public static void ToggleIr() {
 			irToggle = !irToggle;
 			Debug.Log("ir set to " + irToggle);
 		}
