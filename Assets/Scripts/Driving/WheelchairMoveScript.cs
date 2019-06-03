@@ -26,6 +26,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject LeftBoostFoam;
 	public GameObject RightBoostFoam;
 	private ParticleSystem[] BoostFoamParticles;
+	public AnchorScript NozzleAnchor;
 
 	public GameObject StandingKid;
 	public GameObject StandingKidZipline;
@@ -220,6 +221,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	void Update() {
+
+		NozzleAnchor.UpdateAnchor();
 
 		if (DisableMovement) {
 			UpdateWheels();
