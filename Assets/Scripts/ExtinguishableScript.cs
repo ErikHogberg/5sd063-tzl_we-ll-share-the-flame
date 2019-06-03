@@ -8,6 +8,15 @@ public class ExtinguishableScript : MonoBehaviour {
 	public float ScoreWorth = 10f;
 	public RespawnExtinguishableScript Respawner;
 
+	//Mick start
+	public AudioClip ExtinguishSFX;
+	public AudioSource AS_Extinguish;
+
+	public void Start() {
+		AS_Extinguish.clip = ExtinguishSFX;
+	}
+	//Mick end
+
 	private void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
 			Extinguish();
@@ -28,6 +37,9 @@ public class ExtinguishableScript : MonoBehaviour {
 			Respawner.StartRespawnTimer();
 		}
 
+		//Mick start
+		AS_Extinguish.Play();
+		//Mick end
 		Globals.AddScore(ScoreWorth, 0.1f);
 
 		gameObject.SetActive(false);

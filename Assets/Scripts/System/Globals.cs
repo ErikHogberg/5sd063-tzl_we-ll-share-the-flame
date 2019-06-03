@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using WiimoteApi;
 
 namespace Assets.Scripts {
 
@@ -88,7 +89,7 @@ namespace Assets.Scripts {
 
 		// Wiimote
 		public static bool irToggle = false;
-
+		public static IRDataType SensorBarMode = IRDataType.BASIC;
 
 		// UI
 		public static NotificationWidgetScript NotificationPanel;
