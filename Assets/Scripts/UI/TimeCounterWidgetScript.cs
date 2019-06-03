@@ -20,6 +20,7 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 	public bool RestartOnEnd = false;
 	public string NextScene;
 
+	private bool hasNotifiedLowTime = false;
 
 	void Start() {
 
@@ -60,6 +61,11 @@ public class TimeCounterWidgetScript : MonoBehaviour {
 			EndLevel();
 
 		} else if (timer.IsRunning()) {
+
+			if (!hasNotifiedLowTime && timer.TimeLeft() < 30f) {
+				Globals.CollectibleNotificationPanel.Notify("Time is almost out!");
+				hasNotifiedLowTime = true;
+			}
 
 			int timeLeft = Mathf.FloorToInt(timer.TimeLeft() * 100);
 
