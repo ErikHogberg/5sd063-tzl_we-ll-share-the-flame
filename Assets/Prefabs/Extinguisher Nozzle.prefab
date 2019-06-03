@@ -50,7 +50,9 @@ MonoBehaviour:
   controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
   WaterJet: {fileID: 6197879766139212088}
   Foam: {fileID: 6576014808754426352}
-  particleModeUseWater: 0
+  NozzleModel: {fileID: 0}
+  DisableFiring: 0
+  particleModeUseWater: 1
   AmmoAmount: 1
   AmmoConsumptionRate: 0
   turnSpeedX: 10
@@ -71,7 +73,6 @@ MonoBehaviour:
   WiimoteYawSensitivity: 0.35
   WiimotePitchSensitivity: -0.35
   WiimoteRollSensitivity: 1
-  SensorBarMode: 1
   SensorBarAngleScale: {x: 30, y: -30}
   SensorBarAngleOffset: {x: 0, y: 75}
   IrOuterDeadzone: {x: 1, y: 1}
@@ -324,21 +325,6 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: InitialModule.rotation3D
@@ -350,6 +336,21 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.2
