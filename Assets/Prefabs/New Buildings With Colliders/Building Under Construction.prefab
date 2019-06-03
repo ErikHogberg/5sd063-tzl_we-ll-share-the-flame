@@ -11,8 +11,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5000005, z: 4.9500012}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.5000021, y: 2.4999998, z: 3.056607}
+  m_Center: {x: 0, y: -1.00667714e-14, z: -0.94669455}
 --- !u!114 &1373339866673355277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,14 +64,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7691015972996981568}
     m_Modifications:
-    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
-      propertyPath: m_Name
-      value: buildingUnderConstruction
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
-      propertyPath: m_TagString
-      value: Building
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.25
@@ -127,6 +119,14 @@ PrefabInstance:
     - target: {fileID: 400000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_LocalScale.z
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_Name
+      value: buildingUnderConstruction
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_Materials.Array.data[0]
