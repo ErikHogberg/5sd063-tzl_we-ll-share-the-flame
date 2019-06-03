@@ -17,10 +17,16 @@ public class CollectiblePanelScript : MonoBehaviour {
 	private int totalGraffiti = 0;
 
 	private int elementals = 0;
-
 	private int cats = 0;
-
 	private int graffiti = 0;
+
+	public float ElementalScoreWorth = 1f;
+	public float CatScoreWorth = 1f;
+	public float GraffitiScoreWorth = 1f;
+
+	public float ElementalScoreMultiplierIncrease = 1f;
+	public float CatScoreMultiplierIncrease = 1f;
+	public float GraffitiScoreWMultiplierIncrease = 1f;
 
 
 	void Start() {
@@ -59,12 +65,15 @@ public class CollectiblePanelScript : MonoBehaviour {
 		switch (type) {
 			case CollectibleType.BigBlueElemental:
 				elementals += 1;
+				Globals.AddScore(ElementalScoreWorth*elementals, ElementalScoreMultiplierIncrease);
 				break;
 			case CollectibleType.Cat:
 				cats += 1;
+				Globals.AddScore(CatScoreWorth * cats, CatScoreMultiplierIncrease);
 				break;
 			case CollectibleType.Graffiti:
 				graffiti += 1;
+				Globals.AddScore(GraffitiScoreWorth * elementals, GraffitiScoreWMultiplierIncrease);
 				break;
 		}
 
