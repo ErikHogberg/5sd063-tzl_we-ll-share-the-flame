@@ -61,7 +61,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float CollisionTime = 0.5f;
 	private Timer collisionTimer;
 	private bool collidedThisFrame = false;
-	private float knockbackSpeed = 0f;
+	// private float knockbackSpeed = 0f;
+	public float MinCollisionKnockbackSpeed = 0.1f;
 
 	[Tooltip("Around which axis the wheel models turn")]
 	public Vector3 WheelRotationAxis = Vector3.down;
@@ -211,6 +212,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Update() {
 
 		if (DisableMovement) {
+			UpdateWheels();
+			SpinWheels();
 			return;
 		}
 
@@ -425,8 +428,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// transform.position += transform.forward
 			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
 			//  * Time.deltaTime;
+
+			float tempSpeed = leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed;
+			if (tempSpeed < 0f) {
+				tempSpeed = Mathf.Min(tempSpeed, -MinCollisionKnockbackSpeed);
+			} else {
+				tempSpeed = Mathf.Max(tempSpeed, MinCollisionKnockbackSpeed);
+			}
+
 			transform.position += transform.forward
-			 * (leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * tempSpeed
 			 * Time.deltaTime;
 
 			/*
