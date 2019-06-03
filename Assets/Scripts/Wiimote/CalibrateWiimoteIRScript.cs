@@ -8,13 +8,16 @@ using WiimoteApi;
 public class CalibrateWiimoteIRScript : MonoBehaviour {
 	void Update() {
 		Keyboard keyboard = Keyboard.current;
-		if (keyboard.digit8Key.wasPressedThisFrame) {
+		if (Input.GetKeyDown("8")) {
 			Globals.irToggle = false;
+			Debug.Log("Disabled IR");
 		}
-		if (keyboard.digit9Key.wasPressedThisFrame) {
+		if (Input.GetKeyDown("9")) {
 			Globals.irToggle = true;
+			Debug.Log("Enabled IR");
 		}
-		if (keyboard.digit0Key.wasPressedThisFrame) {
+		if (Input.GetKeyDown("0")) {
+			Debug.Log("Calibrated IR");
 			if (WiimoteManager.HasWiimote()) {
                 Wiimote wiimote = WiimoteManager.Wiimotes[0];
 				wiimote.SetupIRCamera(Globals.SensorBarMode);

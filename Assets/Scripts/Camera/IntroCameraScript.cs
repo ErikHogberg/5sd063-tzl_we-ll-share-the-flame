@@ -50,7 +50,9 @@ public class IntroCameraScript : MonoBehaviour {
 				Globals.CameraScript.enabled = true;
 				Globals.Player.DisableMovement = false;
 				this.enabled = false;
-				Globals.CollectibleNotificationPanel.Notify("Leave the circle to start!");
+				if (Globals.CollectibleNotificationPanel != null) {
+					Globals.CollectibleNotificationPanel.Notify("Leave the circle to start!");
+				}
 				return;
 			}
 			SetCameraSpot();
