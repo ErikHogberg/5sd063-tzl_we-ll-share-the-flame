@@ -9,6 +9,12 @@ using UnityEngine.UI;
 
 public class WheelchairMoveScript : MonoBehaviour {
 
+	//Mick start
+	[Header("Sound FX")]
+	public AudioSource AS_Boing;
+	public AudioClip SFX_Boing;
+	//Mick end
+
 	[Header("Required Objects")]
 	public GameObject WheelChair;
 	public GameObject LeftWheel;
@@ -61,7 +67,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float CollisionTime = 0.5f;
 	private Timer collisionTimer;
 	private bool collidedThisFrame = false;
-	private float knockbackSpeed = 0f;
+	// private float knockbackSpeed = 0f;
+	public float MinCollisionKnockbackSpeed = 0.1f;
 
 	[Tooltip("Around which axis the wheel models turn")]
 	public Vector3 WheelRotationAxis = Vector3.down;
@@ -164,6 +171,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	void Start() {
 
+		//Mick start
+		AS_Boing.clip = SFX_Boing;
+		//Mick end
+
 		Globals.Player = this;
 
 		StandingKid.SetActive(true);
@@ -211,6 +222,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Update() {
 
 		if (DisableMovement) {
+			UpdateWheels();
+			SpinWheels();
 			return;
 		}
 
@@ -425,8 +438,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 			// transform.position += transform.forward
 			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
 			//  * Time.deltaTime;
+
+			float tempSpeed = leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed;
+			if (tempSpeed < 0f) {
+				tempSpeed = Mathf.Min(tempSpeed, -MinCollisionKnockbackSpeed);
+			} else {
+				tempSpeed = Mathf.Max(tempSpeed, MinCollisionKnockbackSpeed);
+			}
+
 			transform.position += transform.forward
-			 * (leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * tempSpeed
 			 * Time.deltaTime;
 
 			/*
@@ -704,6 +725,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
+
+		//Mick Start
+		AS_Boing.Play();
+		//Mick End
+
 		if (collidedThisFrame) {
 			Debug.Log("ignored wall: " + other.name);
 			return;
@@ -819,6 +845,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	public void StartBoostParticles() {
+
 		foreach (ParticleSystem particles in BoostFoamParticles) {
 			particles.Play();
 		}
