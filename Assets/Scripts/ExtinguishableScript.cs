@@ -6,7 +6,18 @@ using UnityEngine;
 public class ExtinguishableScript : MonoBehaviour {
 
 	public float ScoreWorth = 10f;
+	public float ScoreMultiplierIncrease = 0.1f;
+
 	public RespawnExtinguishableScript Respawner;
+
+	//Mick start
+	public AudioClip ExtinguishSFX;
+	public AudioSource AS_Extinguish;
+
+	public void Start() {
+		AS_Extinguish.clip = ExtinguishSFX;
+	}
+	//Mick end
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
@@ -21,14 +32,17 @@ public class ExtinguishableScript : MonoBehaviour {
 	public void Extinguish() {
 		// Debug.Log("Extinguished " + name);
 		//Globals.NotificationPanel.Notify("Extinguished " + name + " for " + ScoreWorth + " points!");
-		Globals.NotificationPanel.Notify(ScoreWorth.ToString());
+		// Globals.NotificationPanel.Notify(ScoreWorth.ToString());
 
 		// RespawnExtinguishableScript respawner = GetComponentInParent<RespawnExtinguishableScript>();
 		if (Respawner != null) {
 			Respawner.StartRespawnTimer();
 		}
 
-		Globals.AddScore(ScoreWorth, 0.1f);
+		//Mick start
+		AS_Extinguish.Play();
+		//Mick end
+		Globals.AddScore(ScoreWorth, ScoreMultiplierIncrease);
 
 		gameObject.SetActive(false);
 	}
