@@ -19507,6 +19507,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Default fire (blue)
       objectReference: {fileID: 0}
+    - target: {fileID: 2879674794088099351, guid: e4cd63e2f26b90649b99e6e7c22562dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6969033906517470927, guid: e4cd63e2f26b90649b99e6e7c22562dd,
         type: 3}
       propertyPath: m_LocalPosition.x
