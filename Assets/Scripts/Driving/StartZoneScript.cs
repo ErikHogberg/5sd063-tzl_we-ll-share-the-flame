@@ -37,6 +37,9 @@ public class StartZoneScript : MonoBehaviour {
 			Globals.TimerPanel.StartCountdown();
 
 			Globals.Nozzle.DisableFiring = false;
+			if (Globals.CollectibleNotificationPanel != null) {
+				Globals.CollectibleNotificationPanel.Notify("Game Start!");
+			}
 
 			gameObject.SetActive(false);
 		}
