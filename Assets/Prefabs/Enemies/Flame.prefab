@@ -9481,7 +9481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreWorth: 50
   Respawner: {fileID: 0}
-  ExtinguishSFX: {fileID: 8300000, guid: d2b5237de4693ba44b7ae08bdd5eeee8, type: 3}
+  ExtinguishSFX: {fileID: 8300000, guid: bdfe3dfefce04f34dbd915f91c81416b, type: 3}
   AS_Extinguish: {fileID: 4967611615189093881}
 --- !u!1 &2767164046427916501
 GameObject:
@@ -14326,8 +14326,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.5
+  m_Pitch: 0.9
   Loop: 0
   Mute: 0
   Spatialize: 0
