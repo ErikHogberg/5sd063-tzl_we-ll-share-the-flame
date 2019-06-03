@@ -1,0 +1,982 @@
+﻿using Assets.Scripts;
+using Assets.Scripts.Utilities;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Experimental.Input;
+using UnityEngine.UI;
+
+public class WheelchairMoveScript : MonoBehaviour {
+
+	//Mick start
+	[Header("Sound FX")]
+	public AudioSource AS_Boing;
+	public AudioClip SFX_Boing;
+	//Mick end
+
+	[Header("Required Objects")]
+	public GameObject WheelChair;
+	public GameObject LeftWheel;
+	public GameObject RightWheel;
+	public ParticleSystem LeftWheelSparks;
+	public ParticleSystem RightWheelSparks;
+	private TrailRenderer leftWheelTrail;
+	private TrailRenderer rightWheelTrail;
+	public GameObject LeftBoostFoam;
+	public GameObject RightBoostFoam;
+	private ParticleSystem[] BoostFoamParticles;
+	public AnchorScript NozzleAnchor;
+
+	public GameObject StandingKid;
+	public GameObject StandingKidZipline;
+
+	public GameObject TrajectoryArrow;
+	public GameObject DirectionArrow;
+
+	[Tooltip("How fast the wheels spin compared to the movement speed")]
+	public float WheelAnimationSpeed = 1.0f;
+
+	[Header("Movement")]
+	[Tooltip("Disables all movement, stops the script from updating")]
+	public bool DisableMovement = false;
+	[Tooltip("Flips keys and trackballs")]
+	public bool FlipKeys = false;
+	[Tooltip("Enable trackballs, disables keys")]
+	public bool UseMouse = false;
+	[Tooltip("Adjustments for trackball direction and relative (to eachother) speed")]
+	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
+
+	[Tooltip("Movement speed multiplier, for both wheels, when using either trackballs or keys")]
+	public float Speed = 1.0f;
+	[Tooltip("How much the difference between the speed of the wheels causes the wheelchair to turn")]
+	public float TurningSpeed = 1.0f;
+	[Tooltip("Acceleration speed for keys (not used with trackballs)")]
+	public float Acceleration = 1.0f;
+	[Tooltip("How quickly the wheelchair stops (keys only)")]
+	public float Damping = 0.3f;
+	[Tooltip("How different the wheel speeds can be (in abstract \"speed\" units) and still go straight forward")]
+	public float ForwardCorrectionSpeed = 0.2f;
+	[Tooltip("Top speed of each wheel")]
+	public float TopSpeed = 1.0f;
+
+	public bool EnableCollision = false;
+	[Tooltip("Scale of how much speed is kept when bouncing off a wall")]
+	public float CollisionSlowdownMultiplier = 1.0f;
+
+	[Tooltip("How many seconds before regaining control after bouncing off wall")]
+	public float CollisionTime = 0.5f;
+	private Timer collisionTimer;
+	private bool collidedThisFrame = false;
+	// private float knockbackSpeed = 0f;
+	public float MinCollisionKnockbackSpeed = 0.1f;
+
+	[Tooltip("Around which axis the wheel models turn")]
+	public Vector3 WheelRotationAxis = Vector3.down;
+
+	// Drifting
+	private bool drifting = false;
+	[Header("Drifting")]
+	[Tooltip("How fast the wheelchair has to turn before losing traction")]
+	public float DriftAngleThreshold = 1.0f;
+	[Tooltip("How fast the wheelchair has to move before potentially losing traction")]
+	public float DriftStartSpeedThreshold = 5.0f;
+	[Tooltip("How slow the wheelchair has to move before gaining traction")]
+	public float DriftEndSpeedThreshold = 5.0f;
+	// public float DriftDuration = 1.0f;
+	[Tooltip("How quickly the drift direction follows the wheelchair facing")]
+	public float DriftDampingAdd = 1.0f;
+	[Tooltip("How much the wheel speed influences how quickly the drift direction follows the wheelchair facing")]
+	public float DriftDampingMul = 0.2f;
+	//private Timer DriftTimer;
+	[Tooltip("How fast the wheelchair turns while drifting")]
+	public float DriftTurnScale = 0.1f;
+	[Tooltip("How much the wheel speed influences drifting movement speed, a scale of how much it adds to it")]
+	public float DriftSpeedAddScale = 0.1f;
+	private float driftAngle = 0f;
+
+	// private float driftAngle = 0.0f;
+	private float driftSpeed = 0.0f;
+	[Tooltip("How quickly the player loses speed while drifting")]
+	public float DriftDamping = 1.0f;
+
+	[HideInInspector]
+	public float leftWheelSpeed = 0.0f;
+	[HideInInspector]
+	public float rightWheelSpeed = 0.0f;
+
+
+	[Header("Ramp jumping")]
+	// Ramp jumping	
+	[Tooltip("How long the wheelchair is in the air when jumping")]
+	public float JumpTime = 1.0f;
+	[Tooltip("How high the wheelchair jumps (unless specified by the ramps settings)")]
+	public float JumpHeight = 1.0f;
+	private bool useTempJumpHeight = false;
+	private float tempJumpHeight = 1.0f;
+	private Timer jumpTimer;
+	private float jumpSpeed;
+	private float initialPlayerY;
+	private float playerY;
+	private float jumpTargetY;
+	[Tooltip("The curve of the jumping arc (needs to be set to \"ping pong\" to mirror the graph when overflowing)")]
+	public AnimationCurve JumpArc;
+	private bool skipUp = false;
+	private bool setJumpSpeed = false;
+	private float nextJumpSpeed = 1f;
+	private bool setJumpTime = false;
+	private float nextJumpTime = 1f;
+	[Tooltip("How much the wheelchair rotates when jumping")]
+	public float StuntAngle = 360f;
+	[Tooltip("Around which axis the wheelchair rotates when jumping")]
+	public Vector3 StuntAxis = new Vector3(1f, 0f, 0f);
+	private Vector3 nextStuntAxis = new Vector3(1f, 0f, 0f);
+	[Tooltip("Animation curve for the rotation of the wheelchair when jumping")]
+	public AnimationCurve StuntCurve;
+	private float nextStuntAngle;
+	[Tooltip("Whether or not the jump animation curve should repeat (allows setting the curve to \"ping pong\" to loop back)")]
+	public bool StuntPingPong = false;
+	private bool nextStuntPingPong = false;
+	public float JumpScoreWorth = 100f;
+	public float JumpScoreMultiplierWorth = 0.1f;
+
+	private Quaternion preJumpRotation;
+
+	[Header("Boosting")]
+	[Tooltip("How Long the player boosts once triggered")]
+	public float BoostTime = 2.5f;
+	private Timer boostTimer;
+	[Tooltip("How fast the wheelchair stops after boosting (the remaining boost speed is added to the wheel speed, shrinking to 0 as it expires), trackballs only")]
+	public float BoostSlowdownTime = 1f;
+	private Timer boostSlowdownTimer;
+	[Tooltip("How fast the wheelchair accelerates when boosting")]
+	public float BoostAcceleration = 1f;
+	[Tooltip("Max speed when boosting")]
+	public float BoostMaxSpeed = 20f;
+	private float boostEndSpeed;
+
+	[Tooltip("Ammo amount, in %")]
+	public float BoostAmmo = 1f;
+	[Tooltip("How fast (% per sec) the boost canister is drained when used")]
+	public float BoostAmmoDrainRate = .1f;
+	[Tooltip("How fast (% per sec) the boost canister is refilled when not used")]
+	public float BoostAmmoUpkeep = .1f;
+	[Tooltip("How much (in %) the boost canister needs to be filled to start boosting")]
+	public float BoostAmmoDisableTreshold = .25f;
+
+	// Zipline
+	private bool ziplining = false;
+	private Vector3 ziplineTarget;
+	private float ziplineSpeed;
+
+
+	void Start() {
+
+		//Mick start
+		AS_Boing.clip = SFX_Boing;
+		//Mick end
+
+		Globals.Player = this;
+
+		StandingKid.SetActive(true);
+		StandingKidZipline.SetActive(false);
+
+		nextJumpTime = JumpTime;
+		nextStuntAngle = StuntAngle;
+		nextStuntAxis = StuntAxis;
+		nextStuntPingPong = StuntPingPong;
+
+		//DriftTimer = new Timer(DriftDuration);
+		//DriftTimer.Stop();
+
+		initialPlayerY = transform.position.y;
+		playerY = initialPlayerY;
+		jumpTargetY = playerY;
+
+		leftWheelTrail = LeftWheelSparks.GetComponentInChildren<TrailRenderer>();
+		rightWheelTrail = RightWheelSparks.GetComponentInChildren<TrailRenderer>();
+
+		BoostFoamParticles = LeftBoostFoam.GetComponentsInChildren<ParticleSystem>();
+		BoostFoamParticles = BoostFoamParticles.Concat(RightBoostFoam.GetComponentsInChildren<ParticleSystem>()).ToArray();
+
+		StopBoostParticles();
+
+		jumpTimer = new Timer(JumpTime);
+		jumpTimer.Stop();
+
+		boostTimer = new Timer(BoostTime);
+		boostTimer.Stop();
+
+		boostSlowdownTimer = new Timer(BoostSlowdownTime);
+		boostSlowdownTimer.Stop();
+
+		collisionTimer = new Timer(CollisionTime);
+		collisionTimer.Stop();
+
+		if (UseMouse) {
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+
+	}
+
+	// private void FixedUpdate() {
+	// 	NozzleAnchor.UpdateAnchor();
+
+	// }
+
+	void Update() {
+
+
+		if (DisableMovement) {
+			UpdateWheels();
+			SpinWheels();
+			return;
+		}
+
+		collidedThisFrame = false;
+
+		var keyboard = Keyboard.current;
+
+		if (UpdateCollision()) {
+			NozzleAnchor.UpdateAnchor();
+			return;
+		}
+
+		if (UpdateZipline()) {
+			NozzleAnchor.UpdateAnchor();
+			return;
+		}
+		if (UpdateJump()) {
+			NozzleAnchor.UpdateAnchor();
+			return;
+		}
+
+		// if (Mouse.current.rightButton.isPressed) {
+		if (keyboard.digit2Key.isPressed) {
+			// && !boostTimer.IsRunning()) {
+			// boostTimer.Restart(BoostTime);
+			Boost();
+		}
+
+		if (UpdateBoost()) {
+			NozzleAnchor.UpdateAnchor();
+			return;
+		}
+
+		UpdateWheels();
+		Turn();
+		MoveForward();
+		SpinWheels();
+
+		NozzleAnchor.UpdateAnchor();
+
+
+	}
+
+	private void MoveForward() {
+		float speed = leftWheelSpeed + rightWheelSpeed;
+
+		if (drifting) {
+			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
+			transform.position += transform.forward * driftSpeed * Time.deltaTime;
+		} else {
+			float boostSlowdownProgress = 0f;
+			if (boostSlowdownTimer.IsRunning()) {
+				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+			}
+
+			float truncatedSpeed = 0f;
+			if (speed < 0f) {
+				truncatedSpeed = Mathf.Max(speed, -TopSpeed);
+			} else {
+				truncatedSpeed = Mathf.Min(speed, TopSpeed);
+			}
+
+			transform.position += transform.forward
+			* (truncatedSpeed + boostEndSpeed * boostSlowdownProgress)
+			 * Time.deltaTime;
+		}
+	}
+
+	private void Turn() {
+
+		float speed = leftWheelSpeed + rightWheelSpeed;
+		float angle = leftWheelSpeed - rightWheelSpeed;
+		angle *= TurningSpeed;
+		//angle %= Mathf.PI * 2.0f;
+
+		if ((leftWheelSpeed > 0f && rightWheelSpeed > 0f) || (leftWheelSpeed < 0f && rightWheelSpeed < 0f)) {
+			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+		}
+
+		if (Mathf.Abs(angle) < DriftAngleThreshold
+		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
+		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
+		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
+		) {
+			// NOTE: Not drifring
+
+			if (drifting) {
+				drifting = false;
+				// NOTE: On drift end
+
+				//float wheelchairAngle = 0.0f;
+				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
+				transform.Rotate(transform.up, wheelchairAngle * axis.y * Time.deltaTime * 60f);
+
+				driftSpeed = 0;
+
+				LeftWheelSparks.Stop();
+				RightWheelSparks.Stop();
+				leftWheelTrail.emitting = false;
+				rightWheelTrail.emitting = false;
+			}
+
+			transform.Rotate(transform.up, angle * Time.deltaTime * 60);
+			WheelChair.transform.localRotation = Quaternion.identity;
+			TrajectoryArrow.SetActive(false);
+			DirectionArrow.SetActive(false);
+
+		} else {
+
+			// NOTE: Drifring
+			if (!drifting) {
+				drifting = true;
+				// NOTE: On drift start
+
+				driftSpeed = speed;
+				// driftAngle = 0f;
+
+				LeftWheelSparks.Play();
+				RightWheelSparks.Play();
+				leftWheelTrail.emitting = true;
+				rightWheelTrail.emitting = true;
+
+			}
+
+			float driftSign = 1f;//angle / Mathf.Abs(angle);
+			if (angle < 0f) {
+				driftSign = -1;
+			}
+			driftAngle = (Mathf.Abs(angle) - DriftAngleThreshold) * DriftTurnScale * driftSign;
+			// TODO: reduce drift turn scale as movement speed increases
+			// driftAngle += angle * DriftTurnScale * DriftTurnScale;
+
+			//WheelChair.transform.Rotate(transform.up, angle);
+			WheelChair.transform.localRotation = Quaternion.AngleAxis(
+				// (Mathf.Abs(angle) - DriftAngleThreshold) * (angle / Mathf.Abs(angle)) * Mathf.Rad2Deg,
+				driftAngle * Mathf.Rad2Deg,
+				Vector3.up
+			);
+
+			// TODO: move trajectory angle towards player angle
+			float trajectoryAngleChange = angle;
+			//angle %= Mathf.PI;
+			// if (Mathf.Abs( angle)*DriftScale > Mathf.PI + DriftAngleThreshold) {
+			if (driftAngle > Mathf.PI) {
+				trajectoryAngleChange *= -1.0f;
+
+				// TODO: equalize wheel speed
+				// float totalSpeed = leftWheelSpeed + rightWheelSpeed;
+
+
+			}
+
+			float trajectorySpeedChange = speed;
+			/*
+			if (Mathf.Abs(angle) > Mathf.PI / 2.0f + DriftAngleThreshold) {
+				trajectorySpeedChange *= -1.0f;
+
+			}
+			// */
+
+			transform.Rotate(
+				transform.up,
+				(
+					trajectoryAngleChange
+					* trajectorySpeedChange
+					* DriftDampingMul
+					+ DriftDampingAdd
+				)
+				* Time.deltaTime
+			);
+			// TODO: don't gain speed while drifting
+			// IDEA: use wheel speed to increase trajectory influence during drift
+
+			// TODO: don't stop drifting until matching direction
+			TrajectoryArrow.SetActive(true);
+			DirectionArrow.SetActive(true);
+		}
+
+		// TODO: drifting
+		// IDEA: compare turn delta to velocity, trigger drift event if turning too fast.
+		// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
+		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
+		// IDEA: moving while drifting will alter trajectory in turning direction.
+
+	}
+
+	private bool UpdateCollision() {
+		boostSlowdownTimer.Update();
+
+		if (collisionTimer.IsRunning()) {
+			collisionTimer.Update();
+			float boostSlowdownProgress = 0f;
+			if (boostSlowdownTimer.IsRunning()) {
+				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+			}
+
+			// UpdateWheels();
+			// Turn();
+
+			/*
+			if (drifting) {
+				driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
+				transform.position += transform.forward * driftSpeed * Time.deltaTime;
+			} else {
+				float boostSlowdownProgress = 0f;
+				if (boostSlowdownTimer.IsRunning()) {
+					boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
+				}
+
+				float truncatedSpeed = 0f;
+				if (speed < 0f) {
+					truncatedSpeed = Mathf.Max(speed, -TopSpeed);
+				} else {
+					truncatedSpeed = Mathf.Min(speed, TopSpeed);
+				}
+
+				transform.position += transform.forward
+				* (truncatedSpeed + boostEndSpeed * boostSlowdownProgress)
+				 * Time.deltaTime;
+			}
+			// */
+
+			// transform.position += transform.forward
+			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			//  * Time.deltaTime;
+
+			float tempSpeed = leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed;
+			if (tempSpeed < 0f) {
+				tempSpeed = Mathf.Min(tempSpeed, -MinCollisionKnockbackSpeed);
+			} else {
+				tempSpeed = Mathf.Max(tempSpeed, MinCollisionKnockbackSpeed);
+			}
+
+			transform.position += transform.forward
+			 * tempSpeed
+			 * Time.deltaTime;
+
+			/*
+			// float turnAngle = rightWheelSpeed - leftWheelSpeed;
+			float turnAngle = leftWheelSpeed - rightWheelSpeed;
+			turnAngle *= TurningSpeed;
+			turnAngle = Mathf.MoveTowards(turnAngle, 0, ForwardCorrectionSpeed);
+			transform.Rotate(transform.up, turnAngle * Time.deltaTime * 60);
+			// */
+
+
+			SpinWheels();
+
+			if (boostTimer.IsRunning()) {
+				if (boostTimer.Update()) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
+				}
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+	private bool UpdateBoost() {
+		if (boostTimer.IsRunning()) {
+			if (boostTimer.Update()) {
+				float x = 0f;
+				float y = 0f;
+				if (UseMouse) {
+					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+				}
+				if (FlipKeys) {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+				} else {
+					boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+				}
+				boostSlowdownTimer.Restart(BoostSlowdownTime);
+				StopBoostParticles();
+			} else {
+				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+
+				BoostAmmo -= BoostAmmoDrainRate * Time.deltaTime;
+				if (BoostAmmo < 0f) {
+					BoostAmmo = 0f;
+
+					boostTimer.Stop();
+					float x = 0f;
+					float y = 0f;
+					if (UseMouse) {
+						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+					}
+					if (FlipKeys) {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+					} else {
+						boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+					}
+					boostSlowdownTimer.Restart(BoostSlowdownTime);
+					StopBoostParticles();
+				}
+
+				return true;
+			}
+		} else {
+			BoostAmmo += BoostAmmoUpkeep * Time.deltaTime;
+			if (BoostAmmo > 1f) {
+				BoostAmmo = 1f;
+			}
+		}
+
+		return false;
+	}
+
+	private bool UpdateJump() {
+		if (jumpTimer.IsRunning()) {
+			if (jumpTimer.Update()) {
+
+				// TODO: reset values when jump is cancelled elsewhere
+
+				Vector3 pos = transform.position;
+				playerY = jumpTargetY;
+				pos.y = playerY;
+				transform.position = pos;
+
+				useTempJumpHeight = false;
+				skipUp = false;
+				setJumpSpeed = false;
+				setJumpTime = false;
+
+				transform.localRotation = preJumpRotation;
+
+				nextStuntAngle = StuntAngle;
+				nextStuntAxis = StuntAxis;
+				nextStuntPingPong = StuntPingPong;
+
+			} else {
+
+				transform.localRotation = preJumpRotation;
+				transform.position += transform.forward * jumpSpeed * Time.deltaTime;
+				Vector3 pos = transform.position;
+
+				float jumpProgress = 1f - jumpTimer.TimeLeft() / nextJumpTime;
+				if (skipUp) {
+					jumpProgress = 0.5f + jumpProgress * 0.5f;
+				}
+
+				float arcHeight;
+				if (useTempJumpHeight) {
+					arcHeight = Mathf.Max(tempJumpHeight, jumpTargetY - playerY);
+					// Debug.Log("temp: " + tempJumpHeight + ", lower threshold: " + (jumpTargetY - playerY));
+				} else {
+					arcHeight = Mathf.Max(JumpHeight, jumpTargetY - playerY);
+				}
+
+				if (jumpProgress < 0.5f) {
+					pos.y = playerY + arcHeight * JumpArc.Evaluate(jumpProgress * 2f);
+				} else {
+					pos.y = jumpTargetY + (arcHeight - (jumpTargetY - playerY)) * JumpArc.Evaluate(jumpProgress * 2f);
+				}
+
+				transform.position = pos;
+				float progressLoop = 1f;
+				if (nextStuntPingPong) {
+					progressLoop = 2f;
+				}
+				transform.localRotation = preJumpRotation
+				 * Quaternion.AngleAxis(StuntCurve.Evaluate(jumpProgress * progressLoop) * nextStuntAngle, nextStuntAxis);
+
+				SpinWheels();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool UpdateZipline() {
+		if (ziplining) {
+			float ziplineDelta = ziplineSpeed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
+			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
+				ziplining = false;
+
+				StandingKid.SetActive(true);
+				StandingKidZipline.SetActive(false);
+				StopBoostParticles();
+
+				// jumpTargetY = playerY;
+				// playerY = transform.position.y;
+				// skipUp = true;
+				// jumpTimer.Restart();
+				StartJump();
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	private void SpinWheels() {
+		LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+	}
+
+	private void OnTriggerEnter(Collider other) {
+
+		// NOTE: ziplining through buildings is allowed
+		if (!EnableCollision || other.tag == "Ignore Collision" || ziplining) {
+			return;
+		}
+
+		if (other.tag == "Zipline") {
+			Debug.Log("hit zipline " + other.name + "!");
+			ZiplineScript zipline = other.GetComponent<ZiplineScript>();
+			if (zipline != null) {
+				CancelBoost();
+
+				transform.position = zipline.transform.position;
+				ziplining = true;
+				ziplineTarget = zipline.End.transform.position;
+				// preJumpRotation = zipline.End.transform.rotation;
+
+				StandingKid.SetActive(false);
+				StandingKidZipline.SetActive(true);
+				StartBoostParticles();
+
+				ziplineSpeed = zipline.Speed;
+				transform.rotation = zipline.End.transform.rotation;
+
+				switch (zipline.TargetHeightRelativity) {
+					case JumpTargetSetting.Absolute:
+						jumpTargetY = zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Relative:
+						jumpTargetY = playerY + zipline.TargetHeight;
+						break;
+					case JumpTargetSetting.Reset:
+						jumpTargetY = initialPlayerY + zipline.TargetHeight;
+						break;
+				}
+
+				playerY = ziplineTarget.y;
+
+				Globals.AddScore(zipline.ScoreWorth, zipline.ScoreMultiplierIncrease);
+				SetupJump(
+					zipline.TargetHeightRelativity, zipline.TargetHeight,
+					JumpTargetSetting.Relative, 1,
+					zipline.SkipUp,
+					true, zipline.EndJumpSpeed,
+					true, zipline.EndJumpTime,
+					true, zipline.End.transform.rotation,
+					// TODO: bool to use default stunt settings
+					StuntAngle, StuntAxis, StuntPingPong//tempStuntAngle, tempStuntAxis, tempStuntPingPong
+				);
+
+			} else {
+				Debug.LogError("Zipline script not found!");
+			}
+			return;
+		}
+
+		if (other.tag == "Ramp") {
+			Debug.Log("hit ramp " + other.name + "!");
+
+			// NOTE: ignores jump if already in air
+			if (jumpTimer.IsRunning()) {
+				return;
+			}
+
+			CancelBoost();
+
+			RampScript rampScript = other.GetComponent<RampScript>();
+
+			if (rampScript != null) {
+				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
+				if (rampScript.AlignPlayer &&
+				  (rampScript.JumpNormallyIfWrongWay &&
+					   ((Speed > 0f && facingDifference > 90f)
+				  	|| (Speed < 0f && facingDifference < 90f))
+				  )
+				) {
+					Globals.AddScore(JumpScoreWorth, JumpScoreMultiplierWorth);
+					StartJump();
+				} else {
+					float speed = rampScript.Speed;
+					if (!rampScript.AlignPlayer && leftWheelSpeed + rightWheelSpeed < 0f) {
+						speed *= -1f;
+					}
+
+					Globals.AddScore(rampScript.ScoreWorth, rampScript.ScoreMultiplierIncrease);
+					StartJump(
+						rampScript.TargetHeightRelativity, rampScript.TargetHeight,
+						rampScript.JumpHeightRelativity, rampScript.JumpHeight,
+						rampScript.SkipUp,
+						rampScript.SetSpeed, speed,
+						rampScript.SetTime, rampScript.Time,
+						rampScript.AlignPlayer, rampScript.transform.rotation,
+						rampScript.StuntAngle, rampScript.StuntAxis, rampScript.StuntPingPong
+					);
+				}
+			} else {
+				Globals.AddScore(JumpScoreWorth, JumpScoreMultiplierWorth);
+				StartJump();
+			}
+
+			return;
+		}
+
+		Debug.Log("hit wall: " + other.name);
+
+		//Mick Start
+		AS_Boing.Play();
+		//Mick End
+
+		if (collidedThisFrame) {
+			Debug.Log("ignored wall: " + other.name);
+			return;
+		}
+
+		collidedThisFrame = true;
+
+		if (jumpTimer.IsRunning()) {
+			transform.Rotate(Vector3.up, 180f);
+		} else {
+			collisionTimer.Restart(CollisionTime);
+			float tempLeftSpeed = leftWheelSpeed;
+			leftWheelSpeed = -rightWheelSpeed;
+			rightWheelSpeed = -tempLeftSpeed;
+			// knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
+			// knockbackSpeed *= CollisionSlowdownMultiplier;
+		}
+
+		leftWheelSpeed *= CollisionSlowdownMultiplier;
+		rightWheelSpeed *= CollisionSlowdownMultiplier;
+	}
+
+	private void UpdateWheels() {
+		Keyboard keyboard = Keyboard.current;
+
+		if (UseMouse) {
+			if (!keyboard.leftShiftKey.isPressed) {
+
+				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
+				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+
+				if (FlipKeys) {
+					leftWheelSpeed = x;
+					rightWheelSpeed = y;
+				} else {
+					leftWheelSpeed = y;
+					rightWheelSpeed = x;
+				}
+			}
+
+		} else {
+
+			float leftWheelDir = 0.0f;
+			float rightWheelDir = 0.0f;
+
+			if (keyboard.wKey.isPressed) {
+				if (FlipKeys) {
+					rightWheelDir = Acceleration;
+				} else {
+					leftWheelDir = Acceleration;
+				}
+			} else if (keyboard.sKey.isPressed) {
+				if (FlipKeys) {
+					rightWheelDir = -Acceleration;
+				} else {
+					leftWheelDir = -Acceleration;
+				}
+			}
+
+			if (keyboard.eKey.isPressed) {
+				if (FlipKeys) {
+					leftWheelDir = Acceleration;
+				} else {
+					rightWheelDir = Acceleration;
+				}
+			} else if (keyboard.dKey.isPressed) {
+				if (FlipKeys) {
+					leftWheelDir = -Acceleration;
+				} else {
+					rightWheelDir = -Acceleration;
+				}
+			}
+
+			// damping
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
+
+			// add to speed if pressed
+			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
+			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
+
+			if (keyboard.spaceKey.isPressed) {
+				leftWheelSpeed = 0.0f;
+				rightWheelSpeed = 0.0f;
+			}
+
+		}
+	}
+
+	#region Boost
+	public void Boost(float boostTime) {
+		if (BoostAmmo < BoostAmmoDisableTreshold && !boostTimer.IsRunning()) {
+			return;
+		}
+		boostTimer.Restart(boostTime);
+		StartBoostParticles();
+	}
+
+	public void Boost(float boostTime, Quaternion facing) {
+		transform.rotation = facing;
+		Boost(boostTime);
+	}
+
+	public void Boost() {
+		Boost(BoostTime);
+	}
+
+	public void CancelBoost() {
+		boostTimer.Stop();
+		StopBoostParticles();
+	}
+
+	public void StartBoostParticles() {
+
+		foreach (ParticleSystem particles in BoostFoamParticles) {
+			particles.Play();
+		}
+	}
+
+	public void StopBoostParticles() {
+		foreach (ParticleSystem particles in BoostFoamParticles) {
+			particles.Stop();
+		}
+	}
+
+	public void PauseBoostParticles() {
+		foreach (ParticleSystem particles in BoostFoamParticles) {
+			particles.Pause();
+		}
+	}
+	#endregion
+
+	#region Jump
+	public void SetupJump(
+		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
+		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
+		bool SkipNextUp,
+		bool SetSpeed, float newSpeed,
+		bool SetTime, float Time,
+		bool AlignPlayer, Quaternion Rotation,
+		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
+	) {
+		// NOTE: ignores jump if already in air
+		if (jumpTimer.IsRunning()) {
+			return;
+		}
+
+		CancelBoost();
+
+		switch (TargetHeightRelativity) {
+			case JumpTargetSetting.Absolute:
+				jumpTargetY = TargetHeight;
+				break;
+			case JumpTargetSetting.Relative:
+				jumpTargetY = playerY + TargetHeight;
+				break;
+			case JumpTargetSetting.Reset:
+				jumpTargetY = initialPlayerY + TargetHeight;
+				break;
+		}
+		// jumpTargetY /= transform.lossyScale.y;
+
+		useTempJumpHeight = true;
+		switch (JumpHeightRelativity) {
+			case JumpTargetSetting.Absolute:
+				tempJumpHeight = JumpHeight - playerY;
+				break;
+			case JumpTargetSetting.Relative:
+				tempJumpHeight = JumpHeight;
+				break;
+			case JumpTargetSetting.Reset:
+				tempJumpHeight = initialPlayerY - playerY + JumpHeight;
+				break;
+		}
+		// tempJumpHeight /= transform.lossyScale.y;
+		Debug.Log("jump height result: " + tempJumpHeight + ", jump height: " + JumpHeight);
+
+		skipUp = SkipNextUp;
+		setJumpSpeed = SetSpeed;
+		nextJumpSpeed = newSpeed;
+		setJumpTime = SetTime;
+		nextJumpTime = Time;
+
+		if (AlignPlayer) {
+			transform.rotation = Rotation;
+		}
+
+		nextStuntAngle = tempStuntAngle;
+		nextStuntAxis = tempStuntAxis;
+		nextStuntPingPong = tempStuntPingPong;
+	}
+
+	public void StartJump(
+		JumpTargetSetting TargetHeightRelativity, float TargetHeight,
+		JumpTargetSetting JumpHeightRelativity, float JumpHeight,
+		bool SkipNextUp,
+		bool SetSpeed, float newSpeed,
+		bool SetTime, float Time,
+		bool AlignPlayer, Quaternion Rotation,
+		float tempStuntAngle, Vector3 tempStuntAxis, bool tempStuntPingPong
+	) {
+
+		SetupJump(
+			TargetHeightRelativity, TargetHeight,
+			JumpHeightRelativity, JumpHeight,
+			SkipNextUp,
+			SetSpeed, newSpeed,
+			SetTime, Time,
+			AlignPlayer, Rotation,
+			tempStuntAngle, tempStuntAxis, tempStuntPingPong
+		);
+
+		StartJump();
+	}
+
+	public void StartJump() {
+		if (!setJumpTime) {
+			nextJumpTime = JumpTime;
+		}
+		jumpTimer.Restart(nextJumpTime);
+		preJumpRotation = transform.localRotation;
+		if (setJumpSpeed) {
+			jumpSpeed = nextJumpSpeed;
+		} else {
+			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+		}
+	}
+	#endregion
+
+}

@@ -9,6 +9,8 @@ public class BoostPadScript : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
+			// TODO: option to set rotation to ramp facing
+			// TODO: set boost time
 			Globals.Player.Boost(BoostTime, transform.rotation);
 		}
 	}
