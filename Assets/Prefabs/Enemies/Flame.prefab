@@ -9480,6 +9480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreWorth: 50
+  ScoreMultiplierIncrease: 0.1
   Respawner: {fileID: 0}
   ExtinguishSFX: {fileID: 8300000, guid: bdfe3dfefce04f34dbd915f91c81416b, type: 3}
   AS_Extinguish: {fileID: 4967611615189093881}
@@ -14474,6 +14475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreWorth: 50
+  ScoreMultiplierIncrease: 0.1
   Respawner: {fileID: 0}
   ExtinguishSFX: {fileID: 0}
   AS_Extinguish: {fileID: 0}
@@ -14495,7 +14497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2222838924800568216
 Transform:
   m_ObjectHideFlags: 0
