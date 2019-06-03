@@ -119,6 +119,7 @@ namespace Assets.Scripts {
 				score += points;
 				Debug.Log("No Score multiplier bar widget!");
 			}
+			Globals.NotificationPanel.Notify(points.ToString());
 		}
 
 		public static void ResetScore() {

@@ -13,6 +13,8 @@ public class ZiplineScript : MonoBehaviour
     public JumpTargetSetting TargetHeightRelativity= JumpTargetSetting.Reset;
     public float TargetHeight = 0f;
     public bool SkipUp = false;
+	public float ScoreWorth = 100f;
+	public float ScoreMultiplierIncrease = 0.1f;
 
 
     private void Start() {

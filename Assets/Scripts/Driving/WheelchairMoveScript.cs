@@ -126,6 +126,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("Whether or not the jump animation curve should repeat (allows setting the curve to \"ping pong\" to loop back)")]
 	public bool StuntPingPong = false;
 	private bool nextStuntPingPong = false;
+	public float JumpScoreWorth = 100f;
+	public float JumpScoreMultiplierWorth = 0.1f;
 
 	private Quaternion preJumpRotation;
 
@@ -618,6 +620,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 				playerY = ziplineTarget.y;
 
+				Globals.AddScore(zipline.ScoreWorth, zipline.ScoreMultiplierIncrease);
 				SetupJump(
 					zipline.TargetHeightRelativity, zipline.TargetHeight,
 					JumpTargetSetting.Relative, 1,
@@ -655,6 +658,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				  	|| (Speed < 0f && facingDifference < 90f))
 				  )
 				) {
+					Globals.AddScore(JumpScoreWorth, JumpScoreMultiplierWorth);
 					StartJump();
 				} else {
 					float speed = rampScript.Speed;
@@ -662,6 +666,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 						speed *= -1f;
 					}
 
+					Globals.AddScore(rampScript.ScoreWorth, rampScript.ScoreMultiplierIncrease);
 					StartJump(
 						rampScript.TargetHeightRelativity, rampScript.TargetHeight,
 						rampScript.JumpHeightRelativity, rampScript.JumpHeight,
@@ -673,6 +678,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 					);
 				}
 			} else {
+				Globals.AddScore(JumpScoreWorth, JumpScoreMultiplierWorth);
 				StartJump();
 			}
 
