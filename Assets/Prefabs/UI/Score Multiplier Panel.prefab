@@ -94,6 +94,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MultiplierText: {fileID: 32356405828711451}
+  MultiplierTextOutline: {fileID: 660547213277753127}
+  MultiplierTextShadow: {fileID: 8653277057986887417}
   MultiplierBackground: {fileID: 940431596919110423}
   NotificationText: {fileID: 2600451760261955789}
   TimerBar: {fileID: 5604422761983202905}
