@@ -95,8 +95,10 @@ public class ScoreMultiplierWidgetScript : MonoBehaviour {
 	public float AddPoints(float points) {
 		notifications.Add(new ScoreNotification(
 			NotificationTime,
-			"+" + Globals.ScoreMultiplier.ToString("F1")
-			+ "x" + points.ToString("F0") + Environment.NewLine
+			"+"
+			 + points.ToString("F0") + Environment.NewLine
+			 + "x"
+			 + Globals.ScoreMultiplier.ToString("F1")
 			));
 		return points * Globals.ScoreMultiplier;
 	}
