@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using WiimoteApi;
 
 namespace Assets.Scripts {
 
@@ -78,12 +79,18 @@ namespace Assets.Scripts {
 		public static string SavePath = Application.dataPath + "/highscore.json";
 		public static Highscore HighscoreList = Highscore.Load();//new Highscore();
 
+		public static CollectiblePanelScript CollectiblePanel;
+		public static CollectibleNotificationScript CollectibleNotificationPanel;
 
 		// The current player
 		public static WheelchairMoveScript Player;
 		public static NozzleScript Nozzle;
 		public static CameraFollowScript CameraScript;
+		public static StartZoneScript StartZone;
 
+		// Wiimote
+		public static bool irToggle = false;
+		public static IRDataType SensorBarMode = IRDataType.BASIC;
 
 		// UI
 		public static NotificationWidgetScript NotificationPanel;
@@ -113,10 +120,18 @@ namespace Assets.Scripts {
 				score += points;
 				Debug.Log("No Score multiplier bar widget!");
 			}
+			if (NotificationPanel != null) {
+				NotificationPanel.Notify(points.ToString());
+			}
 		}
 
 		public static void ResetScore() {
 			score = 0f;
+		}
+
+		public static void ToggleIr() {
+			irToggle = !irToggle;
+			Debug.Log("ir set to " + irToggle);
 		}
 
 	}

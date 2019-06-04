@@ -11,6 +11,8 @@ using UnityEngine.UI;
 public class ScoreMultiplierWidgetScript : MonoBehaviour {
 
 	public Text MultiplierText;
+	public Text MultiplierTextOutline;
+	public Text MultiplierTextShadow;
 	public Image MultiplierBackground;
 	public Text NotificationText;
 	public Image TimerBar;
@@ -89,14 +91,19 @@ public class ScoreMultiplierWidgetScript : MonoBehaviour {
 		ScoreMultiplierBuffer = Globals.ScoreMultiplier;
 
 		NotificationText.text = outText;
-		MultiplierText.text = "x" + Globals.ScoreMultiplier.ToString("F1");
+		string newMultiplierText = "x" + Globals.ScoreMultiplier.ToString("F1");
+		MultiplierText.text = newMultiplierText;
+		MultiplierTextOutline.text = newMultiplierText;
+		MultiplierTextShadow.text = newMultiplierText;
 	}
 
 	public float AddPoints(float points) {
 		notifications.Add(new ScoreNotification(
 			NotificationTime,
-			"+" + Globals.ScoreMultiplier.ToString("F1")
-			+ "x" + points.ToString("F0") + Environment.NewLine
+			"+"
+			 + points.ToString("F0") + Environment.NewLine
+			 + "x"
+			 + Globals.ScoreMultiplier.ToString("F1")
 			));
 		return points * Globals.ScoreMultiplier;
 	}

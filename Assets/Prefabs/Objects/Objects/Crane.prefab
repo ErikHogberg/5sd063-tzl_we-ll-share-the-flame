@@ -52,6 +52,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.50482225, y: 0.50402975, z: 6.3000016}
   m_Center: {x: 0.74758935, y: 0.7479855, z: -6.4703703e-15}
+--- !u!114 &9095637355717537656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30560757049137345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c5def864247841956942bcb3bcaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondMaterial: {fileID: 2100000, guid: 6bcaed8ebbdbb9e45a1e04f9588e6fb5, type: 2}
 --- !u!1 &869368888438538464
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +217,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: d7aee53c80c493843a9ae600e64f9539, type: 3}
       propertyPath: m_Name
       value: craneLegs (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d7aee53c80c493843a9ae600e64f9539, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d7aee53c80c493843a9ae600e64f9539, type: 3}
       propertyPath: m_LocalPosition.x

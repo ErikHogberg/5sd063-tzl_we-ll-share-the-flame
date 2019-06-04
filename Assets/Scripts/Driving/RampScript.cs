@@ -31,10 +31,13 @@ public class RampScript : MonoBehaviour {
 	public bool SetTime = false;
 	public float Time = 1f;
 	public bool AlignPlayer = false;
+	public bool JumpNormallyIfWrongWay = true;
 
 	public Vector3 StuntAxis = new Vector3(1f, 0f, 0f);
 	public float StuntAngle = 360f;
 	public bool StuntPingPong = false;
+	public float ScoreWorth = 100f;
+	public float ScoreMultiplierIncrease = 0.1f;
 
 
 }

@@ -13,6 +13,9 @@ public class NozzleScript : MonoBehaviour {
 	public GameObject Foam;
 	private ParticleSystem[] waterJetParticles;
 	private ParticleSystem[] foamParticles;
+
+	public bool DisableFiring = false;
+
 	public bool particleModeUseWater = false;
 
 	[Tooltip("Amount of foam in tank")]
@@ -58,7 +61,8 @@ public class NozzleScript : MonoBehaviour {
 
 	private Vector3 wiimoteOrientation = new Vector3(0f, 90f, 0f); // Yaw, Pitch, Roll
 
-	public IRDataType SensorBarMode = IRDataType.BASIC;
+	// public IRDataType InitialSensorBarMode = IRDataType.BASIC;
+
 	// private RectTransform ir_pointer;
 	public Vector2 SensorBarAngleScale = new Vector2(10f, 10f);
 	public Vector2 SensorBarAngleOffset = new Vector2(0f, 90f);
@@ -69,7 +73,7 @@ public class NozzleScript : MonoBehaviour {
 	private bool dLeftWasPressed = false;
 	private bool dRightWasPressed = false;
 	private bool aWasPressed = false;
-	private bool irToggle = false;
+	// private bool irToggle = false;
 	public Vector2 IrOuterDeadzone = new Vector2(0f, 0f);
 	// TODO: IR (reverse-)deadzone
 
@@ -78,6 +82,7 @@ public class NozzleScript : MonoBehaviour {
 	void Start() {
 
 		Globals.Nozzle = this;
+		// Globals.SensorBarMode = InitialSensorBarMode;
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
 		waterJetParticles = WaterJet.GetComponentsInChildren<ParticleSystem>();
@@ -91,10 +96,19 @@ public class NozzleScript : MonoBehaviour {
 
 		// var action = new InputAction(binding: "*/{primaryAction}");
 		//  var action = new InputAction(binding: "shooter/{shoot}");
-		InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
-		action.performed += _ => { firing = true; };
-		action.cancelled += _ => { firing = false; };
-		action.Enable();
+
+		{
+			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
+			action.performed += _ => { firing = true; };
+			action.cancelled += _ => { firing = false; };
+			action.Enable();
+		}
+
+		{
+			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("switch foam");
+			action.performed += _ => { SwitchParticles(firing); };
+			action.Enable();
+		}
 
 		ledTimer = new Timer(0.1f);
 
@@ -113,12 +127,8 @@ public class NozzleScript : MonoBehaviour {
 			wiimoteFiring = WiimoteUpdate();
 		}
 
-		if (Mouse.current.middleButton.wasPressedThisFrame) {
-			SwitchParticles(firing);
-		}
-
 		//if (Mouse.current.leftButton.isPressed) {
-		if ((firing || wiimoteFiring) && AmmoAmount > 0f) {
+		if (!DisableFiring && (firing || wiimoteFiring) && AmmoAmount > 0f) {
 			if (!wasFiring) {
 				if (particleModeUseWater) {
 					foreach (ParticleSystem particles in waterJetParticles) {
@@ -251,14 +261,13 @@ public class NozzleScript : MonoBehaviour {
 		} while (ret > 0);
 
 		// TODO: use wiimote.Accel.GetCalibratedAccelData() to reduce wmp drift
-		
+
 
 		if (wiimote.Button.d_left) {
 			if (dLeftWasPressed) {
 
 			} else {
-				irToggle = !irToggle;
-				Debug.Log("ir set to " + irToggle);
+				Globals.ToggleIr();
 
 				dLeftWasPressed = true;
 			}
@@ -267,12 +276,12 @@ public class NozzleScript : MonoBehaviour {
 			dLeftWasPressed = false;
 		}
 
-		if (wiimote.Button.d_right){ // || keyboard.kKey.wasPressedThisFrame) {
+		if (wiimote.Button.d_right) { // || keyboard.kKey.wasPressedThisFrame) {
 			if (dRightWasPressed) {
 
 			} else {
 				Debug.Log("ir setup");
-				wiimote.SetupIRCamera(SensorBarMode);
+				wiimote.SetupIRCamera(Globals.SensorBarMode);
 
 				dRightWasPressed = true;
 			}
@@ -280,7 +289,7 @@ public class NozzleScript : MonoBehaviour {
 			dRightWasPressed = false;
 		}
 
-		if (irToggle) {
+		if (Globals.irToggle) {
 			// left 0, down 0
 			float[] pointer = wiimote.Ir.GetPointingPosition();
 			// Debug.Log("ir loop");
@@ -292,7 +301,7 @@ public class NozzleScript : MonoBehaviour {
 					 (pointer[1] - 0.5f) * SensorBarAngleScale.y + SensorBarAngleOffset.y,
 					 0f
 				);
-				Debug.Log ("orientation set from sensor bar");
+				Debug.Log("orientation set from sensor bar");
 			}
 
 			// Debug.Log("pointer: " + pointer[0] + ", " + pointer[1]);
