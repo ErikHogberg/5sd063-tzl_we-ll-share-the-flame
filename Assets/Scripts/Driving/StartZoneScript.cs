@@ -6,7 +6,10 @@ using UnityEngine.Experimental.Input;
 
 public class StartZoneScript : MonoBehaviour {
 
+	public AudioSource Music;
+
 	private bool notInit = true;
+	private bool enterNotified = false;
 
 	private void Start() {
 		Globals.StartZone = this;
@@ -32,6 +35,13 @@ public class StartZoneScript : MonoBehaviour {
 
 	}
 
+	private void OnTriggerEnter(Collider other) {
+		if (other.CompareTag("Player") && !enterNotified) {
+			Globals.CollectibleNotificationPanel.Notify("Leave the circle to start!");
+			enterNotified = true;
+		}
+	}
+
 	private void OnTriggerExit(Collider other) {
 		if (other.CompareTag("Player")) {
 			Globals.TimerPanel.StartCountdown();
@@ -39,6 +49,10 @@ public class StartZoneScript : MonoBehaviour {
 			Globals.Nozzle.DisableFiring = false;
 			if (Globals.CollectibleNotificationPanel != null) {
 				Globals.CollectibleNotificationPanel.Notify("Game Start!");
+			}
+
+			if (Music != null) {
+				Music.Play();
 			}
 
 			gameObject.SetActive(false);

@@ -5,37 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Erik/playtest progress.unity
-    guid: 7fa5a6839f213314485c4ffa4d9950cd
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/Simon/Beta.unity
-    guid: 734f9ce74646655408570b3fe44aa0e8
-  - enabled: 0
-    path: Assets/Scenes/Kim/MENU TEST KIMSTATIONARY.unity
-    guid: d6ad0cb2883801c40b9642771c1103c4
-  - enabled: 0
-    path: Assets/Scenes/Erik/Erik MENU TEST.unity
-    guid: b3695d79a2001f841a8372fbc59b709f
-  - enabled: 0
-    path: Assets/Scenes/Erik/Beta/MENU TEST KIMSTATIONARY 1.unity
-    guid: c3c60ee378a741841a87af09090f69ab
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/Erik/Beta/Erik MENU TEST 1.unity
-    guid: fde375dc5c4ef4345b149bfcb8e610e3
-  - enabled: 0
-    path: Assets/Scenes/kevkevkev/Simons kevins new sitie.unity
-    guid: 437d00b48d35bab458c4b892a0439ed1
+  - enabled: 1
+    path: Assets/Scenes/MAIN MENU.unity
+    guid: 130671e2b5057d8498a4bcce77849e2c
   - enabled: 1
     path: Assets/Scenes/MAIN CITY.unity
     guid: b05eb3be919b03e45b4c7f955cebe33a
-  - enabled: 0
-    path: Assets/Scenes/Mick/Mick MAIN CITY.unity
-    guid: b8f098f8d1085b24d83cbfb6116aa801
+  - enabled: 1
+    path: Assets/Scenes/HIGHSCORE SCREEN.unity
+    guid: 410e774079cd33b4bbaeae0b6a47d170
   m_configObjects: {}
