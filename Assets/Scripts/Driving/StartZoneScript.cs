@@ -7,6 +7,7 @@ using UnityEngine.Experimental.Input;
 public class StartZoneScript : MonoBehaviour {
 
 	public AudioSource Music;
+	public AudioSource PreStartMusic;
 
 	private bool notInit = true;
 	private bool enterNotified = false;
@@ -53,6 +54,9 @@ public class StartZoneScript : MonoBehaviour {
 
 			if (Music != null) {
 				Music.Play();
+			}
+			if (PreStartMusic != null) {
+				PreStartMusic.Stop();
 			}
 
 			gameObject.SetActive(false);
