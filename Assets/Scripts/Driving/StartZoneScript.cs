@@ -7,6 +7,7 @@ using UnityEngine.Experimental.Input;
 public class StartZoneScript : MonoBehaviour {
 
 	private bool notInit = true;
+	private bool enterNotified = false;
 
 	private void Start() {
 		Globals.StartZone = this;
@@ -30,6 +31,13 @@ public class StartZoneScript : MonoBehaviour {
 		// TODO: assign wiimote to global in nozzle script (or other script?), if not assigned yet, check if this makes calibration persistent
 		// TODO: button to recalibrate
 
+	}
+
+	private void OnTriggerEnter(Collider other) {
+		if (other.CompareTag("Player") && !enterNotified) {
+			Globals.CollectibleNotificationPanel.Notify("Leave the circle to start!");
+			enterNotified = true;
+		}
 	}
 
 	private void OnTriggerExit(Collider other) {
