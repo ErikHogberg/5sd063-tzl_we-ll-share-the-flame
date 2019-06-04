@@ -481,8 +481,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
+  m_Volume: 0.3
+  m_Pitch: 0.75
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -640,6 +640,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_Name
+      value: Camera Focus Focus (yes, that's right)
+      objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944474, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -700,16 +705,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1862816048559059166, guid: 2231e434d04717e468a80cfc963edb60,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7617396279243899796, guid: 2231e434d04717e468a80cfc963edb60,
-        type: 3}
-      propertyPath: m_Name
-      value: Camera Focus Focus (yes, that's right)
-      objectReference: {fileID: 0}
     - target: {fileID: 7617396279864944475, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: InfoPane
@@ -750,10 +745,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Drift Sparks
       objectReference: {fileID: 0}
+    - target: {fileID: 1862816048559059166, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7617396280637285277, guid: 2231e434d04717e468a80cfc963edb60,
         type: 3}
       propertyPath: TriggerModule.collisionShape0
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306478483484322903, guid: 2231e434d04717e468a80cfc963edb60,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7617396278912120133, guid: 2231e434d04717e468a80cfc963edb60, type: 3}
@@ -789,16 +794,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4883142326818491642}
     m_Modifications:
-    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
-        type: 3}
-      propertyPath: m_Name
-      value: Extinguisher Nozzle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4042585768858872742, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -854,6 +849,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: m_Name
+      value: Extinguisher Nozzle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4042585768858872743, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4042585768858872740, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: AnchorObject
@@ -864,20 +869,10 @@ PrefabInstance:
       propertyPath: PositionAnchorObject
       value: 
       objectReference: {fileID: 4883142326970026359}
-    - target: {fileID: 8025040159681853067, guid: 38ae917fbab29174dae09b4d91ce518e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7211095003549164808, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244421318992002926, guid: 38ae917fbab29174dae09b4d91ce518e,
-        type: 3}
-      propertyPath: NozzleModel
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6197879766533424796, guid: 38ae917fbab29174dae09b4d91ce518e,
         type: 3}
@@ -1028,6 +1023,16 @@ PrefabInstance:
         type: 3}
       propertyPath: TriggerModule.collisionShape0
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244421318992002926, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: NozzleModel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025040159681853067, guid: 38ae917fbab29174dae09b4d91ce518e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38ae917fbab29174dae09b4d91ce518e, type: 3}
