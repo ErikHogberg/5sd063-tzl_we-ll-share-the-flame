@@ -42,15 +42,15 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.9
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0.3
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -87,7 +87,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -181,11 +181,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7803461737436955015}
     m_Modifications:
-    - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: m_Name
-      value: Test Fire Spirit
-      objectReference: {fileID: 0}
     - target: {fileID: 6682084134872180374, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -255,6 +250,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Name
+      value: Test Fire Spirit
       objectReference: {fileID: 0}
     - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
