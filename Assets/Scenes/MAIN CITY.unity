@@ -3487,5 +3487,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.20878728
       objectReference: {fileID: 0}
+    - target: {fileID: 245782912346660124, guid: 586278f3d87963945a10ab77133ffae0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 586278f3d87963945a10ab77133ffae0, type: 3}
