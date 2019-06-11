@@ -37,12 +37,12 @@ GameObject:
   - component: {fileID: 476610504118336436}
   - component: {fileID: 700336851859585231}
   - component: {fileID: 1355791439078201364}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &476610504118336436
 Transform:
@@ -112,12 +112,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6097466414977395295}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Apartment Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6097466414977395295
 Transform:
@@ -149,6 +149,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
       propertyPath: m_TagString
       value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a53b5823f45fdd24c99f88c010135bad, type: 3}
       propertyPath: m_LocalPosition.x

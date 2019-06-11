@@ -35,12 +35,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7691015972996981568}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Building Under Construction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7691015972996981568
 Transform:
@@ -64,6 +64,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7691015972996981568}
     m_Modifications:
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_Name
+      value: buildingUnderConstruction
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.25
@@ -119,14 +135,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_LocalScale.z
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
-      propertyPath: m_Name
-      value: buildingUnderConstruction
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
-      propertyPath: m_TagString
-      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: d3523cfc7eb144647b71fb5dcc0b41b4, type: 3}
       propertyPath: m_Materials.Array.data[0]
