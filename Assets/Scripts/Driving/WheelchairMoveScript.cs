@@ -966,6 +966,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	public void StartJump() {
+		AS_Boing.Play();
+
 		if (!setJumpTime) {
 			nextJumpTime = JumpTime;
 		}
