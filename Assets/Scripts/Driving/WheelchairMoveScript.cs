@@ -9,6 +9,12 @@ using UnityEngine.UI;
 
 public class WheelchairMoveScript : MonoBehaviour {
 
+	//Mick start
+	[Header("Sound FX")]
+	public AudioSource AS_Boing;
+	public AudioClip SFX_Boing;
+	//Mick end
+
 	[Header("Required Objects")]
 	public GameObject WheelChair;
 	public GameObject LeftWheel;
@@ -20,6 +26,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject LeftBoostFoam;
 	public GameObject RightBoostFoam;
 	private ParticleSystem[] BoostFoamParticles;
+	public AnchorScript NozzleAnchor;
+
+	public GameObject StandingKid;
+	public GameObject StandingKidZipline;
 
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
@@ -58,7 +68,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float CollisionTime = 0.5f;
 	private Timer collisionTimer;
 	private bool collidedThisFrame = false;
-	private float knockbackSpeed = 0f;
+	// private float knockbackSpeed = 0f;
+	public float MinCollisionKnockbackSpeed = 0.1f;
 
 	[Tooltip("Around which axis the wheel models turn")]
 	public Vector3 WheelRotationAxis = Vector3.down;
@@ -161,7 +172,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	void Start() {
 
+		//Mick start
+		AS_Boing.clip = SFX_Boing;
+		//Mick end
+
 		Globals.Player = this;
+
+		StandingKid.SetActive(true);
+		StandingKidZipline.SetActive(false);
 
 		nextJumpTime = JumpTime;
 		nextStuntAngle = StuntAngle;
@@ -202,9 +220,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	}
 
+	// private void FixedUpdate() {
+	// 	NozzleAnchor.UpdateAnchor();
+
+	// }
+
 	void Update() {
 
+
 		if (DisableMovement) {
+			UpdateWheels();
+			SpinWheels();
 			return;
 		}
 
@@ -212,13 +238,19 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		var keyboard = Keyboard.current;
 
-		if (UpdateCollision())
+		if (UpdateCollision()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
+		}
 
-		if (UpdateZipline())
+		if (UpdateZipline()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
-		if (UpdateJump())
+		}
+		if (UpdateJump()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
+		}
 
 		// if (Mouse.current.rightButton.isPressed) {
 		if (keyboard.digit2Key.isPressed) {
@@ -227,13 +259,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Boost();
 		}
 
-		if (UpdateBoost())
+		if (UpdateBoost()) {
+			NozzleAnchor.UpdateAnchor();
 			return;
+		}
 
 		UpdateWheels();
 		Turn();
 		MoveForward();
 		SpinWheels();
+
+		NozzleAnchor.UpdateAnchor();
+
 
 	}
 
@@ -390,8 +427,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				boostSlowdownProgress = boostSlowdownTimer.TimeLeft() / BoostSlowdownTime;
 			}
 
-			UpdateWheels();
-			Turn();
+			// UpdateWheels();
+			// Turn();
 
 			/*
 			if (drifting) {
@@ -416,8 +453,19 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 			// */
 
+			// transform.position += transform.forward
+			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			//  * Time.deltaTime;
+
+			float tempSpeed = leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed;
+			if (tempSpeed < 0f) {
+				tempSpeed = Mathf.Min(tempSpeed, -MinCollisionKnockbackSpeed);
+			} else {
+				tempSpeed = Mathf.Max(tempSpeed, MinCollisionKnockbackSpeed);
+			}
+
 			transform.position += transform.forward
-			 * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
+			 * tempSpeed
 			 * Time.deltaTime;
 
 			/*
@@ -568,6 +616,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position, ziplineTarget, ziplineSpeed);
 			if (Vector3.Distance(transform.position, ziplineTarget) < 0.01f) {
 				ziplining = false;
+
+				StandingKid.SetActive(true);
+				StandingKidZipline.SetActive(false);
+				StopBoostParticles();
+
 				// jumpTargetY = playerY;
 				// playerY = transform.position.y;
 				// skipUp = true;
@@ -602,6 +655,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 				ziplining = true;
 				ziplineTarget = zipline.End.transform.position;
 				// preJumpRotation = zipline.End.transform.rotation;
+
+				StandingKid.SetActive(false);
+				StandingKidZipline.SetActive(true);
+				StartBoostParticles();
 
 				ziplineSpeed = zipline.Speed;
 				transform.rotation = zipline.End.transform.rotation;
@@ -686,6 +743,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		Debug.Log("hit wall: " + other.name);
+
+		//Mick Start
+		AS_Boing.Play();
+		//Mick End
+
 		if (collidedThisFrame) {
 			Debug.Log("ignored wall: " + other.name);
 			return;
@@ -697,15 +759,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.Rotate(Vector3.up, 180f);
 		} else {
 			collisionTimer.Restart(CollisionTime);
-			// float tempLeftSpeed = leftWheelSpeed;
-			// leftWheelSpeed = -rightWheelSpeed;
-			// rightWheelSpeed = -tempLeftSpeed;
-			knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
-			knockbackSpeed *= CollisionSlowdownMultiplier;
+			float tempLeftSpeed = leftWheelSpeed;
+			leftWheelSpeed = -rightWheelSpeed;
+			rightWheelSpeed = -tempLeftSpeed;
+			// knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
+			// knockbackSpeed *= CollisionSlowdownMultiplier;
 		}
 
-		// leftWheelSpeed *= CollisionSlowdownMultiplier;
-		// rightWheelSpeed *= CollisionSlowdownMultiplier;
+		leftWheelSpeed *= CollisionSlowdownMultiplier;
+		rightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
 	private void UpdateWheels() {
@@ -801,6 +863,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	public void StartBoostParticles() {
+
 		foreach (ParticleSystem particles in BoostFoamParticles) {
 			particles.Play();
 		}
