@@ -61,12 +61,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7312967105133612279}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Luxury Hotel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7312967105133612279
 Transform:
@@ -97,6 +97,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
       propertyPath: m_TagString
       value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b035facd294d1dc42970ef47427afa9d, type: 3}
       propertyPath: m_LocalPosition.x
