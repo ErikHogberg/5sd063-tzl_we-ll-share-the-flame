@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7945518672764116432}
   - component: {fileID: 2322423482044678852}
+  - component: {fileID: 1219386948019908814}
   m_Layer: 0
   m_Name: Near Camera
   m_TagString: MainCamera
@@ -146,6 +147,19 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1219386948019908814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6757764900473218567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 3fa23361785f63344bb04a899d66035c, type: 2}
 --- !u!1 &7220628754553242992
 GameObject:
   m_ObjectHideFlags: 0
