@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5828263571095159175}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mountain1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5828263571095159175
 Transform:
@@ -41,6 +41,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 0741b76dae6e5834ca8023c628a49a15, type: 3}
       propertyPath: m_Name
       value: mountain_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 0741b76dae6e5834ca8023c628a49a15, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 0741b76dae6e5834ca8023c628a49a15, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0741b76dae6e5834ca8023c628a49a15, type: 3}
       propertyPath: m_LocalPosition.x
