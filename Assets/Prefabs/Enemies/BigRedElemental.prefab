@@ -14567,6 +14567,7 @@ GameObject:
   - component: {fileID: 1241308092025990955}
   - component: {fileID: 7849991912512610271}
   - component: {fileID: 7701993802019389262}
+  - component: {fileID: 6297304081671791103}
   m_Layer: 9
   m_Name: BigRedElemental
   m_TagString: Ignore Collision
@@ -14622,6 +14623,17 @@ MonoBehaviour:
   Respawner: {fileID: 0}
   ExtinguishSFX: {fileID: 8300000, guid: bdfe3dfefce04f34dbd915f91c81416b, type: 3}
   AS_Extinguish: {fileID: 1709734078897350401}
+--- !u!192 &6297304081671791103
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093751786489793535}
+  serializedVersion: 2
+  m_Size: {x: 5, y: 25, z: 5}
+  m_Center: {x: 0, y: 10, z: 0}
+  m_IsViewVolume: 1
 --- !u!1 &8995777281326891557
 GameObject:
   m_ObjectHideFlags: 0

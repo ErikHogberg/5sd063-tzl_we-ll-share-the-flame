@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8787465386027783571}
   - component: {fileID: 2294285148165795120}
   - component: {fileID: 2790470663198323073}
+  - component: {fileID: 4051249551624511070}
   m_Layer: 9
   m_Name: SmallBlueElemental
   m_TagString: Ignore Collision
@@ -158,6 +159,17 @@ MonoBehaviour:
   FlipRepeatWidthAnimation: 1
   FlipRepeatHeightAnimation: 0
   FlipRepeatDepthAnimation: 1
+--- !u!192 &4051249551624511070
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2250469660230287633}
+  serializedVersion: 2
+  m_Size: {x: 5, y: 12.377335, z: 5}
+  m_Center: {x: 0, y: 5, z: 0}
+  m_IsViewVolume: 1
 --- !u!1 &2767164046427916501
 GameObject:
   m_ObjectHideFlags: 0
@@ -19487,12 +19499,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 6959385592761348827, guid: e4cd63e2f26b90649b99e6e7c22562dd,
+    - target: {fileID: 771991244547271760, guid: e4cd63e2f26b90649b99e6e7c22562dd,
         type: 3}
       propertyPath: InitialModule.maxNumParticles
       value: 60
       objectReference: {fileID: 0}
-    - target: {fileID: 771991244547271760, guid: e4cd63e2f26b90649b99e6e7c22562dd,
+    - target: {fileID: 6959385592761348827, guid: e4cd63e2f26b90649b99e6e7c22562dd,
         type: 3}
       propertyPath: InitialModule.maxNumParticles
       value: 60

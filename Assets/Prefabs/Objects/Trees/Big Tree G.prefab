@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7286442563088606254}
+  - component: {fileID: 32940224362678263}
   m_Layer: 0
   m_Name: Big Tree G
   m_TagString: Untagged
@@ -31,6 +32,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!192 &32940224362678263
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112284363231867112}
+  serializedVersion: 2
+  m_Size: {x: 5, y: 8, z: 5}
+  m_Center: {x: 0, y: 4, z: -0.5}
+  m_IsViewVolume: 1
 --- !u!65 &5630672534249398981
 BoxCollider:
   m_ObjectHideFlags: 0

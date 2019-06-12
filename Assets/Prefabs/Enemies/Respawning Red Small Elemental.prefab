@@ -1,5 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!192 &5872816362993935180
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3526598905215898062}
+  serializedVersion: 2
+  m_Size: {x: 10, y: 15, z: 10}
+  m_Center: {x: 0, y: 3.3729324, z: 0}
+  m_IsViewVolume: 1
 --- !u!1 &6767061898962559574
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +192,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7803461737436955015}
     m_Modifications:
+    - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Name
+      value: Test Fire Spirit
+      objectReference: {fileID: 0}
     - target: {fileID: 6682084134872180374, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -250,11 +266,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: m_Name
-      value: Test Fire Spirit
       objectReference: {fileID: 0}
     - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}

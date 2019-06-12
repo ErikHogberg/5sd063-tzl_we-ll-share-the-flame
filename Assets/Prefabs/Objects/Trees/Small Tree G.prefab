@@ -35,6 +35,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2007404761241349120}
+  - component: {fileID: 2991294083155760182}
   m_Layer: 0
   m_Name: Small Tree G
   m_TagString: Untagged
@@ -57,6 +58,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!192 &2991294083155760182
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8468464489501602031}
+  serializedVersion: 2
+  m_Size: {x: 3, y: 5, z: 3}
+  m_Center: {x: 0, y: 2.5, z: -0.2}
+  m_IsViewVolume: 1
 --- !u!1001 &8401124120700985732
 PrefabInstance:
   m_ObjectHideFlags: 0
