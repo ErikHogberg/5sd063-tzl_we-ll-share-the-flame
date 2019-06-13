@@ -8,8 +8,9 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: b05eb3be919b03e45b4c7f955cebe33a
+  m_OcclusionCullingData: {fileID: 36300000, guid: ffaac7168e098304ab68b3334e0b9b7b,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -866,6 +867,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: -96.66
       objectReference: {fileID: 0}
+    - target: {fileID: 3232191287887813806, guid: 02bb2797f0a6f7a45912731f9411d258,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15.050537
+      objectReference: {fileID: 0}
     - target: {fileID: 6209176590204580219, guid: 02bb2797f0a6f7a45912731f9411d258,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -875,6 +881,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: -96.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209176590204580219, guid: 02bb2797f0a6f7a45912731f9411d258,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15.050537
       objectReference: {fileID: 0}
     - target: {fileID: 3232191287076528125, guid: 02bb2797f0a6f7a45912731f9411d258,
         type: 3}
@@ -1196,11 +1207,6 @@ PrefabInstance:
         type: 3}
       propertyPath: near clip plane
       value: 700
-      objectReference: {fileID: 0}
-    - target: {fileID: 4148500036752385238, guid: 6df0d2c81435eff47a9ba09b161c812d,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6df0d2c81435eff47a9ba09b161c812d, type: 3}

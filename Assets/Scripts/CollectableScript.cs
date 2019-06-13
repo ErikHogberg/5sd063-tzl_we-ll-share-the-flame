@@ -23,16 +23,19 @@ public class CollectableScript : MonoBehaviour {
 	private void Update() {
 		if (notInit) {
 
-
-			Globals.CollectiblePanel.AddTotalCollectibles(Type);
+			if (Globals.CollectiblePanel != null) {
+				Globals.CollectiblePanel.AddTotalCollectibles(Type);
+			}
 
 			notInit = false;
 		}
 	}
 
 	private void OnDisable() {
-		if (Globals.TimerPanel.IsRunning()) {
-			Globals.CollectiblePanel.AddCollectibles(Type);
+		if (Globals.TimerPanel != null && Globals.TimerPanel.IsRunning()) {
+			if (Globals.CollectiblePanel != null) {
+				Globals.CollectiblePanel.AddCollectibles(Type);
+			}
 		}
 	}
 
