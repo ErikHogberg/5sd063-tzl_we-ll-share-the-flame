@@ -24,8 +24,8 @@ public class HighscorePanelScript : MonoBehaviour {
 
 		UpdateList();
 
-		NameInput.Select();
-		NameInput.ActivateInputField();
+		// NameInput.Select();
+		// NameInput.ActivateInputField();
 
 		NameInput.onEndEdit.AddListener(SubmitScore);
 
