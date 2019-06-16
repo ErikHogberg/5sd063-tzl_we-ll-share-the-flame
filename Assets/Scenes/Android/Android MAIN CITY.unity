@@ -1305,16 +1305,6 @@ PrefabInstance:
       propertyPath: m_OcclusionCulling
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2322423482044678852, guid: 6df0d2c81435eff47a9ba09b161c812d,
-        type: 3}
-      propertyPath: far clip plane
-      value: 700
-      objectReference: {fileID: 0}
-    - target: {fileID: 7838698095208031577, guid: 6df0d2c81435eff47a9ba09b161c812d,
-        type: 3}
-      propertyPath: near clip plane
-      value: 700
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6df0d2c81435eff47a9ba09b161c812d, type: 3}
 --- !u!1 &1031099095

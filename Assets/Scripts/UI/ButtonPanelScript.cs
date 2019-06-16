@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+// using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public enum DebugKey {
@@ -14,7 +15,7 @@ public enum DebugKey {
 public class ButtonPanelScript : MonoBehaviour {
 
 	public DebugKey debugKey;
-	private UnityEngine.Experimental.Input.Controls.KeyControl key;
+	private UnityEngine.InputSystem.Controls.KeyControl key;
 
 	private Color defaultColor;
 	public Color DownColor;

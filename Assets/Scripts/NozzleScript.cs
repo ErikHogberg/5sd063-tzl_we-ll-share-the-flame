@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.Input;
+// using UnityEngine.Experimental.Input;
 using WiimoteApi;
 using Assets.Scripts.Utilities;
 using Assets.Scripts;
+using UnityEngine.InputSystem;
 
 public class NozzleScript : MonoBehaviour {
 
@@ -101,7 +102,7 @@ public class NozzleScript : MonoBehaviour {
 		{
 			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
 			action.performed += _ => { firing = true; };
-			action.cancelled += _ => { firing = false; };
+			action.canceled += _ => { firing = false; };
 			action.Enable();
 		}
 

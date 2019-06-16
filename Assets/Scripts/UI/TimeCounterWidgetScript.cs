@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Assets.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Experimental.Input;
+// using UnityEngine.Experimental.Input;
 using Assets.Scripts;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class TimeCounterWidgetScript : MonoBehaviour {
 

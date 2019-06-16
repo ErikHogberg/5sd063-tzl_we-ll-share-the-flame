@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+// using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public class HighscorePanelScript : MonoBehaviour {
