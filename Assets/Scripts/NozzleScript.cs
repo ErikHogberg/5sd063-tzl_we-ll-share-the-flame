@@ -50,6 +50,7 @@ public class NozzleScript : MonoBehaviour {
 	public bool IgnoreRoll = true;
 
 	// wiimote
+	public bool EnableWiimote = false;
 	private Wiimote wiimote;
 	public bool DisableRumble = false;
 
@@ -120,11 +121,13 @@ public class NozzleScript : MonoBehaviour {
 
 		bool wiimoteFiring = false;
 
-		if (!WiimoteManager.HasWiimote()) {
-			WiimoteManager.FindWiimotes();
-			// Debug.Log("scanned wiimotes");
-		} else {
-			wiimoteFiring = WiimoteUpdate();
+		if (EnableWiimote) {
+			if (!WiimoteManager.HasWiimote()) {
+				WiimoteManager.FindWiimotes();
+				// Debug.Log("scanned wiimotes");
+			} else {
+				wiimoteFiring = WiimoteUpdate();
+			}
 		}
 
 		//if (Mouse.current.leftButton.isPressed) {
