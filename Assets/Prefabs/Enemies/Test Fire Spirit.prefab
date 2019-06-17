@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7074411345045849167}
   - component: {fileID: 6993199526346567230}
   - component: {fileID: 7145392629383178603}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5030,7 +5030,7 @@ GameObject:
   - component: {fileID: 8655626591934528425}
   - component: {fileID: 2152642098314101765}
   - component: {fileID: 3457019660336933647}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}

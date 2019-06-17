@@ -6,13 +6,24 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class TouchWheelControlScript : MonoBehaviour {
 
+	private RectTransform rectTransform;
+
 	public RectTransform Track;
 	public RectTransform TrackTile;
 
 	public bool LeftWheel = true;
+	public float BrakeDeadzone = 0f;
+
+	private float? lastTouchY = null;
+	// private float speedBuffer = 0f;
+
+	public float AnimationSpeed = 1f;
 
 	void Start() {
-		RectTransform rectTransform = GetComponent<RectTransform>();
+
+		Input.multiTouchEnabled = true;
+
+		rectTransform = GetComponent<RectTransform>();
 		float rectHeight = rectTransform.rect.height;
 		float rectwidth = rectTransform.rect.width;
 
@@ -55,40 +66,152 @@ public class TouchWheelControlScript : MonoBehaviour {
 
 	void Update() {
 
+		Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+		Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+
 		// input
-		// TODO: save current wheel finger id global
-		// TODO: check if finger id is used by other wheel
+		// FIXME: right wheel controls requires touching left wheel control to get touch
 
-		Touch? touch = null;// = Input.GetTouch(0);
+		if (lastTouchY.HasValue) {
 
-		if (LeftWheel) {
+			int id;
+			if (LeftWheel) {
+				id = Globals.LeftWheelFingerId;
+			} else {
+				id = Globals.RightWheelFingerId;
+			}
+
+			Touch? currentTouch = null;
 			for (int i = 0; i < Input.touchCount; i++) {
-				Touch currentTouch = Input.GetTouch(i);
-				if (currentTouch.fingerId != Globals.RightWheelFingerId) {
-					touch = currentTouch;
-					break;
+				if (Input.GetTouch(i).fingerId == id) {
+					currentTouch = Input.GetTouch(i);
 				}
 			}
+
+			if (currentTouch.HasValue) {
+
+				switch (currentTouch.Value.phase) {
+					case TouchPhase.Began:
+					case TouchPhase.Moved:
+					case TouchPhase.Stationary:
+						float delta = lastTouchY.Value - currentTouch.Value.position.y;
+						if (delta < 0f) {
+							// delta backwards
+							if (LeftWheel) {
+								if (Globals.Player.LeftWheelSpeed < 0f) {
+									// speed backwards
+									if (delta < Globals.Player.LeftWheelSpeed) {
+										Globals.Player.LeftWheelSpeed = delta;
+									}
+								} else {
+									// speed forwards
+									if (-delta > BrakeDeadzone) {
+										Globals.Player.LeftWheelSpeed = delta;
+									}
+								}
+							} else {
+								if (Globals.Player.RightWheelSpeed < 0f) {
+									// speed backwards
+									if (delta < Globals.Player.RightWheelSpeed) {
+										Globals.Player.RightWheelSpeed = delta;
+									}
+								} else {
+									// speed forwards
+									if (-delta > BrakeDeadzone) {
+										Globals.Player.RightWheelSpeed = delta;
+									}
+								}
+							}
+
+						} else {
+							// delta forwards
+							if (LeftWheel) {
+								if (Globals.Player.LeftWheelSpeed < 0f) {
+									// speed backwards
+									if (delta > BrakeDeadzone) {
+										Globals.Player.LeftWheelSpeed = delta;
+									}
+								} else {
+									// speed forwards
+									if (delta > Globals.Player.LeftWheelSpeed) {
+										Globals.Player.LeftWheelSpeed = delta;
+									}
+
+								}
+							} else {
+								if (Globals.Player.RightWheelSpeed < 0f) {
+									// speed backwards
+									if (delta > BrakeDeadzone) {
+										Globals.Player.RightWheelSpeed = delta;
+									}
+								} else {
+									// speed forwards
+									if (delta > Globals.Player.RightWheelSpeed) {
+										Globals.Player.RightWheelSpeed = delta;
+									}
+								}
+							}
+						}
+						lastTouchY = currentTouch.Value.position.y;
+						break;
+					case TouchPhase.Canceled:
+					case TouchPhase.Ended:
+						if (LeftWheel)
+							Globals.LeftWheelFingerId = -1;
+						else
+							Globals.RightWheelFingerId = -1;
+
+						lastTouchY = null;
+						break;
+				}
+			}
+
 		} else {
 			for (int i = 0; i < Input.touchCount; i++) {
 				Touch currentTouch = Input.GetTouch(i);
-				if (currentTouch.fingerId != Globals.LeftWheelFingerId) {
-					touch = currentTouch;
-					break;
+
+				// skip if used by other wheel
+				if (LeftWheel) {
+					if (currentTouch.fingerId == Globals.RightWheelFingerId)
+						continue;
+				} else {
+					if (currentTouch.fingerId == Globals.LeftWheelFingerId)
+						continue;
 				}
+
+				switch (currentTouch.phase) {
+					case TouchPhase.Began:
+						if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, currentTouch.position)) {
+							lastTouchY = currentTouch.position.y;
+							// touch = currentTouch;
+							if (LeftWheel) {
+								Globals.LeftWheelFingerId = currentTouch.fingerId;
+							} else {
+								Globals.RightWheelFingerId = currentTouch.fingerId;
+							}
+							break;
+						}
+						continue;
+					case TouchPhase.Canceled:
+					case TouchPhase.Ended:
+					case TouchPhase.Moved:
+					case TouchPhase.Stationary:
+						continue;
+				}
+
+				break;
 			}
+
 		}
 
-		if (!touch.HasValue) {
-			return;
-		}
-		
-		int id = touch.Value.fingerId;
-
-		for (int i = 0; i < Input.touchCount; i++) {
-			if (Input.GetTouch(i).fingerId == id) {
-
+		{
+			Vector2 pos = Track.anchoredPosition;
+			if (LeftWheel) {
+				pos.y -= Globals.Player.LeftWheelSpeed * AnimationSpeed * Time.deltaTime;
+			} else {
+				pos.y -= Globals.Player.RightWheelSpeed * AnimationSpeed * Time.deltaTime;
 			}
+			Track.anchoredPosition = pos;
 		}
 
 		// tiling
@@ -107,6 +230,20 @@ public class TouchWheelControlScript : MonoBehaviour {
 		}
 
 
+	}
+
+	void OnGUI() {
+		for (int i = 0; i < Input.touchCount; i++) {
+			Touch currentTouch = Input.GetTouch(i);
+			float boxHalfSize = 300f;
+			GUI.color = Color.blue;
+			GUI.Box(new Rect(
+				currentTouch.position.x,
+				-(currentTouch.position.y),
+				boxHalfSize,
+				boxHalfSize
+				), "touch: " + i + ", id: " + currentTouch.fingerId);
+		}
 	}
 
 }

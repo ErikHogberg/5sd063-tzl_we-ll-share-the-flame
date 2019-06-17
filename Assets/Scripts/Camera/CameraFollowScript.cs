@@ -118,7 +118,7 @@ public class CameraFollowScript : MonoBehaviour {
 
 			float wheelchairSpeed = 1f;
 			// wheelchairSpeed = Globals.Player.Speed;
-			wheelchairSpeed = Mathf.Abs(Globals.Player.leftWheelSpeed + Globals.Player.rightWheelSpeed);
+			wheelchairSpeed = Mathf.Abs(Globals.Player.LeftWheelSpeed + Globals.Player.RightWheelSpeed);
 
 			// TODO: quickly move the camera behind the player when they face the camera
 

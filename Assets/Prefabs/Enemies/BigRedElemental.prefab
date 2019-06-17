@@ -5026,7 +5026,7 @@ GameObject:
   - component: {fileID: 7155801917516570386}
   - component: {fileID: 4710316788631220684}
   - component: {fileID: 2461926846828254452}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9789,7 +9789,7 @@ GameObject:
   - component: {fileID: 8097166987622073650}
   - component: {fileID: 3148168086442893780}
   - component: {fileID: 7074119529061685529}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}

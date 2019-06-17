@@ -47,10 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8662902c653e384cbfa42c71225c9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: {fileID: 11400000, guid: f384adda309136f488382e5406e02159, type: 3}
+  controls: {fileID: -944628639613478452, guid: f384adda309136f488382e5406e02159,
+    type: 3}
   WaterJet: {fileID: 6197879766139212088}
   Foam: {fileID: 6576014808754426352}
-  NozzleModel: {fileID: 0}
   DisableFiring: 0
   particleModeUseWater: 1
   AmmoAmount: 1
@@ -69,6 +69,7 @@ MonoBehaviour:
   FlipPitch: 0
   FlipRoll: 0
   IgnoreRoll: 1
+  EnableWiimote: 0
   DisableRumble: 0
   WiimoteYawSensitivity: 0.35
   WiimotePitchSensitivity: -0.35
