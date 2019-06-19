@@ -94,7 +94,7 @@ public class TouchWheelControlScript : MonoBehaviour {
 					case TouchPhase.Began:
 					case TouchPhase.Moved:
 					case TouchPhase.Stationary:
-						float delta = lastTouchY.Value - currentTouch.Value.position.y;
+						float delta = (currentTouch.Value.position.y - lastTouchY.Value) * Globals.Player.Speed;
 						if (delta < 0f) {
 							// delta backwards
 							if (LeftWheel) {
@@ -178,6 +178,8 @@ public class TouchWheelControlScript : MonoBehaviour {
 					if (currentTouch.fingerId == Globals.LeftWheelFingerId)
 						continue;
 				}
+				if (currentTouch.fingerId == Globals.AimFingerId)
+					continue;
 
 				switch (currentTouch.phase) {
 					case TouchPhase.Began:
@@ -207,9 +209,9 @@ public class TouchWheelControlScript : MonoBehaviour {
 		{
 			Vector2 pos = Track.anchoredPosition;
 			if (LeftWheel) {
-				pos.y -= Globals.Player.LeftWheelSpeed * AnimationSpeed * Time.deltaTime;
+				pos.y += Globals.Player.LeftWheelSpeed * AnimationSpeed * Time.deltaTime;
 			} else {
-				pos.y -= Globals.Player.RightWheelSpeed * AnimationSpeed * Time.deltaTime;
+				pos.y += Globals.Player.RightWheelSpeed * AnimationSpeed * Time.deltaTime;
 			}
 			Track.anchoredPosition = pos;
 		}
@@ -232,6 +234,7 @@ public class TouchWheelControlScript : MonoBehaviour {
 
 	}
 
+	/*
 	void OnGUI() {
 		for (int i = 0; i < Input.touchCount; i++) {
 			Touch currentTouch = Input.GetTouch(i);
@@ -245,5 +248,6 @@ public class TouchWheelControlScript : MonoBehaviour {
 				), "touch: " + i + ", id: " + currentTouch.fingerId);
 		}
 	}
+	// */
 
 }

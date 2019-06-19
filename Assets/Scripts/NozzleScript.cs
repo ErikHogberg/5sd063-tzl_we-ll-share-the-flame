@@ -14,6 +14,7 @@ public class NozzleScript : MonoBehaviour {
 	public GameObject Foam;
 	private ParticleSystem[] waterJetParticles;
 	private ParticleSystem[] foamParticles;
+	public SpraySound ExtinguisherSound;
 
 	public bool DisableFiring = false;
 
@@ -26,6 +27,7 @@ public class NozzleScript : MonoBehaviour {
 	public float turnSpeedX = 4.0f;
 	public float turnSpeedY = 2.0f;
 
+	// public bool AlwaysFiring = false;
 	private bool firing = false;
 	private bool wasFiring = false;
 
@@ -77,7 +79,6 @@ public class NozzleScript : MonoBehaviour {
 	private bool aWasPressed = false;
 	// private bool irToggle = false;
 	public Vector2 IrOuterDeadzone = new Vector2(0f, 0f);
-	// TODO: IR (reverse-)deadzone
 
 	public bool UseAccelerometer = false;
 
@@ -138,13 +139,13 @@ public class NozzleScript : MonoBehaviour {
 					foreach (ParticleSystem particles in waterJetParticles) {
 						particles.Play();
 					}
-
 				} else {
-
 					foreach (ParticleSystem particles in foamParticles) {
 						particles.Play();
 					}
 				}
+
+				ExtinguisherSound.PlaySound();
 				wasFiring = true;
 			}
 
@@ -165,14 +166,13 @@ public class NozzleScript : MonoBehaviour {
 					foreach (ParticleSystem particles in waterJetParticles) {
 						particles.Stop();
 					}
-
 				} else {
-
 					foreach (ParticleSystem particles in foamParticles) {
 						particles.Stop();
 					}
 				}
 
+				ExtinguisherSound.StopSound();
 				wasFiring = false;
 			}
 		}
@@ -377,7 +377,7 @@ public class NozzleScript : MonoBehaviour {
 		}
 	}
 
-	private void SwitchParticles(bool nozzleIsFiring) {
+	public void SwitchParticles(bool nozzleIsFiring) {
 		aWasPressed = true;
 		Debug.Log("change foam mode");
 		particleModeUseWater = !particleModeUseWater;
@@ -399,6 +399,19 @@ public class NozzleScript : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void SwitchParticles() {
+		SwitchParticles(firing);
+	}
+
+	public void SetFiring(bool fire) {
+		firing = fire;
+	}
+
+	public void AddYawPitch(float yawAdd, float pitchAdd) {
+		yaw += yawAdd;
+		pitch += pitchAdd;
 	}
 
 }

@@ -15,8 +15,8 @@ public class WiimoteCalibrationPanelScript : MonoBehaviour {
 	public RectTransform RightDot;
 	public RectTransform CalibrateDot;
 
-	private bool leftClicked = false;
-	private bool rightClicked = false;
+	// private bool leftClicked = false;
+	// private bool rightClicked = false;
 
 	[Tooltip("How close the IR cursor has to be to the center of the button to click")]
 	public float ClickAccuracy = 1f;

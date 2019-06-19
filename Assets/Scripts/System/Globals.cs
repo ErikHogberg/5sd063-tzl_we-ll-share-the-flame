@@ -103,6 +103,7 @@ namespace Assets.Scripts {
 		// touch
 		public static int LeftWheelFingerId = -1;
 		public static int RightWheelFingerId = -1;
+		public static int AimFingerId = -1;
 
 		// TODO: make separate script for assigning music when starting a scene
 		public static AudioSource PersitentMusic;

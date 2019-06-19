@@ -714,8 +714,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
 				if (rampScript.AlignPlayer &&
 				  (rampScript.JumpNormallyIfWrongWay &&
-					   ((Speed > 0f && facingDifference > 90f)
-				  	|| (Speed < 0f && facingDifference < 90f))
+					   ((	
+						   //Speed > 0f && // FIXME: supposed to use current combined wheel speed, but somehow works anyway?
+					   facingDifference > 90f)
+				  	// || (Speed < 0f && facingDifference < 90f)
+					  )
 				  )
 				) {
 					Globals.AddScore(JumpScoreWorth, JumpScoreMultiplierWorth);
