@@ -10,7 +10,6 @@ public class HorizontalTilingScript : MonoBehaviour {
 	public RectTransform Track;
 	public RectTransform TrackTile;
 
-	// Start is called before the first frame update
 	void Start() {
 		rectTransform = GetComponent<RectTransform>();
 		// float rectHeight = rectTransform.rect.height;
@@ -52,8 +51,7 @@ public class HorizontalTilingScript : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	void LateUpdate() {
+	public void UpdateTrack() {
 		// tiling
 		float tileWidth = TrackTile.rect.width;
 
@@ -68,5 +66,12 @@ public class HorizontalTilingScript : MonoBehaviour {
 			pos.x += tileWidth;
 			Track.anchoredPosition = pos;
 		}
+	}
+
+	public void MoveTrack(float amount) {
+		Vector2 pos = Track.anchoredPosition;
+		pos.x += amount;
+		Track.anchoredPosition = pos;
+		UpdateTrack();
 	}
 }

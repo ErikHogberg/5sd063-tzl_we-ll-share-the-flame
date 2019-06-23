@@ -8,8 +8,9 @@ public class TouchAimControlScript : MonoBehaviour {
 
 	private RectTransform rectTransform;
 
-	public RectTransform VerticalTrack;
-	public RectTransform HorizontalTrack;
+	public VerticalTilingScript VerticalTrack;
+	public HorizontalTilingScript HorizontalTrack;
+	public Vector2 AnimationSpeed = new Vector2(1f, 1f);
 
 	private Vector2? lastTouch = null;
 	// private float speedBuffer = 0f;
@@ -50,17 +51,9 @@ public class TouchAimControlScript : MonoBehaviour {
 						Vector2 delta = (currentTouch.Value.position - lastTouch.Value) * YawPitchSpeed;
 
 						Globals.Nozzle.AddYawPitch(delta.x, delta.y);
-                        
-                        {
-							Vector2 pos = HorizontalTrack.anchoredPosition;
-							pos.x += delta.x;
-							HorizontalTrack.anchoredPosition = pos;
-						}
-                        {
-							Vector2 pos = VerticalTrack.anchoredPosition;
-							pos.y += delta.y;
-							VerticalTrack.anchoredPosition = pos;
-						}
+
+						HorizontalTrack.MoveTrack(delta.x * AnimationSpeed.x);
+						VerticalTrack.MoveTrack(delta.y * AnimationSpeed.y);
 
 						lastTouch = currentTouch.Value.position;
 						break;
@@ -78,7 +71,7 @@ public class TouchAimControlScript : MonoBehaviour {
 
 				// skip if used by wheels
 				if (currentTouch.fingerId == Globals.LeftWheelFingerId
-                 || currentTouch.fingerId == Globals.RightWheelFingerId)
+				 || currentTouch.fingerId == Globals.RightWheelFingerId)
 					continue;
 
 				switch (currentTouch.phase) {

@@ -94,7 +94,7 @@ public class TouchWheelControlScript : MonoBehaviour {
 					case TouchPhase.Began:
 					case TouchPhase.Moved:
 					case TouchPhase.Stationary:
-						float delta = (currentTouch.Value.position.y - lastTouchY.Value) * Globals.Player.Speed;
+						float delta = (currentTouch.Value.position.y - lastTouchY.Value) * Globals.Player.Speed * Time.deltaTime;
 						if (delta < 0f) {
 							// delta backwards
 							if (LeftWheel) {
