@@ -66,8 +66,11 @@ public class TouchWheelControlScript : MonoBehaviour {
 
 	void Update() {
 
-		Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
-		Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+		if (LeftWheel) {
+			Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+		} else {
+			Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+		}
 
 		// input
 		// FIXME: right wheel controls requires touching left wheel control to get touch

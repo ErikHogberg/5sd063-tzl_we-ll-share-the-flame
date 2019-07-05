@@ -106,7 +106,7 @@ MonoBehaviour:
   TrackTile: {fileID: 3410325036821778842}
   LeftWheel: 0
   BrakeDeadzone: 0
-  AnimationSpeed: 1
+  AnimationSpeed: 20
 --- !u!1 &3410325036251098173
 GameObject:
   m_ObjectHideFlags: 0

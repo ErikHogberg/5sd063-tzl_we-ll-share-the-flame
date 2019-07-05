@@ -51,6 +51,7 @@ MonoBehaviour:
     type: 3}
   WaterJet: {fileID: 6197879766139212088}
   Foam: {fileID: 6576014808754426352}
+  ExtinguisherSound: {fileID: 0}
   DisableFiring: 0
   particleModeUseWater: 1
   AmmoAmount: 1
@@ -149,7 +150,7 @@ GameObject:
   - component: {fileID: 273610503374459217}
   - component: {fileID: 8433836581693535438}
   - component: {fileID: 3088480699479709958}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Nozzle model
   m_TagString: Ignore Collision
   m_Icon: {fileID: 0}
@@ -326,21 +327,6 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
@@ -352,6 +338,21 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9193838673408822858, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193838673251371552, guid: 94e06c85140c84a4685ef59f86e698a1,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.2
