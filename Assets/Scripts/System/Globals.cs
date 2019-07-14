@@ -108,6 +108,10 @@ namespace Assets.Scripts {
 		// TODO: make separate script for assigning music when starting a scene
 		public static AudioSource PersitentMusic;
 
+		// Network
+		public static NetworkMode DriverNetworkMode = NetworkMode.None;
+		public static NetworkMode ShooterNetworkMode = NetworkMode.None;
+
 		public static void GameOver() {
 			// if (GameOverPanel != null) {
 			// 	GameOverPanel.gameObject.SetActive(true);

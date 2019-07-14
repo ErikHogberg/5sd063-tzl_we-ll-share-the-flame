@@ -1,14 +1,19 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Utilities;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 // using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public class WheelchairMoveScript : MonoBehaviour {
+
+	#region Unity fields
 
 	//Mick start
 	[Header("Sound FX")]
@@ -34,6 +39,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
+
+	[Header("Network")]
+	public NetworkMode Network = NetworkMode.None;
+	public float networkSendTime = 1f / 30f;
+	private Timer networkSendTimer;
+
+	private Task UdpTask;
+	private UdpClient udpClient;
+	private ConcurrentQueue<Vector2> messageQueue = new ConcurrentQueue<Vector2>();
+
 
 	[Tooltip("How fast the wheels spin compared to the movement speed")]
 	public float WheelAnimationSpeed = 1.0f;
@@ -172,6 +187,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private Vector3 ziplineTarget;
 	private float ziplineSpeed;
 
+	#endregion
 
 	void Start() {
 
@@ -183,6 +199,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		StandingKid.SetActive(true);
 		StandingKidZipline.SetActive(false);
+
+		
+
+		networkSendTimer = new Timer(networkSendTime);
+		if (Network == NetworkMode.Receive) {
+			UdpClient receivingUdpClient = new UdpClient(11000);
+			Task UdpListener = new Task(() => { UdpUtilities.UdpLoop(receivingUdpClient, messageQueue); });
+			UdpListener.Start();
+		} else if (Network == NetworkMode.Send) {
+
+		}
 
 		nextJumpTime = JumpTime;
 		nextStuntAngle = StuntAngle;
@@ -223,13 +250,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	}
 
-	// private void FixedUpdate() {
-	// 	NozzleAnchor.UpdateAnchor();
-
-	// }
 
 	void Update() {
 
+		if (Network == NetworkMode.Receive) {
+			return;
+		}
 
 		if (DisableMovement) {
 			UpdateWheels();
@@ -242,38 +268,35 @@ public class WheelchairMoveScript : MonoBehaviour {
 		var keyboard = Keyboard.current;
 
 		if (UpdateCollision()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
+		} else if (UpdateZipline()) {
+		} else if (UpdateJump()) {
+		} else {
 
-		if (UpdateZipline()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
-		if (UpdateJump()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
+			// if (Mouse.current.rightButton.isPressed) {
+			if (keyboard.digit2Key.isPressed) {
+				// && !boostTimer.IsRunning()) {
+				// boostTimer.Restart(BoostTime);
+				Boost();
+			}
 
-		// if (Mouse.current.rightButton.isPressed) {
-		if (keyboard.digit2Key.isPressed) {
-			// && !boostTimer.IsRunning()) {
-			// boostTimer.Restart(BoostTime);
-			Boost();
-		}
+			if (UpdateBoost()) {
+			} else {
 
-		if (UpdateBoost()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
 
-		UpdateWheels();
-		Turn();
-		MoveForward();
-		SpinWheels();
+				UpdateWheels();
+				Turn();
+				MoveForward();
+				SpinWheels();
+			}
+
+		}
 
 		NozzleAnchor.UpdateAnchor();
 
+		if (Network == NetworkMode.Send) {
+
+			return;
+		}
 
 	}
 
@@ -714,10 +737,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
 				if (rampScript.AlignPlayer &&
 				  (rampScript.JumpNormallyIfWrongWay &&
-					   ((	
-						   //Speed > 0f && // FIXME: supposed to use current combined wheel speed, but somehow works anyway?
+					   ((
+					   //Speed > 0f && // FIXME: supposed to use current combined wheel speed, but somehow works anyway?
 					   facingDifference > 90f)
-				  	// || (Speed < 0f && facingDifference < 90f)
+					  // || (Speed < 0f && facingDifference < 90f)
 					  )
 				  )
 				) {
