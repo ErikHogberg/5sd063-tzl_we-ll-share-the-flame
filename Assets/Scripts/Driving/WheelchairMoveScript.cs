@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -200,7 +201,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 		StandingKid.SetActive(true);
 		StandingKidZipline.SetActive(false);
 
-		
 
 		networkSendTimer = new Timer(networkSendTime);
 		if (Network == NetworkMode.Receive) {
@@ -254,6 +254,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 	void Update() {
 
 		if (Network == NetworkMode.Receive) {
+			while (true) {
+				bool successful = messageQueue.TryDequeue(out Vector2 pos);
+				if (successful) {
+					Vector3 tempPos = transform.position;
+					tempPos.x = pos.x;
+					tempPos.z = pos.y;
+					transform.position = tempPos;
+				} else {
+					break;
+				}
+			}
 			return;
 		}
 
@@ -294,7 +305,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 		NozzleAnchor.UpdateAnchor();
 
 		if (Network == NetworkMode.Send) {
+			// TODO: message ordering
+			byte[] udpBytes = new byte[9];
+			udpBytes[0] = 1;
+			Array.Copy(BitConverter.GetBytes(transform.position.x), 0, udpBytes, 1, 4);
+			Array.Copy(BitConverter.GetBytes(transform.position.y), 0, udpBytes, 5, 4);
 
+			udpClient.SendAsync(udpBytes, 9);
 			return;
 		}
 

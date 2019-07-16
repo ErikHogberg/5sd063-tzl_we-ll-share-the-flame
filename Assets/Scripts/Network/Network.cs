@@ -51,44 +51,27 @@ namespace Assets.Scripts {
 					IPAddress playerAddress = RemoteIpEndPoint.Address;
 					int playerPort = RemoteIpEndPoint.Port;
 
-					MessageType message = MessageType.Position;
-					Vector2 position = new Vector2();
+					// MessageType message = MessageType.Position;
+					// Vector2 position = new Vector2();
 
-					for (int i = 0; i < receiveBytes.Length; i++) {
-						if (i == 0) {
-							switch (receiveBytes[i]) {
-								case 0:
-									// message = MessageType.Position;
-									break;
-								case 1:
-									message = MessageType.Position;
-									break;
-								default:
-									break;
-							}
-
-						} else {
-							switch (message) {
-								case MessageType.Position:
-									// TODO: parse Vector2
-									// IDEA: add byte multiplied by digit worth to respective axis, up to float precision
-									break;
-								default:
-									break;
-							}
-						}
-					}
-
-					switch (message) {
-						case MessageType.Position:
-							// TODO: send parsed Vector2
+					switch (receiveBytes[0]) {
+						case 0:
+							// message = MessageType.Position;
+							break;
+						case 1:
+							// message = MessageType.Position;
+							Vector2 position = new Vector2();
+							byte[] xBytes = new byte[4];
+							byte[] zBytes = new byte[4];
+							Array.Copy(receiveBytes, 1, xBytes, 0, 4);
+							Array.Copy(receiveBytes, 5, zBytes, 0, 4);
+							position.x = BitConverter.ToSingle(xBytes, 4);
+							position.y = BitConverter.ToSingle(zBytes, 4);
 							messageQueue.Enqueue(position);
 							break;
 						default:
 							break;
 					}
-
-
 
 
 					/* 
