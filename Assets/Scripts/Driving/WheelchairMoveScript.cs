@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -203,12 +204,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 
 		networkSendTimer = new Timer(networkSendTime);
+		Network = Globals.DriverNetworkMode;
 		if (Network == NetworkMode.Receive) {
 			UdpClient receivingUdpClient = new UdpClient(11000);
 			Task UdpListener = new Task(() => { UdpUtilities.UdpLoop(receivingUdpClient, messageQueue); });
 			UdpListener.Start();
 		} else if (Network == NetworkMode.Send) {
-
+			udpClient = new UdpClient(11001);
 		}
 
 		nextJumpTime = JumpTime;
@@ -311,7 +313,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Array.Copy(BitConverter.GetBytes(transform.position.x), 0, udpBytes, 1, 4);
 			Array.Copy(BitConverter.GetBytes(transform.position.y), 0, udpBytes, 5, 4);
 
-			udpClient.SendAsync(udpBytes, 9);
+			udpClient.SendAsync(udpBytes, 9, new IPEndPoint(IPAddress.Loopback, 11002));
 			return;
 		}
 
