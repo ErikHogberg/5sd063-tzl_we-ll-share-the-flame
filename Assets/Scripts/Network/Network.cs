@@ -68,6 +68,7 @@ namespace Assets.Scripts {
 							position.x = BitConverter.ToSingle(xBytes, 4);
 							position.y = BitConverter.ToSingle(zBytes, 4);
 							messageQueue.Enqueue(position);
+							Globals.NotificationPanel.Notify("enqueued position");
 							break;
 						default:
 							break;

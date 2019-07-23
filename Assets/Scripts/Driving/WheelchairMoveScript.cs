@@ -263,6 +263,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 					tempPos.x = pos.x;
 					tempPos.z = pos.y;
 					transform.position = tempPos;
+					Globals.NotificationPanel.Notify("dequeued position");
 				} else {
 					break;
 				}

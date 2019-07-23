@@ -14,6 +14,10 @@ public class ExtinguishableScript : MonoBehaviour {
 	public AudioClip ExtinguishSFX;
 	public AudioSource AS_Extinguish;
 
+	// IDEA: network: have each extinguishable register itself to a list with a unique index that it keeps track of and a bool "is extinguished" value,
+	// on extinguish it sends its index to the other player, on receive the slot of the received index in the list is marked as extinguished, 
+	// on extinguisher update it checks its slot if has been marked as extinguished, at which point it extinguishes itself.
+
 	public void Start() {
 		AS_Extinguish.clip = ExtinguishSFX;
 	}
