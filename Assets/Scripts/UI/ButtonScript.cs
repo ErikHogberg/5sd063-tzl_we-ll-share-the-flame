@@ -83,4 +83,13 @@ public class ButtonScript : MonoBehaviour {
 
 		//SceneManager.LoadScene(Globals.PausedScene, LoadSceneMode.Additive);
 	}
+
+	public void PrepareNetworkReceive() {
+		Globals.DriverNetworkMode = NetworkMode.Receive;
+	}
+	
+	public void PrepareNetworkSend() {
+		Globals.DriverNetworkMode = NetworkMode.Send;
+	}
+
 }

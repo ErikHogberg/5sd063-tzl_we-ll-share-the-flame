@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+// using UnityEngine.Experimental.Input;
 using WiimoteApi;
 
 public class WiimoteCalibrationPanelScript : MonoBehaviour {
@@ -14,8 +15,8 @@ public class WiimoteCalibrationPanelScript : MonoBehaviour {
 	public RectTransform RightDot;
 	public RectTransform CalibrateDot;
 
-	private bool leftClicked = false;
-	private bool rightClicked = false;
+	// private bool leftClicked = false;
+	// private bool rightClicked = false;
 
 	[Tooltip("How close the IR cursor has to be to the center of the button to click")]
 	public float ClickAccuracy = 1f;

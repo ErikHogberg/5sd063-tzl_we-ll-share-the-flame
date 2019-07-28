@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+// using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public class HighscorePanelScript : MonoBehaviour {
@@ -27,7 +28,7 @@ public class HighscorePanelScript : MonoBehaviour {
 		// NameInput.Select();
 		// NameInput.ActivateInputField();
 
-		NameInput.onEndEdit.AddListener(SubmitScore);
+		// NameInput.onEndEdit.AddListener(SubmitScore);
 
 	}
 

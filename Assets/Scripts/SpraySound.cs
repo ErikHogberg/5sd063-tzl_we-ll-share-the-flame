@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpraySound : MonoBehaviour
-{
+public class SpraySound : MonoBehaviour {
 	[Header("Sound FX")]
 	public AudioClip SFX_Spray_Start;
 	public AudioClip SFX_Spray_Mid;
@@ -12,29 +11,22 @@ public class SpraySound : MonoBehaviour
 
 	bool playing;
 
-    void Start()
-    {
-        AS_Spray.clip = SFX_Spray_Start;
+	void Start() {
+		AS_Spray.clip = SFX_Spray_Start;
 		playing = false;
-    }
+	}
 
-    void Update()
-    {
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (playing == false)
-            {
-                StartCoroutine("playBoostSFX");
-            }
-        }
-		if (playing == true && Input.GetKeyUp(KeyCode.Alpha1)) {
-			StopCoroutine("playBoostSFX");
-			AS_Spray.Stop();
-			AS_Spray.loop = false;
-			AS_Spray.clip = SFX_Spray_End;
-			AS_Spray.Play();
-			playing = false;
+	void Update() {
+
+		/*
+		if (Input.GetKeyDown(KeyCode.Alpha1)) {
+			PlaySound();
 		}
+		if (Input.GetKeyUp(KeyCode.Alpha1)) {
+			StopSound();
+		}
+		// */
+		
 		//if (Input.GetKeyDown(KeyCode.T)) {
 		//	StopCoroutine("playBoostSFX");
 		//	AS_Boost.Stop();
@@ -45,16 +37,32 @@ public class SpraySound : MonoBehaviour
 		//}
 	}
 
-    IEnumerator playBoostSFX()
-    {
-        playing = true;
+	public void PlaySound() {
+		if (playing == false) {
+			StartCoroutine("playBoostSFX");
+		}
+	}
+
+	public void StopSound() {
+		if (playing == true) {
+			StopCoroutine("playBoostSFX");
+			AS_Spray.Stop();
+			AS_Spray.loop = false;
+			AS_Spray.clip = SFX_Spray_End;
+			AS_Spray.Play();
+			playing = false;
+		}
+	}
+
+	IEnumerator playBoostSFX() {
+		playing = true;
 		AS_Spray.clip = SFX_Spray_Start;
 		// Play the sound
 		AS_Spray.Play();
-        yield return new WaitForSeconds(AS_Spray.clip.length);
+		yield return new WaitForSeconds(AS_Spray.clip.length);
 		AS_Spray.clip = SFX_Spray_Mid;
 		AS_Spray.loop = true;
 		AS_Spray.Play();
-    }
+	}
 
 }

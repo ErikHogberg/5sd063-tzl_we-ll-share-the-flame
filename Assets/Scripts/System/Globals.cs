@@ -100,8 +100,17 @@ namespace Assets.Scripts {
 
 		public static ScoreMultiplierWidgetScript ScoreMultiplierPanel;
 
+		// touch
+		public static int LeftWheelFingerId = -1;
+		public static int RightWheelFingerId = -1;
+		public static int AimFingerId = -1;
+
 		// TODO: make separate script for assigning music when starting a scene
 		public static AudioSource PersitentMusic;
+
+		// Network
+		public static NetworkMode DriverNetworkMode = NetworkMode.None;
+		public static NetworkMode ShooterNetworkMode = NetworkMode.None;
 
 		public static void GameOver() {
 			// if (GameOverPanel != null) {

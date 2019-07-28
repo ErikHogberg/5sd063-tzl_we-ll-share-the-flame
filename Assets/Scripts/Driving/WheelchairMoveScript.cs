@@ -1,13 +1,21 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Utilities;
+using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+// using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 public class WheelchairMoveScript : MonoBehaviour {
+
+	#region Unity fields
 
 	//Mick start
 	[Header("Sound FX")]
@@ -34,6 +42,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public GameObject TrajectoryArrow;
 	public GameObject DirectionArrow;
 
+	[Header("Network")]
+	public NetworkMode Network = NetworkMode.None;
+	public float networkSendTime = 1f / 30f;
+	private Timer networkSendTimer;
+
+	private Task UdpTask;
+	private UdpClient udpClient;
+	private ConcurrentQueue<Vector2> messageQueue = new ConcurrentQueue<Vector2>();
+
+
 	[Tooltip("How fast the wheels spin compared to the movement speed")]
 	public float WheelAnimationSpeed = 1.0f;
 
@@ -42,8 +60,10 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public bool DisableMovement = false;
 	[Tooltip("Flips keys and trackballs")]
 	public bool FlipKeys = false;
-	[Tooltip("Enable trackballs, disables keys")]
+	[Tooltip("Enable trackballs (mouse x/y) for wheel movement")]
 	public bool UseMouse = false;
+	[Tooltip("Enable keys (w/s, e/d) for wheel movement")]
+	public bool UseKeys = false;
 	[Tooltip("Adjustments for trackball direction and relative (to eachother) speed")]
 	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
@@ -101,9 +121,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 	public float DriftDamping = 1.0f;
 
 	[HideInInspector]
-	public float leftWheelSpeed = 0.0f;
+	public float LeftWheelSpeed = 0.0f;
 	[HideInInspector]
-	public float rightWheelSpeed = 0.0f;
+	public float RightWheelSpeed = 0.0f;
 
 
 	[Header("Ramp jumping")]
@@ -169,6 +189,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private Vector3 ziplineTarget;
 	private float ziplineSpeed;
 
+	#endregion
 
 	void Start() {
 
@@ -180,6 +201,17 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		StandingKid.SetActive(true);
 		StandingKidZipline.SetActive(false);
+
+
+		networkSendTimer = new Timer(networkSendTime);
+		Network = Globals.DriverNetworkMode;
+		if (Network == NetworkMode.Receive) {
+			UdpClient receivingUdpClient = new UdpClient(11000);
+			Task UdpListener = new Task(() => { UdpUtilities.UdpLoop(receivingUdpClient, messageQueue); });
+			UdpListener.Start();
+		} else if (Network == NetworkMode.Send) {
+			udpClient = new UdpClient(11001);
+		}
 
 		nextJumpTime = JumpTime;
 		nextStuntAngle = StuntAngle;
@@ -220,13 +252,24 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	}
 
-	// private void FixedUpdate() {
-	// 	NozzleAnchor.UpdateAnchor();
-
-	// }
 
 	void Update() {
 
+		if (Network == NetworkMode.Receive) {
+			while (true) {
+				bool successful = messageQueue.TryDequeue(out Vector2 pos);
+				if (successful) {
+					Vector3 tempPos = transform.position;
+					tempPos.x = pos.x;
+					tempPos.z = pos.y;
+					transform.position = tempPos;
+					Globals.NotificationPanel.Notify("dequeued position");
+				} else {
+					break;
+				}
+			}
+			return;
+		}
 
 		if (DisableMovement) {
 			UpdateWheels();
@@ -239,43 +282,46 @@ public class WheelchairMoveScript : MonoBehaviour {
 		var keyboard = Keyboard.current;
 
 		if (UpdateCollision()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
+		} else if (UpdateZipline()) {
+		} else if (UpdateJump()) {
+		} else {
 
-		if (UpdateZipline()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
-		if (UpdateJump()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
+			// if (Mouse.current.rightButton.isPressed) {
+			if (keyboard.digit2Key.isPressed) {
+				// && !boostTimer.IsRunning()) {
+				// boostTimer.Restart(BoostTime);
+				Boost();
+			}
 
-		// if (Mouse.current.rightButton.isPressed) {
-		if (keyboard.digit2Key.isPressed) {
-			// && !boostTimer.IsRunning()) {
-			// boostTimer.Restart(BoostTime);
-			Boost();
-		}
+			if (UpdateBoost()) {
+			} else {
 
-		if (UpdateBoost()) {
-			NozzleAnchor.UpdateAnchor();
-			return;
-		}
 
-		UpdateWheels();
-		Turn();
-		MoveForward();
-		SpinWheels();
+				UpdateWheels();
+				Turn();
+				MoveForward();
+				SpinWheels();
+			}
+
+		}
 
 		NozzleAnchor.UpdateAnchor();
 
+		if (Network == NetworkMode.Send) {
+			// TODO: message ordering
+			byte[] udpBytes = new byte[9];
+			udpBytes[0] = 1;
+			Array.Copy(BitConverter.GetBytes(transform.position.x), 0, udpBytes, 1, 4);
+			Array.Copy(BitConverter.GetBytes(transform.position.y), 0, udpBytes, 5, 4);
+
+			udpClient.SendAsync(udpBytes, 9, new IPEndPoint(IPAddress.Loopback, 11002));
+			return;
+		}
 
 	}
 
 	private void MoveForward() {
-		float speed = leftWheelSpeed + rightWheelSpeed;
+		float speed = LeftWheelSpeed + RightWheelSpeed;
 
 		if (drifting) {
 			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
@@ -301,12 +347,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	private void Turn() {
 
-		float speed = leftWheelSpeed + rightWheelSpeed;
-		float angle = leftWheelSpeed - rightWheelSpeed;
+		float speed = LeftWheelSpeed + RightWheelSpeed;
+		float angle = LeftWheelSpeed - RightWheelSpeed;
 		angle *= TurningSpeed;
 		//angle %= Mathf.PI * 2.0f;
 
-		if ((leftWheelSpeed > 0f && rightWheelSpeed > 0f) || (leftWheelSpeed < 0f && rightWheelSpeed < 0f)) {
+		if ((LeftWheelSpeed > 0f && RightWheelSpeed > 0f) || (LeftWheelSpeed < 0f && RightWheelSpeed < 0f)) {
 			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
 		}
 
@@ -457,7 +503,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			//  * (-knockbackSpeed - boostSlowdownProgress * boostEndSpeed)
 			//  * Time.deltaTime;
 
-			float tempSpeed = leftWheelSpeed + rightWheelSpeed - boostSlowdownProgress * boostEndSpeed;
+			float tempSpeed = LeftWheelSpeed + RightWheelSpeed - boostSlowdownProgress * boostEndSpeed;
 			if (tempSpeed < 0f) {
 				tempSpeed = Mathf.Min(tempSpeed, -MinCollisionKnockbackSpeed);
 			} else {
@@ -481,7 +527,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			if (boostTimer.IsRunning()) {
 				if (boostTimer.Update()) {
-					boostEndSpeed = Mathf.Max(leftWheelSpeed, rightWheelSpeed);
+					boostEndSpeed = Mathf.Max(LeftWheelSpeed, RightWheelSpeed);
 					boostSlowdownTimer.Restart(BoostSlowdownTime);
 					StopBoostParticles();
 				}
@@ -502,18 +548,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 				}
 				if (FlipKeys) {
-					boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+					boostEndSpeed = Mathf.Max(LeftWheelSpeed - y, RightWheelSpeed - x);
 				} else {
-					boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+					boostEndSpeed = Mathf.Max(LeftWheelSpeed - x, RightWheelSpeed - y);
 				}
 				boostSlowdownTimer.Restart(BoostSlowdownTime);
 				StopBoostParticles();
 			} else {
-				leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-				rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
-				transform.position += transform.forward * (leftWheelSpeed + rightWheelSpeed) * Time.deltaTime;
-				LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-				RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, BoostMaxSpeed, BoostAcceleration * Time.deltaTime);
+				transform.position += transform.forward * (LeftWheelSpeed + RightWheelSpeed) * Time.deltaTime;
+				LeftWheel.transform.Rotate(-WheelRotationAxis, LeftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+				RightWheel.transform.Rotate(WheelRotationAxis, RightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 
 				BoostAmmo -= BoostAmmoDrainRate * Time.deltaTime;
 				if (BoostAmmo < 0f) {
@@ -527,9 +573,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 					}
 					if (FlipKeys) {
-						boostEndSpeed = Mathf.Max(leftWheelSpeed - y, rightWheelSpeed - x);
+						boostEndSpeed = Mathf.Max(LeftWheelSpeed - y, RightWheelSpeed - x);
 					} else {
-						boostEndSpeed = Mathf.Max(leftWheelSpeed - x, rightWheelSpeed - y);
+						boostEndSpeed = Mathf.Max(LeftWheelSpeed - x, RightWheelSpeed - y);
 					}
 					boostSlowdownTimer.Restart(BoostSlowdownTime);
 					StopBoostParticles();
@@ -634,8 +680,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	private void SpinWheels() {
-		LeftWheel.transform.Rotate(-WheelRotationAxis, leftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
-		RightWheel.transform.Rotate(WheelRotationAxis, rightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		LeftWheel.transform.Rotate(-WheelRotationAxis, LeftWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
+		RightWheel.transform.Rotate(WheelRotationAxis, RightWheelSpeed * WheelAnimationSpeed * Time.deltaTime * 60);
 	}
 
 	private void OnTriggerEnter(Collider other) {
@@ -711,15 +757,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float facingDifference = Quaternion.Angle(transform.rotation, rampScript.transform.rotation);
 				if (rampScript.AlignPlayer &&
 				  (rampScript.JumpNormallyIfWrongWay &&
-					   ((Speed > 0f && facingDifference > 90f)
-				  	|| (Speed < 0f && facingDifference < 90f))
+					   ((
+					   //Speed > 0f && // FIXME: supposed to use current combined wheel speed, but somehow works anyway?
+					   facingDifference > 90f)
+					  // || (Speed < 0f && facingDifference < 90f)
+					  )
 				  )
 				) {
 					Globals.AddScore(JumpScoreWorth, JumpScoreMultiplierWorth);
 					StartJump();
 				} else {
 					float speed = rampScript.Speed;
-					if (!rampScript.AlignPlayer && leftWheelSpeed + rightWheelSpeed < 0f) {
+					if (!rampScript.AlignPlayer && LeftWheelSpeed + RightWheelSpeed < 0f) {
 						speed *= -1f;
 					}
 
@@ -759,15 +808,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 			transform.Rotate(Vector3.up, 180f);
 		} else {
 			collisionTimer.Restart(CollisionTime);
-			float tempLeftSpeed = leftWheelSpeed;
-			leftWheelSpeed = -rightWheelSpeed;
-			rightWheelSpeed = -tempLeftSpeed;
+			float tempLeftSpeed = LeftWheelSpeed;
+			LeftWheelSpeed = -RightWheelSpeed;
+			RightWheelSpeed = -tempLeftSpeed;
 			// knockbackSpeed = leftWheelSpeed + rightWheelSpeed;
 			// knockbackSpeed *= CollisionSlowdownMultiplier;
 		}
 
-		leftWheelSpeed *= CollisionSlowdownMultiplier;
-		rightWheelSpeed *= CollisionSlowdownMultiplier;
+		LeftWheelSpeed *= CollisionSlowdownMultiplier;
+		RightWheelSpeed *= CollisionSlowdownMultiplier;
 	}
 
 	private void UpdateWheels() {
@@ -782,15 +831,15 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 
 				if (FlipKeys) {
-					leftWheelSpeed = x;
-					rightWheelSpeed = y;
+					LeftWheelSpeed = x;
+					RightWheelSpeed = y;
 				} else {
-					leftWheelSpeed = y;
-					rightWheelSpeed = x;
+					LeftWheelSpeed = y;
+					RightWheelSpeed = x;
 				}
 			}
 
-		} else {
+		} else if (UseKeys) {
 
 			float leftWheelDir = 0.0f;
 			float rightWheelDir = 0.0f;
@@ -824,16 +873,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			// damping
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, 0.0f, Damping * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, 0.0f, Damping * Time.deltaTime);
+			LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, 0.0f, Damping * Time.deltaTime);
+			RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, 0.0f, Damping * Time.deltaTime);
 
 			// add to speed if pressed
-			leftWheelSpeed = Mathf.MoveTowards(leftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
-			rightWheelSpeed = Mathf.MoveTowards(rightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
+			LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
+			RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
 
 			if (keyboard.spaceKey.isPressed) {
-				leftWheelSpeed = 0.0f;
-				rightWheelSpeed = 0.0f;
+				LeftWheelSpeed = 0.0f;
+				RightWheelSpeed = 0.0f;
 			}
 
 		}
@@ -976,7 +1025,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (setJumpSpeed) {
 			jumpSpeed = nextJumpSpeed;
 		} else {
-			jumpSpeed = leftWheelSpeed + rightWheelSpeed;
+			jumpSpeed = LeftWheelSpeed + RightWheelSpeed;
 		}
 	}
 	#endregion
