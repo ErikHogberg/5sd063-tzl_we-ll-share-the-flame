@@ -3,6 +3,7 @@ using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class FadeScript : MonoBehaviour {
 
 	public float Time;
 	public bool FadeOut;
+	public UnityEvent TransitionEvent;
 	public string NextLevel;
 
 	public AnimationCurve easing;
