@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,23 +23,31 @@ public class ButtonScript : MonoBehaviour {
 	[Tooltip("The level/scene to start when clicked, is only used if action is set to StartLevel. Uses the name of the file without the .scene suffix.")]
 	public string LevelToStart = "Forest Level";
 
+
+
+	public UnityEvent ClickEvents;
+
 	void Start() {
+		Button button =	GetComponent<Button>();
+
+		button.onClick.AddListener(TriggerClickEvents);
+
 		switch (ButtonAction) {
 			case ButtonAction.StartLevel:
-				GetComponent<Button>().onClick.AddListener(StartLevel);
+				button.onClick.AddListener(StartLevel);
 				break;
 			case ButtonAction.QuitGame:
-				GetComponent<Button>().onClick.AddListener(QuitGame);
+				button.onClick.AddListener(QuitGame);
 				break;
 			case ButtonAction.RestartScene:
-				GetComponent<Button>().onClick.AddListener(RestartScene);
+				button.onClick.AddListener(RestartScene);
 				break;
 			case ButtonAction.Pause:
-				//GetComponent<Button>().onClick.AddListener(Pause);
-				GetComponent<Button>().onClick.AddListener(TogglePause);
+				//button.onClick.AddListener(Pause);
+				button.onClick.AddListener(TogglePause);
 				break;
 			case ButtonAction.Resume:
-				GetComponent<Button>().onClick.AddListener(ResumePausedScene);
+				button.onClick.AddListener(ResumePausedScene);
 				break;
 		}
 	}
@@ -90,6 +100,10 @@ public class ButtonScript : MonoBehaviour {
 	
 	public void PrepareNetworkSend() {
 		Globals.DriverNetworkMode = NetworkMode.Send;
+	}
+
+	public void TriggerClickEvents(){
+		ClickEvents.Invoke();
 	}
 
 }

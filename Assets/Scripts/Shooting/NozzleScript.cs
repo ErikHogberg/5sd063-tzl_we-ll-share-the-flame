@@ -53,6 +53,7 @@ public class NozzleScript : MonoBehaviour {
 	public bool IgnoreRoll = true;
 
 	// wiimote
+	public bool OverrideGlobal = false;
 	public bool EnableWiimote = false;
 	private Wiimote wiimote;
 	public bool DisableRumble = false;
@@ -86,6 +87,10 @@ public class NozzleScript : MonoBehaviour {
 
 		Globals.Nozzle = this;
 		// Globals.SensorBarMode = InitialSensorBarMode;
+
+		if (!OverrideGlobal) {
+			EnableWiimote = !Globals.UseWiimote;
+		}
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
 		waterJetParticles = WaterJet.GetComponentsInChildren<ParticleSystem>();

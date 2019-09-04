@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Erik/Persistant MAIN MENU.unity
     guid: f4dc2b2b4bb8e5e4c989c3845e014f3d
   - enabled: 1
-    path: Assets/Scenes/Erik/Persistant HIGHSCORE SCREEN.unity
-    guid: 88781d643e666c84bb7d5cd88701ba29
-  - enabled: 1
     path: Assets/Scenes/Erik/Persistant MAIN CITY.unity
     guid: fa1e14eaf873d5c4a947e329f5a973aa
+  - enabled: 1
+    path: Assets/Scenes/Erik/Persistant HIGHSCORE SCREEN.unity
+    guid: d85fb877fe02810418c1b531ccc0c4fd
   m_configObjects: {}

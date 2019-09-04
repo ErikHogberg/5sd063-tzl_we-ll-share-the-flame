@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1200224113}
-  m_IndirectSpecularColor: {r: 0.10531695, g: 0.28899887, b: 0.7481439, a: 1}
+  m_IndirectSpecularColor: {r: 0.10534286, g: 0.2890756, b: 0.748182, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1377,6 +1377,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: World without enemies
       objectReference: {fileID: 0}
+    - target: {fileID: 5365443356430235821, guid: 3754602d5554ab74894c8c7d8f2e88fb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5365443356430235822, guid: 3754602d5554ab74894c8c7d8f2e88fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1568,6 +1573,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005366976876323332, guid: b3112ca3d5216ee4d89f96dab9487075,
+        type: 3}
+      propertyPath: NextLevel
+      value: Persistant MAIN MENU
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048846136637399060, guid: b3112ca3d5216ee4d89f96dab9487075,
+        type: 3}
+      propertyPath: NextScene
+      value: Persistant HIGHSCORE SCREEN
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3112ca3d5216ee4d89f96dab9487075, type: 3}

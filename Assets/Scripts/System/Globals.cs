@@ -9,6 +9,13 @@ using WiimoteApi;
 
 namespace Assets.Scripts {
 
+	public enum ControlType
+	{
+		Mouse,
+		Keyboard,
+		Controller
+	}
+
 	[Serializable]
 	public class ScoreEntry {
 		public string Player;
@@ -99,6 +106,13 @@ namespace Assets.Scripts {
 		// public static Image GameOverPanel;
 
 		public static ScoreMultiplierWidgetScript ScoreMultiplierPanel;
+
+
+		// Input
+
+		public static ControlType ControlType = ControlType.Mouse;
+		public static bool UseWiimote = false;
+		public static bool FlipWheels = false;
 
 		// touch
 		public static int LeftWheelFingerId = -1;

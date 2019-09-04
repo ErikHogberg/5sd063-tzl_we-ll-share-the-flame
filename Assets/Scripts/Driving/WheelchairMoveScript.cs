@@ -58,12 +58,18 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Header("Movement")]
 	[Tooltip("Disables all movement, stops the script from updating")]
 	public bool DisableMovement = false;
+	[Tooltip("Overrides controls read from global, set in menus, etc.")]
+	public bool OverrideGlobalControls = false;
 	[Tooltip("Flips keys and trackballs")]
-	public bool FlipKeys = false;
+	public bool FlipWheels = false;
+	[Tooltip("Choose control type for movement")]
+	public ControlType ControlType = ControlType.Mouse;
+	/* 
 	[Tooltip("Enable trackballs (mouse x/y) for wheel movement")]
 	public bool UseMouse = false;
 	[Tooltip("Enable keys (w/s, e/d) for wheel movement")]
 	public bool UseKeys = false;
+	*/
 	[Tooltip("Adjustments for trackball direction and relative (to eachother) speed")]
 	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
@@ -203,7 +209,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		StandingKidZipline.SetActive(false);
 
 
-		networkSendTimer = new Timer(networkSendTime);
+		// networkSendTimer = new Timer(networkSendTime);
 		Network = Globals.DriverNetworkMode;
 		if (Network == NetworkMode.Receive) {
 			UdpClient receivingUdpClient = new UdpClient(11000);
@@ -245,7 +251,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 		collisionTimer = new Timer(CollisionTime);
 		collisionTimer.Stop();
 
-		if (UseMouse) {
+		// input
+
+		if (!OverrideGlobalControls) {
+			ControlType = Globals.ControlType;
+			FlipWheels = Globals.FlipWheels;
+		}
+
+		if (ControlType == ControlType.Mouse) {
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
 		}
@@ -464,6 +477,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	private bool UpdateCollision() {
+		
+		// FIXME: null reference in build only
 		boostSlowdownTimer.Update();
 
 		if (collisionTimer.IsRunning()) {
@@ -543,11 +558,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (boostTimer.Update()) {
 				float x = 0f;
 				float y = 0f;
-				if (UseMouse) {
+				if (ControlType == ControlType.Mouse) {
 					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
 					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 				}
-				if (FlipKeys) {
+				if (FlipWheels) {
 					boostEndSpeed = Mathf.Max(LeftWheelSpeed - y, RightWheelSpeed - x);
 				} else {
 					boostEndSpeed = Mathf.Max(LeftWheelSpeed - x, RightWheelSpeed - y);
@@ -568,11 +583,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 					boostTimer.Stop();
 					float x = 0f;
 					float y = 0f;
-					if (UseMouse) {
+					if (ControlType == ControlType.Mouse) {
 						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
 						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 					}
-					if (FlipKeys) {
+					if (FlipWheels) {
 						boostEndSpeed = Mathf.Max(LeftWheelSpeed - y, RightWheelSpeed - x);
 					} else {
 						boostEndSpeed = Mathf.Max(LeftWheelSpeed - x, RightWheelSpeed - y);
@@ -822,7 +837,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private void UpdateWheels() {
 		Keyboard keyboard = Keyboard.current;
 
-		if (UseMouse) {
+		if (ControlType == ControlType.Mouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
 				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
@@ -830,7 +845,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
 				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
 
-				if (FlipKeys) {
+				if (FlipWheels) {
 					LeftWheelSpeed = x;
 					RightWheelSpeed = y;
 				} else {
@@ -839,19 +854,19 @@ public class WheelchairMoveScript : MonoBehaviour {
 				}
 			}
 
-		} else if (UseKeys) {
+		} else if (ControlType == ControlType.Keyboard) {
 
 			float leftWheelDir = 0.0f;
 			float rightWheelDir = 0.0f;
 
 			if (keyboard.wKey.isPressed) {
-				if (FlipKeys) {
+				if (FlipWheels) {
 					rightWheelDir = Acceleration;
 				} else {
 					leftWheelDir = Acceleration;
 				}
 			} else if (keyboard.sKey.isPressed) {
-				if (FlipKeys) {
+				if (FlipWheels) {
 					rightWheelDir = -Acceleration;
 				} else {
 					leftWheelDir = -Acceleration;
@@ -859,13 +874,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 
 			if (keyboard.eKey.isPressed) {
-				if (FlipKeys) {
+				if (FlipWheels) {
 					leftWheelDir = Acceleration;
 				} else {
 					rightWheelDir = Acceleration;
 				}
 			} else if (keyboard.dKey.isPressed) {
-				if (FlipKeys) {
+				if (FlipWheels) {
 					leftWheelDir = -Acceleration;
 				} else {
 					rightWheelDir = -Acceleration;
@@ -885,6 +900,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 				RightWheelSpeed = 0.0f;
 			}
 
+		} else if (ControlType == ControlType.Controller) {
+			float leftStickY = Gamepad.current.leftStick.y.ReadValue();
+			float rightStickY = Gamepad.current.rightStick.y.ReadValue();
+			if (!FlipWheels) {
+				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, TopSpeed * leftStickY, Acceleration * Time.deltaTime);
+				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, TopSpeed * rightStickY, Acceleration * Time.deltaTime);
+			} else {
+				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, TopSpeed * rightStickY, Acceleration * Time.deltaTime);
+				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, TopSpeed * leftStickY, Acceleration * Time.deltaTime);
+			}
 		}
 	}
 
