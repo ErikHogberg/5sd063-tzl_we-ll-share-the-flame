@@ -7,93 +7,163 @@
             "actions": [
                 {
                     "name": "left wheel forward",
+                    "type": "Value",
                     "id": "3463dee8-5ed8-4acb-846f-5f0f2bc3bf3f",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "left wheel backwards",
+                    "type": "Value",
                     "id": "3463dee8-5ed8-4acb-846f-5f0f2bc3bf3f",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "right wheel forward",
+                    "type": "Value",
                     "id": "3463dee8-5ed8-4acb-846f-5f0f2bc3bf3f",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "right wheel backwards",
+                    "type": "Value",
                     "id": "3463dee8-5ed8-4acb-846f-5f0f2bc3bf3f",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
+                },
+                {
+                    "name": "left wheel joystick",
+                    "type": "Button",
+                    "id": "44fbb568-d341-479d-943a-9f6e37c3eca3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "right wheel joystick",
+                    "type": "Button",
+                    "id": "b457f9f8-acfe-48e8-99f7-1678e57ffd6b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
+                    "id": "d9e8a6ff-57d8-4222-bed9-2069c8012c5f",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "left wheel forward",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
+                    "id": "0750b635-c1a1-4428-a8f3-597fe6624150",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "left wheel backwards",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
+                    "id": "a4616ede-dfdb-4f49-86cc-339100ade3b9",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "right wheel forward",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
+                    "id": "3c70727d-35e3-42c6-82b4-87be88b4905b",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "right wheel backwards",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "cdef7093-2b61-4595-b684-4137c2cf721e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left wheel joystick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "fedee6a4-a233-4f05-8ce4-c15d0408367e",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left wheel joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "9ab95c2e-1489-4c77-9953-7f62493de7e5",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left wheel joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "17968034-4ac9-41bc-b742-9355e743c4ca",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "right wheel joystick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "dcebe88b-368c-4b02-94a7-29f49cbadbbc",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "right wheel joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "5ece6a26-f3cc-4297-be40-331fd77f4324",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "right wheel joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
@@ -103,101 +173,86 @@
             "actions": [
                 {
                     "name": "shoot",
+                    "type": "Value",
                     "id": "eadf935a-7e58-40cb-a1d3-fce7a0304678",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "yaw",
+                    "type": "Value",
                     "id": "dc4a57e2-ff19-48ad-913d-3f66c1f28f96",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "Pitch",
+                    "type": "Value",
                     "id": "244a024d-adb0-48e1-a261-a0c9f18d90a3",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "Roll",
+                    "type": "Value",
                     "id": "c5d3f8d6-5be8-4ed6-bd77-9a998db00c34",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "switch foam",
+                    "type": "Value",
                     "id": "fb464ebd-a8c5-4d94-9191-d3b4337e658a",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "boost",
+                    "type": "Value",
                     "id": "61c71cf3-0e1d-46de-9042-9aefd919a9ac",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
+                    "id": "830e1a28-9e9d-41fc-aee1-1c89f70dd436",
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "shoot",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
+                    "id": "e3e119ad-388d-4dfd-974e-02f766697c6f",
                     "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "switch foam",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
+                    "id": "5c4a05fe-1e10-47d9-b495-b3ddca99b46e",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "boost",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -207,59 +262,51 @@
             "actions": [
                 {
                     "name": "zoom in",
+                    "type": "Value",
                     "id": "af18d8fe-1e1e-4fee-bd06-02f82d9d9077",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "zoom out",
+                    "type": "Value",
                     "id": "af18d8fe-1e1e-4fee-bd06-02f82d9d9077",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "zoom",
+                    "type": "Value",
                     "id": "7ba228d3-200a-4176-aa34-5f3f98dfd4b5",
-                    "expectedControlLayout": "Axis",
-                    "continuous": false,
-                    "passThrough": false,
+                    "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
+                    "id": "79a690e9-a655-456a-89fa-bca5333d353e",
                     "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "zoom in",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
+                    "id": "abdf0d1b-90b3-42e5-bd5d-bf60ac979d3d",
                     "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "zoom out",
-                    "chainWithPrevious": false,
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 }
             ]
         }

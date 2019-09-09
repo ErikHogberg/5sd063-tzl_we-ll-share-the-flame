@@ -210,6 +210,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 
 		// networkSendTimer = new Timer(networkSendTime);
+		/*
 		Network = Globals.DriverNetworkMode;
 		if (Network == NetworkMode.Receive) {
 			UdpClient receivingUdpClient = new UdpClient(11000);
@@ -218,6 +219,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		} else if (Network == NetworkMode.Send) {
 			udpClient = new UdpClient(11001);
 		}
+		*/
 
 		nextJumpTime = JumpTime;
 		nextStuntAngle = StuntAngle;
@@ -268,6 +270,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	void Update() {
 
+		/*
 		if (Network == NetworkMode.Receive) {
 			while (true) {
 				bool successful = messageQueue.TryDequeue(out Vector2 pos);
@@ -283,6 +286,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 			return;
 		}
+		*/
 
 		if (DisableMovement) {
 			UpdateWheels();
@@ -320,6 +324,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		NozzleAnchor.UpdateAnchor();
 
+		/*
 		if (Network == NetworkMode.Send) {
 			// TODO: message ordering
 			byte[] udpBytes = new byte[9];
@@ -330,6 +335,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			udpClient.SendAsync(udpBytes, 9, new IPEndPoint(IPAddress.Loopback, 11002));
 			return;
 		}
+		*/
 
 	}
 
@@ -900,7 +906,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 				RightWheelSpeed = 0.0f;
 			}
 
-		} else if (ControlType == ControlType.Controller) {
+		} else if (ControlType == ControlType.Controller && Gamepad.current != null) {
+			
 			float leftStickY = Gamepad.current.leftStick.y.ReadValue();
 			float rightStickY = Gamepad.current.rightStick.y.ReadValue();
 			if (!FlipWheels) {

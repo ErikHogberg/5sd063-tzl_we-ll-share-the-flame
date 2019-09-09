@@ -1584,5 +1584,15 @@ PrefabInstance:
       propertyPath: NextScene
       value: Persistant HIGHSCORE SCREEN
       objectReference: {fileID: 0}
+    - target: {fileID: 1138310449438392731, guid: b3112ca3d5216ee4d89f96dab9487075,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761054597487383941, guid: b3112ca3d5216ee4d89f96dab9487075,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3112ca3d5216ee4d89f96dab9487075, type: 3}
