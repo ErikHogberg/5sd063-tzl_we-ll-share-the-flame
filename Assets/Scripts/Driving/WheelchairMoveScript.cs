@@ -13,6 +13,22 @@ using UnityEngine.InputSystem;
 // using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
+[Serializable]
+public struct MovementSettings {
+	[Tooltip("Movement speed multiplier, for both wheels, when using either trackballs or keys")]
+	public float Speed;
+	[Tooltip("How much the difference between the speed of the wheels causes the wheelchair to turn")]
+	public float TurningSpeed;
+	[Tooltip("Acceleration speed for keys (not used with trackballs)")]
+	public float Acceleration;
+	[Tooltip("How quickly the wheelchair stops (keys only)")]
+	public float Damping;
+	[Tooltip("How different the wheel speeds can be (in abstract \"speed\" units) and still go straight forward")]
+	public float ForwardCorrectionSpeed;
+	[Tooltip("Top speed of each wheel")]
+	public float TopSpeed;
+}
+
 public class WheelchairMoveScript : MonoBehaviour {
 
 	#region Unity fields
@@ -63,7 +79,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("Flips keys and trackballs")]
 	public bool FlipWheels = false;
 	[Tooltip("Choose control type for movement")]
-	public ControlType ControlType = ControlType.Mouse;
+	public ControlType CurrentControlType = ControlType.Mouse;
 	/* 
 	[Tooltip("Enable trackballs (mouse x/y) for wheel movement")]
 	public bool UseMouse = false;
@@ -73,18 +89,78 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("Adjustments for trackball direction and relative (to eachother) speed")]
 	public Vector2 MouseAdjust = new Vector2(-1f, 1f);
 
-	[Tooltip("Movement speed multiplier, for both wheels, when using either trackballs or keys")]
-	public float Speed = 1.0f;
-	[Tooltip("How much the difference between the speed of the wheels causes the wheelchair to turn")]
-	public float TurningSpeed = 1.0f;
-	[Tooltip("Acceleration speed for keys (not used with trackballs)")]
-	public float Acceleration = 1.0f;
-	[Tooltip("How quickly the wheelchair stops (keys only)")]
-	public float Damping = 0.3f;
-	[Tooltip("How different the wheel speeds can be (in abstract \"speed\" units) and still go straight forward")]
-	public float ForwardCorrectionSpeed = 0.2f;
-	[Tooltip("Top speed of each wheel")]
-	public float TopSpeed = 1.0f;
+	/*	mouse
+	speed 8
+	turn sp 0.04
+	acc 1
+	damping 10
+	fw c 0.4
+	t sp 80
+
+	kbd
+	speed 30
+	turn sp .2
+	fw c 1
+	 */
+
+	/*
+		[Tooltip("Movement speed multiplier, for both wheels, when using either trackballs or keys")]
+		public float Speed = 1.0f;
+		[Tooltip("How much the difference between the speed of the wheels causes the wheelchair to turn")]
+		public float TurningSpeed = 1.0f;
+		[Tooltip("Acceleration speed for keys (not used with trackballs)")]
+		public float Acceleration = 1.0f;
+		[Tooltip("How quickly the wheelchair stops (keys only)")]
+		public float Damping = 0.3f;
+		[Tooltip("How different the wheel speeds can be (in abstract \"speed\" units) and still go straight forward")]
+		public float ForwardCorrectionSpeed = 0.2f;
+		[Tooltip("Top speed of each wheel")]
+		public float TopSpeed = 1.0f;
+	 */
+
+	public MovementSettings[] AllMovementSettings={	
+		new MovementSettings{ // mouse
+			Speed = 8f,
+			TurningSpeed = 0.04f,
+			Acceleration = 1,
+			Damping = 10,
+			ForwardCorrectionSpeed = 0.4f,
+			TopSpeed = 80
+		},
+		new MovementSettings{ // keyboard
+			Speed = 30,
+			TurningSpeed = 0.2f,
+			Acceleration = 1,
+			Damping = 10,
+			ForwardCorrectionSpeed = 1,
+			TopSpeed = 80
+		},
+		new MovementSettings{ // controller
+			Speed = 8f,
+			TurningSpeed = 0.04f,
+			Acceleration = 1,
+			Damping = 10,
+			ForwardCorrectionSpeed = 0.4f,
+			TopSpeed = 80
+		},
+		// TODO: touch
+	};
+	
+	public MovementSettings CurrentMovementSettings {
+		get {
+			switch (CurrentControlType) {
+				case ControlType.Mouse:
+					return AllMovementSettings[0];
+				case ControlType.Keyboard:
+					return AllMovementSettings[1];
+				case ControlType.Controller:
+					return AllMovementSettings[2];
+				default:
+					return AllMovementSettings[0];
+
+			}
+		}
+	}
 
 	public bool EnableCollision = false;
 	[Tooltip("Scale of how much speed is kept when bouncing off a wall")]
@@ -256,13 +332,25 @@ public class WheelchairMoveScript : MonoBehaviour {
 		// input
 
 		if (!OverrideGlobalControls) {
-			ControlType = Globals.ControlType;
+			CurrentControlType = Globals.ControlType;
 			FlipWheels = Globals.FlipWheels;
 		}
 
-		if (ControlType == ControlType.Mouse) {
+		if (CurrentControlType == ControlType.Mouse) {
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
+		}
+
+		switch (CurrentControlType)
+		{
+			case ControlType.Mouse:
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+			break;
+			default:
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+			break;			
 		}
 
 	}
@@ -353,9 +441,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 			float truncatedSpeed = 0f;
 			if (speed < 0f) {
-				truncatedSpeed = Mathf.Max(speed, -TopSpeed);
+				truncatedSpeed = Mathf.Max(speed, -CurrentMovementSettings.TopSpeed);
 			} else {
-				truncatedSpeed = Mathf.Min(speed, TopSpeed);
+				truncatedSpeed = Mathf.Min(speed, CurrentMovementSettings.TopSpeed);
 			}
 
 			transform.position += transform.forward
@@ -368,11 +456,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		float speed = LeftWheelSpeed + RightWheelSpeed;
 		float angle = LeftWheelSpeed - RightWheelSpeed;
-		angle *= TurningSpeed;
+		angle *= CurrentMovementSettings.TurningSpeed;
 		//angle %= Mathf.PI * 2.0f;
 
 		if ((LeftWheelSpeed > 0f && RightWheelSpeed > 0f) || (LeftWheelSpeed < 0f && RightWheelSpeed < 0f)) {
-			angle = Mathf.MoveTowards(angle, 0, ForwardCorrectionSpeed);
+			angle = Mathf.MoveTowards(angle, 0, CurrentMovementSettings.ForwardCorrectionSpeed);
 		}
 
 		if (Mathf.Abs(angle) < DriftAngleThreshold
@@ -483,7 +571,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 	}
 
 	private bool UpdateCollision() {
-		
+
 		// FIXME: null reference in build only
 		boostSlowdownTimer.Update();
 
@@ -564,9 +652,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (boostTimer.Update()) {
 				float x = 0f;
 				float y = 0f;
-				if (ControlType == ControlType.Mouse) {
-					x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+				if (CurrentControlType == ControlType.Mouse) {
+					x = Input.GetAxis("Mouse X") * MouseAdjust.x * CurrentMovementSettings.Speed;
+					y = Input.GetAxis("Mouse Y") * MouseAdjust.y * CurrentMovementSettings.Speed;
 				}
 				if (FlipWheels) {
 					boostEndSpeed = Mathf.Max(LeftWheelSpeed - y, RightWheelSpeed - x);
@@ -589,9 +677,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 					boostTimer.Stop();
 					float x = 0f;
 					float y = 0f;
-					if (ControlType == ControlType.Mouse) {
-						x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+					if (CurrentControlType == ControlType.Mouse) {
+						x = Input.GetAxis("Mouse X") * MouseAdjust.x * CurrentMovementSettings.Speed;
+						y = Input.GetAxis("Mouse Y") * MouseAdjust.y * CurrentMovementSettings.Speed;
 					}
 					if (FlipWheels) {
 						boostEndSpeed = Mathf.Max(LeftWheelSpeed - y, RightWheelSpeed - x);
@@ -843,13 +931,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 	private void UpdateWheels() {
 		Keyboard keyboard = Keyboard.current;
 
-		if (ControlType == ControlType.Mouse) {
+		if (CurrentControlType == ControlType.Mouse) {
 			if (!keyboard.leftShiftKey.isPressed) {
 
 				// float x = Mouse.current.delta.x.ReadValue() * MouseAdjust.x * Speed;
 				// float y = Mouse.current.delta.y.ReadValue() * MouseAdjust.y * Speed;
-				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * Speed;
-				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * Speed;
+				float x = Input.GetAxis("Mouse X") * MouseAdjust.x * CurrentMovementSettings.Speed;
+				float y = Input.GetAxis("Mouse Y") * MouseAdjust.y * CurrentMovementSettings.Speed;
 
 				if (FlipWheels) {
 					LeftWheelSpeed = x;
@@ -860,62 +948,62 @@ public class WheelchairMoveScript : MonoBehaviour {
 				}
 			}
 
-		} else if (ControlType == ControlType.Keyboard) {
+		} else if (CurrentControlType == ControlType.Keyboard) {
 
 			float leftWheelDir = 0.0f;
 			float rightWheelDir = 0.0f;
 
 			if (keyboard.wKey.isPressed) {
 				if (FlipWheels) {
-					rightWheelDir = Acceleration;
+					rightWheelDir = CurrentMovementSettings.Acceleration;
 				} else {
-					leftWheelDir = Acceleration;
+					leftWheelDir = CurrentMovementSettings.Acceleration;
 				}
 			} else if (keyboard.sKey.isPressed) {
 				if (FlipWheels) {
-					rightWheelDir = -Acceleration;
+					rightWheelDir = -CurrentMovementSettings.Acceleration;
 				} else {
-					leftWheelDir = -Acceleration;
+					leftWheelDir = -CurrentMovementSettings.Acceleration;
 				}
 			}
 
 			if (keyboard.eKey.isPressed) {
 				if (FlipWheels) {
-					leftWheelDir = Acceleration;
+					leftWheelDir = CurrentMovementSettings.Acceleration;
 				} else {
-					rightWheelDir = Acceleration;
+					rightWheelDir = CurrentMovementSettings.Acceleration;
 				}
 			} else if (keyboard.dKey.isPressed) {
 				if (FlipWheels) {
-					leftWheelDir = -Acceleration;
+					leftWheelDir = -CurrentMovementSettings.Acceleration;
 				} else {
-					rightWheelDir = -Acceleration;
+					rightWheelDir = -CurrentMovementSettings.Acceleration;
 				}
 			}
 
 			// damping
-			LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, 0.0f, Damping * Time.deltaTime);
-			RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, 0.0f, Damping * Time.deltaTime);
+			LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, 0.0f, CurrentMovementSettings.Damping * Time.deltaTime);
+			RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, 0.0f, CurrentMovementSettings.Damping * Time.deltaTime);
 
 			// add to speed if pressed
-			LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, TopSpeed * (leftWheelDir / Acceleration), Mathf.Abs(leftWheelDir) * Speed * Time.deltaTime);
-			RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, TopSpeed * (rightWheelDir / Acceleration), Mathf.Abs(rightWheelDir) * Speed * Time.deltaTime);
+			LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, CurrentMovementSettings.TopSpeed * (leftWheelDir / CurrentMovementSettings.Acceleration), Mathf.Abs(leftWheelDir) * CurrentMovementSettings.Speed * Time.deltaTime);
+			RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, CurrentMovementSettings.TopSpeed * (rightWheelDir / CurrentMovementSettings.Acceleration), Mathf.Abs(rightWheelDir) * CurrentMovementSettings.Speed * Time.deltaTime);
 
 			if (keyboard.spaceKey.isPressed) {
 				LeftWheelSpeed = 0.0f;
 				RightWheelSpeed = 0.0f;
 			}
 
-		} else if (ControlType == ControlType.Controller && Gamepad.current != null) {
-			
+		} else if (CurrentControlType == ControlType.Controller && Gamepad.current != null) {
+
 			float leftStickY = Gamepad.current.leftStick.y.ReadValue();
 			float rightStickY = Gamepad.current.rightStick.y.ReadValue();
 			if (!FlipWheels) {
-				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, TopSpeed * leftStickY, Acceleration * Time.deltaTime);
-				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, TopSpeed * rightStickY, Acceleration * Time.deltaTime);
+				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, CurrentMovementSettings.TopSpeed * leftStickY, CurrentMovementSettings.Acceleration * Time.deltaTime);
+				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, CurrentMovementSettings.TopSpeed * rightStickY, CurrentMovementSettings.Acceleration * Time.deltaTime);
 			} else {
-				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, TopSpeed * rightStickY, Acceleration * Time.deltaTime);
-				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, TopSpeed * leftStickY, Acceleration * Time.deltaTime);
+				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, CurrentMovementSettings.TopSpeed * rightStickY, CurrentMovementSettings.Acceleration * Time.deltaTime);
+				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, CurrentMovementSettings.TopSpeed * leftStickY, CurrentMovementSettings.Acceleration * Time.deltaTime);
 			}
 		}
 	}

@@ -67,9 +67,9 @@ public class TouchWheelControlScript : MonoBehaviour {
 	void Update() {
 
 		if (LeftWheel) {
-			Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+			Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.CurrentMovementSettings.Damping * Time.deltaTime);
 		} else {
-			Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+			Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.CurrentMovementSettings.Damping * Time.deltaTime);
 		}
 
 		// input
@@ -97,7 +97,7 @@ public class TouchWheelControlScript : MonoBehaviour {
 					case TouchPhase.Began:
 					case TouchPhase.Moved:
 					case TouchPhase.Stationary:
-						float delta = (currentTouch.Value.position.y - lastTouchY.Value) * Globals.Player.Speed * Time.deltaTime;
+						float delta = (currentTouch.Value.position.y - lastTouchY.Value) * Globals.Player.CurrentMovementSettings.Speed * Time.deltaTime;
 						if (delta < 0f) {
 							// delta backwards
 							if (LeftWheel) {

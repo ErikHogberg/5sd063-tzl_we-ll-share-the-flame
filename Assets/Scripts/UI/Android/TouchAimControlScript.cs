@@ -25,8 +25,8 @@ public class TouchAimControlScript : MonoBehaviour {
 
 	void Update() {
 
-		Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
-		Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.Damping * Time.deltaTime);
+		Globals.Player.LeftWheelSpeed = Mathf.MoveTowards(Globals.Player.LeftWheelSpeed, 0f, Globals.Player.CurrentMovementSettings.Damping * Time.deltaTime);
+		Globals.Player.RightWheelSpeed = Mathf.MoveTowards(Globals.Player.RightWheelSpeed, 0f, Globals.Player.CurrentMovementSettings.Damping * Time.deltaTime);
 
 		// input
 
