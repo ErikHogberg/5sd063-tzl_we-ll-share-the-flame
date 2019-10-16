@@ -39,16 +39,24 @@
                 },
                 {
                     "name": "left wheel joystick",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "44fbb568-d341-479d-943a-9f6e37c3eca3",
-                    "expectedControlType": "",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 },
                 {
                     "name": "right wheel joystick",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "b457f9f8-acfe-48e8-99f7-1678e57ffd6b",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "controller brake",
+                    "type": "Button",
+                    "id": "2cd1937f-4f99-4dfb-9817-d5d04fc7f6df",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -101,39 +109,6 @@
                 },
                 {
                     "name": "1D Axis",
-                    "id": "cdef7093-2b61-4595-b684-4137c2cf721e",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "left wheel joystick",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "fedee6a4-a233-4f05-8ce4-c15d0408367e",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "left wheel joystick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "9ab95c2e-1489-4c77-9953-7f62493de7e5",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "left wheel joystick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
                     "id": "17968034-4ac9-41bc-b742-9355e743c4ca",
                     "path": "1DAxis",
                     "interactions": "",
@@ -164,6 +139,50 @@
                     "action": "right wheel joystick",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "fb15ceb6-0cfb-4474-9ad6-dd5951ce60db",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left wheel joystick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "6b37903b-f197-487f-9e2c-c403549de2f2",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left wheel joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "313148ae-d9da-4097-8cf8-082d80a68096",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "left wheel joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "afe53806-f0c3-495d-8b29-18df0bced822",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -218,6 +237,38 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "controller boost",
+                    "type": "Button",
+                    "id": "ae087237-7573-48a4-96db-7259d4458596",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "controller shoot",
+                    "type": "Button",
+                    "id": "98a31e28-36dd-49a7-a843-9907d8b39c5c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "controller aim modifier",
+                    "type": "Button",
+                    "id": "beeab375-568f-428a-bea0-e4bfe381f8a8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "controller switch foam",
+                    "type": "Button",
+                    "id": "255b3ca1-5314-4640-8a80-6d1aacbe64cc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -251,6 +302,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1455fa9e-6bc9-40e2-88e3-f219bb9a5b41",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "55baa84e-7aca-439a-a90d-fc33320df340",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05dd8e2e-31b7-4a83-ad62-572900e02620",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93c4a552-953f-4fda-bf24-da9b68ce91ff",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller aim modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "37fe7cb6-38bd-4ad8-9618-4a97a6d23491",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller switch foam",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

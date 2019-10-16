@@ -9,6 +9,8 @@ public class InputDropdownScript : MonoBehaviour {
 
 		Dropdown dropdown = GetComponent<Dropdown>();
 
+		// FIXME: doesnt work in highscore screen
+
 		switch (dropdown.value) {
 			case 0: // mouse
 				Globals.ControlType = ControlType.Mouse;

@@ -106,14 +106,27 @@ public class NozzleScript : MonoBehaviour {
 		//  var action = new InputAction(binding: "shooter/{shoot}");
 
 		{
-			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
+			InputAction action = controls.FindActionMap("shooter").FindAction("shoot");
 			action.performed += _ => { firing = true; };
 			action.canceled += _ => { firing = false; };
 			action.Enable();
 		}
 
 		{
-			InputAction action = controls.TryGetActionMap("shooter").TryGetAction("switch foam");
+			InputAction action = controls.FindActionMap("shooter").FindAction("switch foam");
+			action.performed += _ => { SwitchParticles(firing); };
+			action.Enable();
+		}
+
+		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller shoot");
+			action.performed += _ => { firing = true; };
+			action.canceled += _ => { firing = false; };
+			action.Enable();
+		}
+
+		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller switch foam");
 			action.performed += _ => { SwitchParticles(firing); };
 			action.Enable();
 		}

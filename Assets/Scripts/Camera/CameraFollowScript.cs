@@ -51,7 +51,8 @@ public class CameraFollowScript : MonoBehaviour {
 		// InputAction action = controls.TryGetActionMap("shooter").TryGetAction("shoot");
 
 		{
-			InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoom");
+			// InputAction action = controls.TryGetActionMap("debug").TryGetAction("zoom");
+			InputAction action = controls.FindActionMap("debug").FindAction("zoom");
 			action.performed += _ => {
 
 				Debug.Log("zoom");

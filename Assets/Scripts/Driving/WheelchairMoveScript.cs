@@ -118,7 +118,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 		public float TopSpeed = 1.0f;
 	 */
 
-	public MovementSettings[] AllMovementSettings={	
+	public InputActionAsset controls;
+
+	public MovementSettings[] AllMovementSettings ={
 		new MovementSettings{ // mouse
 			Speed = 8f,
 			TurningSpeed = 0.04f,
@@ -145,7 +147,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		},
 		// TODO: touch
 	};
-	
+
 	public MovementSettings CurrentMovementSettings {
 		get {
 			switch (CurrentControlType) {
@@ -161,6 +163,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 			}
 		}
 	}
+
+	private float leftStickValue = 0;
+	private float rightStickValue = 0;
 
 	public bool EnableCollision = false;
 	[Tooltip("Scale of how much speed is kept when bouncing off a wall")]
@@ -266,6 +271,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 	[Tooltip("How much (in %) the boost canister needs to be filled to start boosting")]
 	public float BoostAmmoDisableTreshold = .25f;
 
+	private bool boostToggle = false;
+
 	// Zipline
 	private bool ziplining = false;
 	private Vector3 ziplineTarget;
@@ -341,17 +348,68 @@ public class WheelchairMoveScript : MonoBehaviour {
 			Cursor.visible = false;
 		}
 
-		switch (CurrentControlType)
-		{
+		switch (CurrentControlType) {
 			case ControlType.Mouse:
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
-			break;
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+				break;
 			default:
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-			break;			
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+				break;
 		}
+
+		{
+			InputAction action = controls.FindActionMap("driver").FindAction("left wheel joystick");
+			action.performed += c => {
+				leftStickValue = c.ReadValue<float>();
+				// Debug.Log("left stick " + c.ReadValue<float>());
+			};
+			action.canceled += _ => {
+				leftStickValue = 0;
+			};
+			action.Enable();
+
+		}
+
+		{
+			InputAction action = controls.FindActionMap("driver").FindAction("right wheel joystick");
+			action.performed += c => {
+				rightStickValue = c.ReadValue<float>();
+				// Debug.Log("right stick " + c.ReadValue<float>());
+			};
+			action.canceled += _ => {
+				rightStickValue = 0;
+			};
+			action.Enable();
+
+		}
+
+		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller boost");
+			action.performed += c => {
+				boostToggle = true;
+			};
+			action.canceled += _ => {
+				boostToggle = false;
+			};
+			action.Enable();
+
+		}
+
+		{
+			InputAction action = controls.FindActionMap("driver").FindAction("controller brake");
+			action.performed += c => {
+				// TODO: brake
+			};
+			action.canceled += _ => {
+				// TODO: stop braking
+			};
+			action.Enable();
+
+		}
+
+
 
 	}
 
@@ -392,7 +450,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		} else {
 
 			// if (Mouse.current.rightButton.isPressed) {
-			if (keyboard.digit2Key.isPressed) {
+			if (keyboard.digit2Key.isPressed || boostToggle) {
 				// && !boostTimer.IsRunning()) {
 				// boostTimer.Restart(BoostTime);
 				Boost();
@@ -994,10 +1052,13 @@ public class WheelchairMoveScript : MonoBehaviour {
 				RightWheelSpeed = 0.0f;
 			}
 
-		} else if (CurrentControlType == ControlType.Controller && Gamepad.current != null) {
+		} else if (CurrentControlType == ControlType.Controller) {
 
-			float leftStickY = Gamepad.current.leftStick.y.ReadValue();
-			float rightStickY = Gamepad.current.rightStick.y.ReadValue();
+			// float leftStickY = Gamepad.current.leftStick.y.ReadValue();
+			// float rightStickY = Gamepad.current.rightStick.y.ReadValue();
+			float leftStickY = leftStickValue;
+			float rightStickY = rightStickValue;
+
 			if (!FlipWheels) {
 				LeftWheelSpeed = Mathf.MoveTowards(LeftWheelSpeed, CurrentMovementSettings.TopSpeed * leftStickY, CurrentMovementSettings.Acceleration * Time.deltaTime);
 				RightWheelSpeed = Mathf.MoveTowards(RightWheelSpeed, CurrentMovementSettings.TopSpeed * rightStickY, CurrentMovementSettings.Acceleration * Time.deltaTime);
