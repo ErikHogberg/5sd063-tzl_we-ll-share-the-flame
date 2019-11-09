@@ -658,27 +658,27 @@ MonoBehaviour:
     TopSpeed: 80
   - Speed: 8
     TurningSpeed: 0.04
-    Acceleration: 1
+    Acceleration: 100
     Damping: 10
     ForwardCorrectionSpeed: 0.4
     TopSpeed: 80
-  EnableCollision: 0
-  CollisionSlowdownMultiplier: 1
+  EnableCollision: 1
+  CollisionSlowdownMultiplier: 0.14
   CollisionTime: 0.5
   MinCollisionKnockbackSpeed: 0.1
   WheelRotationAxis: {x: 1, y: 0, z: 0}
-  DriftAngleThreshold: 100
+  DriftAngleThreshold: 3
   DriftStartSpeedThreshold: 8
   DriftEndSpeedThreshold: 8
   DriftDampingAdd: 0
-  DriftDampingMul: 0
-  DriftTurnScale: 0.1
+  DriftDampingMul: 50
+  DriftTurnScale: 0.3
   DriftSpeedAddScale: 0.1
-  DriftDamping: 1
+  DriftDamping: 10
   LeftWheelSpeed: 0
   RightWheelSpeed: 0
   JumpTime: 1
-  JumpHeight: 15
+  JumpHeight: 20
   JumpArc:
     serializedVersion: 2
     m_Curve:
@@ -730,15 +730,15 @@ MonoBehaviour:
     m_PostInfinity: 0
     m_RotationOrder: 4
   StuntPingPong: 1
-  JumpScoreWorth: 100
-  JumpScoreMultiplierWorth: 0.1
+  JumpScoreWorth: 300
+  JumpScoreMultiplierWorth: 0.5
   BoostTime: 0.5
   BoostSlowdownTime: 1
   BoostAcceleration: 100
   BoostMaxSpeed: 50
   BoostAmmo: 1
-  BoostAmmoDrainRate: 0.1
-  BoostAmmoUpkeep: 0.1
+  BoostAmmoDrainRate: 0.3
+  BoostAmmoUpkeep: 0.15
   BoostAmmoDisableTreshold: 0.25
 --- !u!65 &6929900565973988701
 BoxCollider:

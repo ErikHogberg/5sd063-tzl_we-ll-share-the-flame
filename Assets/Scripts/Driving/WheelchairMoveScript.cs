@@ -489,7 +489,11 @@ public class WheelchairMoveScript : MonoBehaviour {
 		float speed = LeftWheelSpeed + RightWheelSpeed;
 
 		if (drifting) {
-			driftSpeed = Mathf.MoveTowards(driftSpeed + speed * DriftSpeedAddScale, 0, DriftDamping * Time.deltaTime);
+			driftSpeed = Mathf.MoveTowards(
+				driftSpeed,// + speed * DriftSpeedAddScale, 
+				0, 
+				DriftDamping * Time.deltaTime
+				);
 			transform.position += transform.forward * driftSpeed * Time.deltaTime;
 		} else {
 			float boostSlowdownProgress = 0f;
@@ -531,6 +535,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 			if (drifting) {
 				drifting = false;
 				// NOTE: On drift end
+				// IDEA: Play explosive sound (with notification?) if wheel velocity is much larger than drift speed
 
 				//float wheelchairAngle = 0.0f;
 				WheelChair.transform.localRotation.ToAngleAxis(out float wheelchairAngle, out Vector3 axis);
@@ -551,7 +556,12 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		} else {
 
-			// NOTE: Drifring
+			// NOTE: Drifting	
+			// IDEA: compare turn delta to velocity, trigger drift event if turning too fast.
+			// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
+			// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
+			// IDEA: moving while drifting will alter trajectory in turning direction.
+
 			if (!drifting) {
 				drifting = true;
 				// NOTE: On drift start
@@ -606,7 +616,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 				transform.up,
 				(
 					trajectoryAngleChange
-					* trajectorySpeedChange
+					//* trajectorySpeedChange
 					* DriftDampingMul
 					+ DriftDampingAdd
 				)
@@ -619,12 +629,6 @@ public class WheelchairMoveScript : MonoBehaviour {
 			TrajectoryArrow.SetActive(true);
 			DirectionArrow.SetActive(true);
 		}
-
-		// TODO: drifting
-		// IDEA: compare turn delta to velocity, trigger drift event if turning too fast.
-		// IDEA: when drift mode triggers, a timer starts, during which you can turn independently from movement direction.
-		// IDEA: instead of timer, stop drifting when trajectory is within x degrees of wheelchair angle, x degrees depends on movement/drifting speed
-		// IDEA: moving while drifting will alter trajectory in turning direction.
 
 	}
 
@@ -910,6 +914,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 		if (other.tag == "Ramp") {
 			Debug.Log("hit ramp " + other.name + "!");
+
+			// TODO: stop drift trail on jump, resume on landing, for both ramps and ziplines
 
 			// NOTE: ignores jump if already in air
 			if (jumpTimer.IsRunning()) {

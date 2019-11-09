@@ -797,16 +797,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Container
       objectReference: {fileID: 0}
-    - target: {fileID: 4023832413977479155, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023832413977479155, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4839148970294122381, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: CalledManually
@@ -894,31 +884,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
-      propertyPath: MouseAdjust.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: MouseAdjust.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: EnableCollision
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: BoostAcceleration
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: BoostMaxSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
       propertyPath: FlipKeys
       value: 0
       objectReference: {fileID: 0}
@@ -929,18 +894,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
-      propertyPath: CollisionSlowdownMultiplier
-      value: 0.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
       propertyPath: TurningSpeed
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: JumpHeight
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -959,38 +914,18 @@ PrefabInstance:
       objectReference: {fileID: 1951673661}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
-      propertyPath: BoostAmmoDrainRate
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: BoostAmmoUpkeep
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: JumpScoreWorth
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
-      propertyPath: JumpScoreMultiplierWorth
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
-        type: 3}
       propertyPath: ControlType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
-      propertyPath: AllMovementSettings.Array.data[2].Acceleration
-      value: 50
+      propertyPath: CurrentControlType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
-      propertyPath: DriftAngleThreshold
-      value: 3
+      propertyPath: OverrideGlobalControls
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328180509135, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1608,6 +1543,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931262079737221767, guid: b3112ca3d5216ee4d89f96dab9487075,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -84.8999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4393444164502338007, guid: b3112ca3d5216ee4d89f96dab9487075,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -105.430176
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3112ca3d5216ee4d89f96dab9487075, type: 3}
