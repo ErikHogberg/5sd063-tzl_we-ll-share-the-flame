@@ -70,6 +70,7 @@ MonoBehaviour:
   FlipPitch: 0
   FlipRoll: 0
   IgnoreRoll: 1
+  OverrideGlobal: 0
   EnableWiimote: 0
   DisableRumble: 0
   WiimoteYawSensitivity: 0.35
@@ -79,6 +80,7 @@ MonoBehaviour:
   SensorBarAngleOffset: {x: 0, y: 75}
   IrOuterDeadzone: {x: 1, y: 1}
   UseAccelerometer: 0
+  GamepadAimSpeed: {x: 100, y: -100}
 --- !u!114 &7211095003549164808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +206,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

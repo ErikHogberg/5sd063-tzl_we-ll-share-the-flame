@@ -280,6 +280,9 @@ public class WheelchairMoveScript : MonoBehaviour {
 
 	#endregion
 
+	private bool controllerAimToggle = false;
+
+
 	void Start() {
 
 		//Mick start
@@ -360,13 +363,25 @@ public class WheelchairMoveScript : MonoBehaviour {
 		}
 
 		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller aim modifier");
+			action.performed += _ => { controllerAimToggle = true; };
+			action.canceled += _ => { controllerAimToggle = false; };
+			action.Enable();
+		}
+
+		{
 			InputAction action = controls.FindActionMap("driver").FindAction("left wheel joystick");
 			action.performed += c => {
-				leftStickValue = c.ReadValue<float>();
 				// Debug.Log("left stick " + c.ReadValue<float>());
+				if (!controllerAimToggle) {
+					leftStickValue = c.ReadValue<float>();
+					// Debug.Log("gamepad y: " + callback.ReadValue<float>());
+				}
 			};
 			action.canceled += _ => {
-				leftStickValue = 0;
+				if (!controllerAimToggle) {
+					leftStickValue = 0;
+				}
 			};
 			action.Enable();
 
@@ -375,11 +390,16 @@ public class WheelchairMoveScript : MonoBehaviour {
 		{
 			InputAction action = controls.FindActionMap("driver").FindAction("right wheel joystick");
 			action.performed += c => {
-				rightStickValue = c.ReadValue<float>();
+				if (!controllerAimToggle) {
+					rightStickValue = c.ReadValue<float>();
+					// Debug.Log("gamepad y: " + callback.ReadValue<float>());
+				}
 				// Debug.Log("right stick " + c.ReadValue<float>());
 			};
 			action.canceled += _ => {
-				rightStickValue = 0;
+				if (!controllerAimToggle) {
+					rightStickValue = 0;
+				}
 			};
 			action.Enable();
 
@@ -491,7 +511,7 @@ public class WheelchairMoveScript : MonoBehaviour {
 		if (drifting) {
 			driftSpeed = Mathf.MoveTowards(
 				driftSpeed,// + speed * DriftSpeedAddScale, 
-				0, 
+				0,
 				DriftDamping * Time.deltaTime
 				);
 			transform.position += transform.forward * driftSpeed * Time.deltaTime;

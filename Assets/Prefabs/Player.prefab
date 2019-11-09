@@ -658,9 +658,9 @@ MonoBehaviour:
     TopSpeed: 80
   - Speed: 8
     TurningSpeed: 0.04
-    Acceleration: 100
+    Acceleration: 70
     Damping: 10
-    ForwardCorrectionSpeed: 0.4
+    ForwardCorrectionSpeed: 0.2
     TopSpeed: 80
   EnableCollision: 1
   CollisionSlowdownMultiplier: 0.14

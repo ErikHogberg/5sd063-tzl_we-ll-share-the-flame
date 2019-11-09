@@ -83,6 +83,10 @@ public class NozzleScript : MonoBehaviour {
 
 	public bool UseAccelerometer = false;
 
+	private bool controllerAimToggle = false;
+	public Vector2 GamepadAimSpeed = Vector2.one;
+	private Vector2 GamepadAim = Vector2.zero;
+
 	void Start() {
 
 		Globals.Nozzle = this;
@@ -131,6 +135,37 @@ public class NozzleScript : MonoBehaviour {
 			action.Enable();
 		}
 
+		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller aim modifier");
+			action.performed += _ => { controllerAimToggle = true; };
+			action.canceled += _ => { controllerAimToggle = false; };
+			action.Enable();
+		}
+
+		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller aim x");
+			action.performed += callback => {
+				if (controllerAimToggle) {
+					// Debug.Log("gamepad x: " + callback.ReadValue<float>());
+					// yaw += callback.ReadValue<float>() * GamepadAimSpeed.x * Time.deltaTime;
+					GamepadAim.x = callback.ReadValue<float>();
+				}
+			};
+			action.Enable();
+		}
+
+		{
+			InputAction action = controls.FindActionMap("shooter").FindAction("controller aim y");
+			action.performed += callback => {
+				if (controllerAimToggle) {
+					// Debug.Log("gamepad y: " + callback.ReadValue<float>());
+					// pitch += callback.ReadValue<float>() * GamepadAimSpeed.y * Time.deltaTime;
+					GamepadAim.y = callback.ReadValue<float>();
+				}
+			};
+			action.Enable();
+		}
+
 		ledTimer = new Timer(0.1f);
 
 	}
@@ -149,6 +184,8 @@ public class NozzleScript : MonoBehaviour {
 				wiimoteFiring = WiimoteUpdate();
 			}
 		}
+
+
 
 		//if (Mouse.current.leftButton.isPressed) {
 		if (!DisableFiring && (firing || wiimoteFiring) && AmmoAmount > 0f) {
@@ -195,6 +232,9 @@ public class NozzleScript : MonoBehaviour {
 			}
 		}
 
+		// gamepad aim
+		yaw = GamepadAim.x * GamepadAimSpeed.x;
+		pitch = GamepadAim.y * GamepadAimSpeed.y + 90f;
 
 		if (pitch < 90.0f - MaxUpPitch) {
 			pitch = 90.0f - MaxUpPitch;

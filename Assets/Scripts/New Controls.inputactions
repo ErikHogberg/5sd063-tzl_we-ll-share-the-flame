@@ -269,6 +269,22 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "controller aim x",
+                    "type": "PassThrough",
+                    "id": "bc827d5d-1b33-4604-80df-802467c8dc38",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "controller aim y",
+                    "type": "Button",
+                    "id": "05a536b9-18e9-4723-89c0-ad1b510645d6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -357,6 +373,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "controller switch foam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86e81211-e995-40f8-acf5-359d8e2b792c",
+                    "path": "<Gamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller aim x",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48e59437-e5ac-48f3-a1d7-964bb385f00e",
+                    "path": "<Gamepad>/rightStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controller aim y",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
