@@ -199,11 +199,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6682084134872180374}
     m_Modifications:
-    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+    - target: {fileID: 2409022757033583639, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
-      propertyPath: m_Name
-      value: Red Fire
-      objectReference: {fileID: 0}
+      propertyPath: AS_Extinguish
+      value: 
+      objectReference: {fileID: 4967611615189093881}
     - target: {fileID: 2896468546611814151, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -259,11 +259,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2409022757033583639, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
-      propertyPath: AS_Extinguish
-      value: 
-      objectReference: {fileID: 4967611615189093881}
+      propertyPath: m_Name
+      value: Red Fire
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 875ac5568f5233a4ba1a575b1bafbb48, type: 3}
 --- !u!4 &8399999381758825526 stripped

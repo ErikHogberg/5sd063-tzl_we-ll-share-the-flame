@@ -800,7 +800,7 @@ PrefabInstance:
     - target: {fileID: 2526961958237088086, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: DrawRay
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}

@@ -176,7 +176,7 @@ public class NozzleScript : MonoBehaviour {
 
 		bool wiimoteFiring = false;
 
-		Debug.Log("global wiimote: " + Globals.UseWiimote + ", local: " + EnableWiimote);
+		//Debug.Log("global wiimote: " + Globals.UseWiimote + ", local: " + EnableWiimote);
 
 		if (EnableWiimote) {
 			if (!WiimoteManager.HasWiimote()) {

@@ -545,12 +545,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 			angle = Mathf.MoveTowards(angle, 0, CurrentMovementSettings.ForwardCorrectionSpeed);
 		}
 
-		if (Mathf.Abs(angle) < DriftAngleThreshold
+		if (
+		Globals.DisableDrifting	
+		||	Mathf.Abs(angle) < DriftAngleThreshold
 		|| (drifting && Mathf.Abs(driftSpeed) < DriftEndSpeedThreshold)
 		// || (drifting && Mathf.Abs(driftSpeed) < DriftSpeedThreshold)
 		|| (!drifting && Mathf.Abs(speed) < DriftStartSpeedThreshold)
 		) {
-			// NOTE: Not drifring
+			// NOTE: Not drifting
 
 			if (drifting) {
 				drifting = false;
@@ -575,6 +577,8 @@ public class WheelchairMoveScript : MonoBehaviour {
 			DirectionArrow.SetActive(false);
 
 		} else {
+
+			Debug.Log("entered drift scope, globals:" + Globals.DisableDrifting);
 
 			// NOTE: Drifting	
 			// IDEA: compare turn delta to velocity, trigger drift event if turning too fast.
@@ -984,14 +988,14 @@ public class WheelchairMoveScript : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log("hit wall: " + other.name);
+		//Debug.Log("hit wall: " + other.name);
 
 		//Mick Start
 		AS_Boing.Play();
 		//Mick End
 
 		if (collidedThisFrame) {
-			Debug.Log("ignored wall: " + other.name);
+			//Debug.Log("ignored wall: " + other.name);
 			return;
 		}
 

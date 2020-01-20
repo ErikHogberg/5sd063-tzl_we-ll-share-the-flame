@@ -11,9 +11,14 @@ public class CameraRaycast : MonoBehaviour {
 	[Tooltip("Wether or not to render the raycast in the editor view")]
 	public bool DrawRay = false;
 
+	private Camera mainCamera;
+
+	private void Start() {
+		mainCamera = Camera.main;
+	}
 
 	void Update() {
-		Vector3 heading = Camera.main.transform.position - transform.position;
+		Vector3 heading = mainCamera.transform.position - transform.position;
 		// Vector3 heading = MainCamera.position - transform.position;
 		float distance = heading.magnitude;
 		//Vector3 direction = heading / distance;

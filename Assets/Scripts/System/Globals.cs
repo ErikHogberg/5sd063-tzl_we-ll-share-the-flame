@@ -113,6 +113,7 @@ namespace Assets.Scripts {
 		public static ControlType ControlType = ControlType.Mouse;
 		public static bool UseWiimote = false;
 		public static bool FlipWheels = false;
+		public static bool DisableDrifting = false;
 
 		// touch
 		public static int LeftWheelFingerId = -1;

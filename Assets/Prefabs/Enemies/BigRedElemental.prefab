@@ -59,6 +59,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -4854,6 +4855,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -9617,6 +9619,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -9912,15 +9915,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1241308092025990955}
     m_Modifications:
-    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+    - target: {fileID: 1616305391538716373, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
-      propertyPath: m_Name
-      value: Red Fire
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+    - target: {fileID: 1850825812353484686, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2409022757033583639, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2896468546611814151, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
@@ -9977,20 +9985,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1616305391538716373, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: m_Name
+      value: Red Fire
       objectReference: {fileID: 0}
-    - target: {fileID: 2409022757033583639, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850825812353484686, guid: 875ac5568f5233a4ba1a575b1bafbb48,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 950282946927560057, guid: 875ac5568f5233a4ba1a575b1bafbb48, type: 3}

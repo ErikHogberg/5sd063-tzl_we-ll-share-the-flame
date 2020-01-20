@@ -4728,6 +4728,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -4820,6 +4821,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -4851,7 +4853,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2790366810133191111}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 82220677f4f06774a9b70ce54abc576d, type: 2}
   m_CullingMode: 2
@@ -9748,6 +9750,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -9790,11 +9793,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6682084134872180374}
     m_Modifications:
-    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
-        type: 3}
-      propertyPath: m_Name
-      value: Red Fire
-      objectReference: {fileID: 0}
     - target: {fileID: 2896468546611814151, guid: 875ac5568f5233a4ba1a575b1bafbb48,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9849,6 +9847,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4894798686102943821, guid: 875ac5568f5233a4ba1a575b1bafbb48,
+        type: 3}
+      propertyPath: m_Name
+      value: Red Fire
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1616305391538716373, guid: 875ac5568f5233a4ba1a575b1bafbb48, type: 3}
