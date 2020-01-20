@@ -192,6 +192,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7803461737436955015}
     m_Modifications:
+    - target: {fileID: 1470434237018780785, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152642098314101765, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: Respawner
+      value: 
+      objectReference: {fileID: 7803461737436955014}
+    - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: ExtinguishSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: bdfe3dfefce04f34dbd915f91c81416b, type: 3}
+    - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
+        type: 3}
+      propertyPath: AS_Extinguish
+      value: 
+      objectReference: {fileID: 3059725354978326581}
     - target: {fileID: 6682084134872180373, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: m_Name
@@ -267,21 +292,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: Respawner
-      value: 
-      objectReference: {fileID: 7803461737436955014}
-    - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: ExtinguishSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: bdfe3dfefce04f34dbd915f91c81416b, type: 3}
-    - target: {fileID: 6682084134872180368, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: AS_Extinguish
-      value: 
-      objectReference: {fileID: 3059725354978326581}
     - target: {fileID: 6682084134872180375, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: m_Radius
@@ -303,11 +313,6 @@ PrefabInstance:
       value: 0.017994983
       objectReference: {fileID: 0}
     - target: {fileID: 6993199526346567230, guid: 06ea8aaa553fec7429a9f1676188983f,
-        type: 3}
-      propertyPath: InitialModule.maxNumParticles
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 2152642098314101765, guid: 06ea8aaa553fec7429a9f1676188983f,
         type: 3}
       propertyPath: InitialModule.maxNumParticles
       value: 60

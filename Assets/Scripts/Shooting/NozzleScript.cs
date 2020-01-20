@@ -93,7 +93,7 @@ public class NozzleScript : MonoBehaviour {
 		// Globals.SensorBarMode = InitialSensorBarMode;
 
 		if (!OverrideGlobal) {
-			EnableWiimote = !Globals.UseWiimote;
+			EnableWiimote = Globals.UseWiimote;
 		}
 
 		foamParticles = Foam.GetComponentsInChildren<ParticleSystem>();
@@ -175,6 +175,8 @@ public class NozzleScript : MonoBehaviour {
 		Keyboard keyboard = Keyboard.current;
 
 		bool wiimoteFiring = false;
+
+		Debug.Log("global wiimote: " + Globals.UseWiimote + ", local: " + EnableWiimote);
 
 		if (EnableWiimote) {
 			if (!WiimoteManager.HasWiimote()) {
