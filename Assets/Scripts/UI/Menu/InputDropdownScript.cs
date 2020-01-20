@@ -5,13 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InputDropdownScript : MonoBehaviour {
+
+	private void Start() {
+		SetControlType(GetComponent<Dropdown>().value);
+	}
+
 	public void SubmitEvent() {
+		SetControlType(GetComponent<Dropdown>().value);
+	}
 
-		Dropdown dropdown = GetComponent<Dropdown>();
-
-		// FIXME: doesnt work in highscore screen
-
-		switch (dropdown.value) {
+	private void SetControlType(int dropdownValue) {
+		switch (dropdownValue) {
 			case 0: // mouse
 				Globals.ControlType = ControlType.Mouse;
 				break;
@@ -25,7 +29,5 @@ public class InputDropdownScript : MonoBehaviour {
 				Globals.ControlType = ControlType.Mouse;
 				break;
 		}
-
-		// Globals.ControlType 
 	}
 }

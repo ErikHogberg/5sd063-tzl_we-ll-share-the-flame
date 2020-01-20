@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!54 &889950628945301421
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3982544248191896706}
+  serializedVersion: 2
+  m_Mass: 50
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 2
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &5760722449142105498
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24,7 +40,7 @@ GameObject:
   - component: {fileID: 7836239326811405769}
   m_Layer: 0
   m_Name: FoodBox
-  m_TagString: Untagged
+  m_TagString: Ignore Collision
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,6 +70,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: f10f6da19ad1e0648b544a60d9e9566f, type: 3}
       propertyPath: m_Name
       value: foodBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f10f6da19ad1e0648b544a60d9e9566f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f10f6da19ad1e0648b544a60d9e9566f, type: 3}
+      propertyPath: m_TagString
+      value: Ignore Collision
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f10f6da19ad1e0648b544a60d9e9566f, type: 3}
       propertyPath: m_LocalPosition.x
