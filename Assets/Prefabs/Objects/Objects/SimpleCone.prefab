@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7267829210931595526}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SimpleCone
   m_TagString: Ignore Collision
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 54548e813bd799945a03d2c8077ccd34, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 54548e813bd799945a03d2c8077ccd34, type: 3}
       propertyPath: m_TagString

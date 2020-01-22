@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -68,7 +69,7 @@ public class HighscorePanelScript : MonoBehaviour {
 		// }
 
 		// TODO: better formatting for consistent name horizontal alignment
-		foreach (ScoreEntry scoreEntry in HighscoreList.ScoreList) {
+		foreach (ScoreEntry scoreEntry in HighscoreList.ScoreList.Take(10)) {
 
 			scoreList +=
 			scoreEntry.Player + " - " + scoreEntry.Score + "\n";

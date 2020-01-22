@@ -9,4 +9,8 @@ public class FlipWheelsToggleUIScript : MonoBehaviour
     public void SubmitEvent() {
 		Globals.FlipWheels = GetComponent<Toggle>().isOn;
 	}
+
+	private void OnDestroy() {
+		SubmitEvent();
+	}
 }

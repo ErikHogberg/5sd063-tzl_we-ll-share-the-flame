@@ -69,7 +69,9 @@ namespace Assets.Scripts {
 		}
 
 		public void Sort() {
-			ScoreList = ScoreList.OrderByDescending(x => x.Score).Take(10).ToList();
+			ScoreList = ScoreList.OrderByDescending(x => x.Score)
+			//.Take(10)
+			.ToList();
 			// .Sort(delegate (ScoreEntry e1, ScoreEntry e2) { return e1.Score.CompareTo(e2.Score); });
 		}
 

@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5222881022231675095}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Bench
   m_TagString: Ignore Collision
   m_Icon: {fileID: 0}
@@ -74,6 +74,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 6843cbb36e267d44dbae893cce4872a0, type: 3}
       propertyPath: m_TagString
       value: Ignore Collision
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 6843cbb36e267d44dbae893cce4872a0, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6843cbb36e267d44dbae893cce4872a0, type: 3}
       propertyPath: m_LocalPosition.x
