@@ -852,6 +852,16 @@ PrefabInstance:
       propertyPath: SensorBarAngleOffset.y
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: OverrideGlobal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276063473613315333, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: EnableWiimote
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3304802694743467255, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: InheritVelocityModule.enabled
@@ -916,6 +926,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304802695604273926, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 24375
       objectReference: {fileID: 0}
     - target: {fileID: 3304802696085837189, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1125,7 +1140,7 @@ PrefabInstance:
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
       propertyPath: CurrentControlType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4883142328164948887, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}
@@ -1226,6 +1241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8247760923024316338, guid: d85a03d8647d7c642afff3adbc6ddbd0,
+        type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 24375
       objectReference: {fileID: 0}
     - target: {fileID: 9072753700037925580, guid: d85a03d8647d7c642afff3adbc6ddbd0,
         type: 3}

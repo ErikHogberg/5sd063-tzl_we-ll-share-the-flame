@@ -111,14 +111,22 @@ public class NozzleScript : MonoBehaviour {
 
 		{
 			InputAction action = controls.FindActionMap("shooter").FindAction("shoot");
-			action.performed += _ => { firing = true; };
+			action.performed += _ => { 
+				// SwitchParticles(true, firing);
+				firing = true; 
+			};
 			action.canceled += _ => { firing = false; };
 			action.Enable();
 		}
 
 		{
+			// InputAction action = controls.FindActionMap("shooter").FindAction("boost");
 			InputAction action = controls.FindActionMap("shooter").FindAction("switch foam");
 			action.performed += _ => { SwitchParticles(firing); };
+			// action.performed += _ => { 
+			// 	SwitchParticles(false, firing);
+			// 	firing = true; 
+			// };
 			action.Enable();
 		}
 
@@ -235,8 +243,8 @@ public class NozzleScript : MonoBehaviour {
 		}
 
 		// gamepad aim
-		yaw = GamepadAim.x * GamepadAimSpeed.x;
-		pitch = GamepadAim.y * GamepadAimSpeed.y + 90f;
+		// yaw = GamepadAim.x * GamepadAimSpeed.x;
+		// pitch = GamepadAim.y * GamepadAimSpeed.y + 90f;
 
 		if (pitch < 90.0f - MaxUpPitch) {
 			pitch = 90.0f - MaxUpPitch;
@@ -461,6 +469,30 @@ public class NozzleScript : MonoBehaviour {
 		}
 	}
 
+	public void SwitchParticles(bool useWater, bool nozzleIsFiring) {
+		aWasPressed = true;
+		Debug.Log("change foam mode");
+		particleModeUseWater = useWater;
+		if (nozzleIsFiring) {
+			if (particleModeUseWater) {
+				foreach (ParticleSystem particles in waterJetParticles) {
+					particles.Play();
+				}
+				foreach (ParticleSystem particles in foamParticles) {
+					particles.Stop();
+				}
+			} else {
+
+				foreach (ParticleSystem particles in foamParticles) {
+					particles.Play();
+				}
+				foreach (ParticleSystem particles in waterJetParticles) {
+					particles.Stop();
+				}
+			}
+		}
+	}
+
 	public void SwitchParticles() {
 		SwitchParticles(firing);
 	}
@@ -472,6 +504,12 @@ public class NozzleScript : MonoBehaviour {
 	public void AddYawPitch(float yawAdd, float pitchAdd) {
 		yaw += yawAdd;
 		pitch += pitchAdd;
+	}
+
+	private void OnDestroy() {
+		if (EnableWiimote) {
+			wiimote.RumbleOn = false;
+		}
 	}
 
 }

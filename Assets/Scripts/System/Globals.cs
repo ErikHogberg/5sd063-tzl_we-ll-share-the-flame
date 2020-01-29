@@ -91,6 +91,8 @@ namespace Assets.Scripts {
 		public static CollectiblePanelScript CollectiblePanel;
 		public static CollectibleNotificationScript CollectibleNotificationPanel;
 
+		public static bool DisableScoreCollection = false;
+
 		// The current player
 		public static WheelchairMoveScript Player;
 		public static NozzleScript Nozzle;
@@ -139,6 +141,12 @@ namespace Assets.Scripts {
 		}
 
 		public static void AddScore(float points, float multiplierIncrease) {
+
+			if (DisableScoreCollection)
+			{
+				return;
+			}
+
 			ScoreMultiplier += multiplierIncrease;
 			if (ScoreMultiplierPanel != null) {
 				score += ScoreMultiplierPanel.AddPoints(points);

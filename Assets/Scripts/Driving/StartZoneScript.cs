@@ -15,6 +15,7 @@ public class StartZoneScript : MonoBehaviour {
 
 	private void Start() {
 		Globals.StartZone = this;
+		Globals.DisableScoreCollection = true;
 	}
 
 	private void Update() {
@@ -47,6 +48,7 @@ public class StartZoneScript : MonoBehaviour {
 	private void OnTriggerExit(Collider other) {
 		if (other.CompareTag("Player")) {
 			Globals.TimerPanel.StartCountdown();
+			Globals.DisableScoreCollection = false;
 
 			Globals.Nozzle.DisableFiring = false;
 			if (Globals.CollectibleNotificationPanel != null) {
