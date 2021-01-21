@@ -22,7 +22,7 @@ public class DebugTextScript : MonoBehaviour {
 		string output = "";
 
 		output += "devices\n";
-		foreach (InputDevice device in InputDevice.all) {
+		foreach (InputDevice device in InputSystem.devices) {
 			
 			output += device + "\n";
             // Vector2 scroll = Mouse.current.scroll.ReadValue();
